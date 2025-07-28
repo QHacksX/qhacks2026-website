@@ -7,9 +7,9 @@ export default async function signIn({ email, password }: { email: string; passw
 
     try {
          user = await signInWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-        console.error("Error signing in:", error);
-        error = error;
+    } catch (err) {
+        console.error("Error signing in:", err);
+        error = err;
     }
 
     return { user, error };
