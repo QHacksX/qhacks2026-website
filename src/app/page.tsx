@@ -1,5 +1,7 @@
+'use client';
 import AnimatedStars from "@/components/ui/3d-models/Star";
 // import Star from "@/components/ui/3d-models/StarMesh";
+import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import Wave from "@/components/ui/wave";
 
 export default function Home() {
@@ -7,6 +9,9 @@ export default function Home() {
      <main className='bg-gradient-to-b from-[#020202] to-[#2B2929] h-screen relative'>
       <div className='radial-gradient-background relative w-full min-h-screen'>
         <Wave />
+        <GoldWireSphereCanvas position={[23, -3, 0]} radius={7} />
+        <GoldWireSphereCanvas position={[-23, 0, 0]} radius={7} />
+        {/* <GoldSphereCanvas /> */}
         {/* <GoldStarCanvas /> */}
         {/* <GoldStarScene /> */}
 
