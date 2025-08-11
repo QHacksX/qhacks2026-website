@@ -10,7 +10,6 @@ type Props = {
   color?: string;
 };
 
-// ✅ This component is *inside* the Canvas — hooks are safe here
 function RotatingWireSphere({
   position,
   radius,
@@ -40,7 +39,6 @@ function RotatingWireSphere({
   );
 }
 
-// ✅ This is safe outside Canvas — just handles layout and props
 export default function GoldWireSphereCanvas({
   position,
   radius,

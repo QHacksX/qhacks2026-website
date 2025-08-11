@@ -14,7 +14,13 @@ export default function TwinkleEffect() {
 
   const stars = useMemo(() => {
     if (!isClient) return [];
-    
+
+    const top = Math.random() * 100;
+    const left = Math.random() * 100;
+    const delay = Math.random() * 3;
+    const scale = Math.random() * 1 + 0.4; // Range: 0.4 – 1.4
+    console.log({ top, left, delay, scale });
+
     return Array.from({ length: NUM_STARS }, () => ({
       top: Math.random() * 100,
       left: Math.random() * 100,
