@@ -2,6 +2,21 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+.firework-particle {
+  animation: explode 1s ease-out forwards;
+  transform: translate(0, 0) scale(0.5);
+  opacity: 1;
+  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+}
+
+@keyframes explode {
+  to {
+    transform: translate(var(--dx), var(--dy)) scale(1.2);
+    opacity: 0;
+    box-shadow: 0 0 2px currentColor;
+  }
+}
+
 
 @theme inline {
   --color-background: var(--background);
