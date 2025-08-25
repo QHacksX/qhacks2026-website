@@ -14,7 +14,7 @@ export default function Home() {
     const showTimer = setTimeout(() => {
       setShowFireworks(true);
       setTimeout(() => setIsVisible(true), 50);
-    }, 1000);
+    }, 500);
 
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
