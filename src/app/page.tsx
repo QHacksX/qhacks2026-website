@@ -2,6 +2,7 @@
 
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
+import NavBar from "@/components/ui/navbar/navbar";
 import TwinkleEffect from "@/components/ui/Twinkle";
 import Wave from "@/components/ui/wave";
 import { useEffect, useState } from 'react';
@@ -77,6 +78,7 @@ export default function Home() {
         <button className="bg-[rgb(191_159_95/0.32)] text-white font-semibold px-6 py-3 rounded-md hover:opacity-90 transition">
           Register Here
         </button>
+        <NavBar />
       </div>
     </main>
   );
