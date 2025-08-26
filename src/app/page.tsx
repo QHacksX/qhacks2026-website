@@ -15,7 +15,7 @@ export default function Home() {
     const showTimer = setTimeout(() => {
       setShowFireworks(true);
       setTimeout(() => setIsVisible(true), 50);
-    }, 500);
+    }, 100);
 
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
@@ -79,7 +79,7 @@ export default function Home() {
           Register Here
         </button>
         <div className="relative z-40">
-           <p className="mt-4 text-white font-montserrat text-xl font-bold">Already have an account? <a href="#" className="text-[#BF9F5F] font-montserrat text-xl font-bold hover: cursor-pointer">Log in</a></p>
+           <p className="mt-4 text-white font-montserrat text-xl font-bold">Already have an account? <a href="/signup" className="text-[#BF9F5F] font-montserrat text-xl font-bold hover: cursor-pointer">Log in</a></p>
             <div className="flex flex-row space-x-4 mt-3 justify-center">
               <a href="#" className="hover:cursor-pointer bg-fff">
                 <img src={'/logo/instagram.svg'} alt="Instagram Logo" className="w-8 h-8 inline-block" />
