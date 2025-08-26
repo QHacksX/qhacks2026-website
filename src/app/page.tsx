@@ -2,6 +2,7 @@
 
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
+import NavBar from "@/components/ui/navbar/navbar";
 import TwinkleEffect from "@/components/ui/Twinkle";
 import Wave from "@/components/ui/wave";
 import { useEffect, useState } from 'react';
@@ -14,7 +15,7 @@ export default function Home() {
     const showTimer = setTimeout(() => {
       setShowFireworks(true);
       setTimeout(() => setIsVisible(true), 50);
-    }, 1000);
+    }, 500);
 
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
@@ -58,9 +59,9 @@ export default function Home() {
 
         <AnimatedStars />
 
-        <h1 className="text-3xl font-bold mb-4">Get ready to innovate!</h1>
+        {/* <h1 className="text-3xl font-bold mb-4">Get ready to innovate!</h1> */}
 
-        <div className="group relative">
+        <div className="group relative z-40">
           <img
             src="/logo/logo.png"
             alt="QHacks Logo"
@@ -71,12 +72,24 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="text-white font-bold text-xl mb-4 mt-4">
+        <p className="text-white font-bold text-xl mb-4">
           75 days, 15 hours, 20 minutes
         </p>
-        <button className="bg-[rgb(191_159_95/0.32)] text-white font-semibold px-6 py-3 rounded-md hover:opacity-90 transition">
+        <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3">
           Register Here
         </button>
+        <div className="relative z-40">
+           <p className="mt-4 text-white font-montserrat text-xl font-bold">Already have an account? <a href="#" className="text-[#BF9F5F] font-montserrat text-xl font-bold hover: cursor-pointer">Log in</a></p>
+            <div className="flex flex-row space-x-4 mt-3 justify-center">
+              <a href="#" className="hover:cursor-pointer bg-fff">
+                <img src={'/logo/instagram.svg'} alt="Instagram Logo" className="w-8 h-8 inline-block" />
+              </a>
+              <a href="#" className="hover:cursor-pointer">
+                <img src={'/logo/Linkedin.svg'} alt="LinkedIn Logo" className="w-8 h-8 inline-block" />
+              </a>
+          </div>
+        </div>
+        <NavBar />
       </div>
     </main>
   );
