@@ -5,11 +5,15 @@ import AnimatedStars from "@/components/ui/3d-models/Star";
 import NavBar from "@/components/ui/navbar/navbar";
 import TwinkleEffect from "@/components/ui/Twinkle";
 import Wave from "@/components/ui/wave";
+import { signUserOut } from "@/firebase/auth/signout";
+import { auth } from "@/firebase/config";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [showFireworks, setShowFireworks] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   useEffect(() => {
     const showTimer = setTimeout(() => {
@@ -26,6 +30,19 @@ export default function Home() {
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
     };
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsSignedIn(true);
+      } else {
+        setIsSignedIn(false);
+      }
+    });
+
+    // Cleanup function to unsubscribe when component unmounts
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -79,11 +96,28 @@ export default function Home() {
           Register Here
         </button>
         <div className="relative z-40">
-           <p className="mt-4 text-white font-montserrat text-xl font-bold">Already have an account? <a href="/signup" className="text-[#BF9F5F] font-montserrat text-xl font-bold hover: cursor-pointer">Log in</a></p>
-            <div className="flex flex-row space-x-4 mt-3 justify-center">
-              <a href="#" className="hover:cursor-pointer bg-fff">
-                <img src={'/logo/instagram.svg'} alt="Instagram Logo" className="w-8 h-8 inline-block" />
-              </a>
+         {!isSignedIn ? (
+          <p className="mt-4 text-white font-montserrat text-xl font-bold">
+            Already have an account?{" "}
+            <a
+              href="/signin"
+              className="text-[#BF9F5F] font-montserrat text-xl font-bold hover:cursor-pointer"
+            >
+              Log in
+            </a>
+          </p>
+        ) : (
+          <p 
+          className="mt-4 text-white font-montserrat text-xl font-bold hover:cursor-pointer"
+          onClick={signUserOut}
+          >
+            Logout
+          </p>
+        )}
+          <div className="flex flex-row space-x-4 mt-3 justify-center">
+            <a href="#" className="hover:cursor-pointer bg-fff">
+              <img src={'/logo/instagram.svg'} alt="Instagram Logo" className="w-8 h-8 inline-block" />
+            </a>
               <a href="#" className="hover:cursor-pointer">
                 <img src={'/logo/Linkedin.svg'} alt="LinkedIn Logo" className="w-8 h-8 inline-block" />
               </a>
