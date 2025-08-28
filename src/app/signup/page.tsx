@@ -19,15 +19,15 @@ const SignUp = () => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
-    const { user, error } = await signUp({ email, password });
+    const { result, error } = await signUp({ email, password });
     if (error) {
       setErrorMessage(getAuthErrorMessage(error));
       return console.log("Error signing up:", error);
-    } else if (user) {
+    } else if (result) {
     setSuccessMessage(
-        `Account created for ${user.user.email ?? "your account"}. Please verify your email.`
+       result
     );
-    console.log("User signed up:", user);
+    // console.log("User signed up:", user);
     return router.push("/signin");
 }
   }
