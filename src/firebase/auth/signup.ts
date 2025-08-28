@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/
 
 export default async function signUp({ email, password }: { email: string; password: string }) {
     let user = null;
-    let error = null;
+    const error = null;
     let result = ''
 
     try {
