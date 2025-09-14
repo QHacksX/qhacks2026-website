@@ -1,16 +1,21 @@
 import { auth } from "@/firebase/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { FirebaseError } from "firebase/app";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
 export default async function signUp({ email, password }: { email: string; password: string }) {
     let user = null;
-    let error = null;
+    const error = null;
+    let result = ''
 
     try {
         user = await createUserWithEmailAndPassword(auth, email, password);
+        await sendEmailVerification(user.user, {url: `${window.location.origin}/signin`})
+        result = "Verification email sent. Please check your inbox."
     } catch (err) {
-        console.error("Error signing up:", err);
-        error = err;
+        if (err instanceof FirebaseError){
+            return { user: null, error: err.code }
+        }
     }
 
-    return { user, error };
+    return { result, error };
 }
