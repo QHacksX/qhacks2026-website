@@ -1,5 +1,6 @@
 'use client';
 
+import Timer from "@/components/Timer/timer";
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import NavBar from "@/components/ui/navbar/navbar";
@@ -7,10 +8,11 @@ import TwinkleEffect from "@/components/ui/Twinkle";
 import Wave from "@/components/ui/wave";
 import { signUserOut } from "@/firebase/auth/signout";
 import { auth } from "@/firebase/config";
+import { useCountdown } from "@/hooks/useCountdown";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 
 export default function Home() {
@@ -18,6 +20,9 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const size = useWindowSize()
+  const t = useMemo(() => new Date("2026-02-06T17:00:00-05:00"), []);
+  const countdown = useCountdown(t);
+  
 
   useEffect(() => {
     const showTimer = setTimeout(() => {
@@ -109,7 +114,8 @@ export default function Home() {
         </div>
 
         <p className="text-white font-bold  mb-4 sm:text-lg md:text-2xl lg:text-3xl xl:text-2xl">
-          75 days, 15 hours, 20 minutes
+          {/* 75 days, 15 hours, 20 minutes */}
+          <Timer days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds} />
         </p>
         <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4 z-40">
           <Link href="/interest-form" className="hover:cursor-pointer">
