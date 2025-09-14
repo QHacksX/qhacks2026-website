@@ -11,7 +11,9 @@ import { auth } from "@/firebase/config";
 import { useCountdown } from "@/hooks/useCountdown";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { onAuthStateChanged } from "firebase/auth";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from 'react';
+
 
 export default function Home() {
   const [showFireworks, setShowFireworks] = useState(false);
@@ -115,8 +117,10 @@ export default function Home() {
           {/* 75 days, 15 hours, 20 minutes */}
           <Timer days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds} />
         </p>
-        <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4">
-          Register Here
+        <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4 z-40">
+          <Link href="/interest-form" className="hover:cursor-pointer">
+            Register Here
+          </Link>
         </button>
         <div className="relative z-40">
          {!isSignedIn ? (

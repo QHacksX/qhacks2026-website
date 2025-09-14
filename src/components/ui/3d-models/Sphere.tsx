@@ -47,8 +47,8 @@ export default function GoldWireSphereCanvas({
   return (
     <div className="absolute inset-0 pointer-events-none">
       <Canvas camera={{ position: [0, 0, 25], fov: 50 }} className="pointer-events-none">
-        <ambientLight intensity={0.5} />
-        <directionalLight intensity={1.2} position={[5, 5, 10]} />
+        <ambientLight intensity={0.7} />
+        <directionalLight intensity={1.2} position={[5, 5, 100]} />
         <RotatingWireSphere position={position} radius={radius} color={color} />
       </Canvas>
     </div>
