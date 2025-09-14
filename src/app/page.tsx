@@ -111,10 +111,10 @@ export default function Home() {
           </div>
         </div>
 
-        <p className="text-white font-bold  mb-4 sm:text-lg md:text-2xl lg:text-3xl xl:text-2xl">
+        <div className="text-white font-bold  mb-4 sm:text-lg md:text-2xl lg:text-3xl xl:text-2xl">
           {/* 75 days, 15 hours, 20 minutes */}
           <Timer days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds} />
-        </p>
+        </div>
         <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4">
           Register Here
         </button>
