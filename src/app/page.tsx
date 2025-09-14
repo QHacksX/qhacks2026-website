@@ -2,7 +2,6 @@
 const TimerNoSSR = dynamic(() => import('@/components/Timer/timer'), { ssr: false });
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
-import NavBar from "@/components/ui/navbar/navbar";
 import TwinkleEffect from "@/components/ui/Twinkle";
 import Wave from "@/components/ui/wave";
 import { signUserOut } from "@/firebase/auth/signout";
@@ -11,7 +10,10 @@ import { useCountdown } from "@/hooks/useCountdown";
 import { useWindowSize } from "@/hooks/useWindowSize";
 import { onAuthStateChanged } from "firebase/auth";
 import dynamic from "next/dynamic";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from 'react';
+
 
 
 export default function Home() {
@@ -21,7 +23,8 @@ export default function Home() {
   const size = useWindowSize()
   const t = useMemo(() => new Date("2026-02-06T17:00:00-05:00"), []);
   const countdown = useCountdown(t);
-  // const TimerNoSSR = dynamic(() => import('@/components/Timer/timer'), { ssr: false });
+  const router = useRouter();
+
   
 
   useEffect(() => {
@@ -106,7 +109,7 @@ export default function Home() {
           <img
           src="/logo/logo.png"
           alt="QHacks Logo"
-          className="w-60 h-auto sm:w-64 h-64 md:w-80 lg:w-112 xl:w-80 cursor-pointer transition-transform hover:scale-105"
+          className="w-60 h-auto sm:w-64 h-64 md:w-96 lg:w-112 xl:w-80 cursor-pointer transition-transform hover:scale-105"
         />
           <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <TwinkleEffect />
@@ -117,16 +120,29 @@ export default function Home() {
           {/* 75 days, 15 hours, 20 minutes */}
           <TimerNoSSR days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds}/>
         </div>
-        <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4">
-          Register Here
-        </button>
+        <div className="relative z-40 mb-2">
+          <Link
+          href="/interest-form"
+          className="
+            inline-block text-white font-bold rounded-[100px] border-2 border-[#47483B]
+            text-sm px-4 py-2
+            sm:text-base sm:px-16 sm:py-3
+            md:text-xl md:px-6 md:py-4
+            lg:text-2xl lg:px-8 lg:py-4
+            xl:text-xl xl:px-6 xl:py-3
+          "
+      >
+        Register Here
+      </Link>
+        </div>
+       
         <div className="relative z-40">
          {!isSignedIn ? (
-          <p className="mt-4 text-white font-montserrat text-xl font-bold">
+          <p className="mt-4 text-white font-montserrat font-bold  sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl">
             Already have an account?{" "}
             <a
               href="/signin"
-              className="text-[#BF9F5F] font-montserrat text-xl font-bold hover:cursor-pointer"
+              className="text-[#BF9F5F] font-montserratfont-bold hover:cursor-pointer sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl"
             >
               Log in
             </a>
@@ -134,7 +150,7 @@ export default function Home() {
         ) : (
           <div className="flex flex-col items-center space-y-3">
             <p 
-          className="mt-4  text-white font-montserrat xl:text-2xl md:text-2xl lg:text-2xl sm:text-3xl font-bold hover:cursor-pointer"
+          className="mt-4 text-white font-montserrat xl:text-2xl md:text-2xl lg:text-2xl sm:text-3xl font-bold hover:cursor-pointer"
           onClick={signUserOut}
           >
             Logout
@@ -159,7 +175,7 @@ export default function Home() {
         </div>
         </div>
       </div>
-        <NavBar />
+      {/* <NavBar /> */}
 
     </main>
   );
