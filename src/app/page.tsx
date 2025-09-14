@@ -1,6 +1,5 @@
 'use client';
-
-import Timer from "@/components/Timer/timer";
+const TimerNoSSR = dynamic(() => import('@/components/Timer/timer'), { ssr: false });
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import NavBar from "@/components/ui/navbar/navbar";
@@ -22,7 +21,7 @@ export default function Home() {
   const size = useWindowSize()
   const t = useMemo(() => new Date("2026-02-06T17:00:00-05:00"), []);
   const countdown = useCountdown(t);
-  const TimerNoSSR = dynamic(() => import('@/components/Timer/timer'), { ssr: false });
+  // const TimerNoSSR = dynamic(() => import('@/components/Timer/timer'), { ssr: false });
   
 
   useEffect(() => {
@@ -116,7 +115,7 @@ export default function Home() {
 
         <div className="text-white font-bold  mb-4 sm:text-lg md:text-2xl lg:text-3xl xl:text-2xl">
           {/* 75 days, 15 hours, 20 minutes */}
-          <Timer days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds}/>
+          <TimerNoSSR days={countdown.days} hours={countdown.hours} minutes={countdown.minutes} seconds={countdown.seconds}/>
         </div>
         <button className=" text-white rounded-[100px] border-2 border-[#47483B] px-6 py-3 xl:text-lg lg:text-2xl lg:px-8 lg:py-4">
           Register Here
