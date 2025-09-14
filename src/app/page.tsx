@@ -12,6 +12,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 
+
 export default function Home() {
   const [showFireworks, setShowFireworks] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
