@@ -13,6 +13,7 @@ import { useWindowSize } from "@/hooks/useWindowSize";
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useMemo, useState } from 'react';
 
+
 export default function Home() {
   const [showFireworks, setShowFireworks] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
