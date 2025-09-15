@@ -207,16 +207,36 @@ const Page = () => {
               
             </div>
 
-            <div className="mt-3">
-               <p className="max-w-2xl text-center text-gray-100 text-3xl mt-4 mb-4 sm:text-xl text-base">
+            <div className="mt-10">
+               <p className="max-w-2xl text-center text-gray-100 text-3xl mt-4 mb-4 sm:text-2xl text-bold text-base">
               "We are currently in the process of partnering with MLH. The following 3 
               checkboxes are for this partnership. If we do not end up partnering with MLH, 
               your information will not be shared"
               </p>
             </div>
-            <div>
-              <p className="max-w-2xl text-center text-gray-100 text-xl mt-4 mb-4 sm:text-md  text-left mt-10 text-base">
+            <div className="flex flex-col space-y-4 justify-start items-start mt-10">
+              <p className="max-w-2xl text-gray-100 text-5xl mt-4 mb-4 sm:text-xl text-base">
                 "I have read and agree to the MLH Code of Conduct." (https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md)*
+              </p>
+              <div className="flex flex-row">
+                <input type="checkbox" id="mlh-code-of-conduct" required className="mr-2 "/>
+                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                  I agree*
+                </label>
+              </div>
+              <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
+                “I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the MLH Privacy Policy (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md). I further agree to the terms of both the MLH Contest Terms and Conditions 
+                (https://github.com/MLH/mlh-policies/blob/main/contest-terms.md) and the MLH Privacy Policy 
+                (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).”*
+              </p>
+              <div className="flex flex-row">
+                <input type="checkbox" id="mlh-code-of-conduct" required className="mr-2 " />
+                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                  I agree*
+                </label>
+              </div>
+              <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
+                “I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements."
               </p>
               <div className="flex flex-row">
                 <input type="checkbox" id="mlh-code-of-conduct" required className="mr-2 " />
@@ -231,7 +251,7 @@ const Page = () => {
             <div className="mt-8 flex justify-center">
               <button
                 type="submit"
-                className="text-white font-semibold rounded-full border-2 border-[#E3C676] px-8 py-3 hover:bg-[#E3C676] hover:text-black transition-colors"
+                className="text-white font-semibold rounded-full border-2 border-[#E3C676] px-8 py-3 hover:bg-[#E3C676] hover:text-black transition-colors hover:cursor-pointer text-2xl"
               >
                 Submit
               </button>
