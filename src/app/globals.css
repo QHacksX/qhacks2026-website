@@ -135,3 +135,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+.input-base {
+  @apply w-full bg-transparent text-white text-base sm:text-lg font-medium 
+         placeholder-white/80 focus:placeholder-transparent 
+         outline-none border-b border-[#C8B476] focus:border-[#E3C676] 
+         pb-2 sm:pb-3 transition-colors;
+}
