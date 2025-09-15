@@ -19,7 +19,7 @@ const Page = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ firstName, lastName, age, phone }); // Replace with API/DB call
+    console.log({ firstName, lastName, age, phone, email, school, levelOfStudy, country }); // Replace with API/DB call
   };
 
   return (
