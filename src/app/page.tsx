@@ -165,14 +165,14 @@ export default function Home() {
             </div>
           )}
           <div className="flex flex-col sm:flex-row sm:space-x-6 mt-3 justify-center items-center space-y-3 sm:space-y-0">
-            <a href="#" className="hover:cursor-pointer">
+            <a href="https://www.instagram.com/qhacksx/" className="hover:cursor-pointer">
               <img
                 src="/logo/instagram.svg"
                 alt="Instagram Logo"
                 className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-10 xl:h-10 inline-block"
               />
             </a>
-            <a href="#" className="hover:cursor-pointer">
+            <a href="https://ca.linkedin.com/company/qhacks/" className="hover:cursor-pointer">
               <img
                 src="/logo/linkedin.svg"
                 alt="LinkedIn Logo"
