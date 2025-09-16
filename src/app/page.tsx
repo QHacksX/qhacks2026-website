@@ -142,7 +142,11 @@ export default function Home() {
             Already have an account?{" "}
             <a
               href="/signin"
-              className="text-[#BF9F5F] font-montserratfont-bold hover:cursor-pointer sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl"
+              className="
+                relative text-[#BF9F5F] font-montserrat font-bold 
+                sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
+                after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[#BF9F5F] after:transition-all after:duration-300 hover:after:w-full
+              "
             >
               Log in
             </a>
