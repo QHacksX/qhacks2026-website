@@ -1,21 +1,21 @@
 import { countryList } from "./countryList";
 import { schoolList } from "./schoolList";
 export enum DropdownTypes {
-    age,
-    school,
-    country,
-    fieldOfStudy,
-    levelsOfStudy
+  age,
+  school,
+  country,
+  fieldOfStudy,
+  levelsOfStudy,
 }
 
-const schoolOptions = schoolList 
-export type DropdownConfig={
-    options: any[];
-    placeholder: string;
-    label: string;
-}
+const schoolOptions = schoolList;
+export type DropdownConfig = {
+  options: any[];
+  placeholder: string;
+  label: string;
+};
 
-const countries = countryList
+const countries = countryList;
 
 const ages = [
   { value: 16 },
@@ -47,25 +47,36 @@ const levelsOfStudy = [
 ];
 
 export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
-    [DropdownTypes.age, {
-        options: ages,
-        placeholder: "Select your age",
-        label: "Age"
-    }],
-    [DropdownTypes.school, {
-        options: schoolOptions,
-        placeholder: "Select your school",
-        label: "School"
-    }],
-    [DropdownTypes.levelsOfStudy, {
-        options: levelsOfStudy,
-        placeholder: "Select your level of study",
-        label: "Level of Study"
-    }],
-    [DropdownTypes.country, {
-        options: countries,
-        placeholder: "Select your country",
-        label: "Country"
-    }]
-])
- 
+  [
+    DropdownTypes.age,
+    {
+      options: ages,
+      placeholder: "Select your age",
+      label: "Age",
+    },
+  ],
+  [
+    DropdownTypes.school,
+    {
+      options: schoolOptions,
+      placeholder: "Select your school",
+      label: "School",
+    },
+  ],
+  [
+    DropdownTypes.levelsOfStudy,
+    {
+      options: levelsOfStudy,
+      placeholder: "Select your level of study",
+      label: "Level of Study",
+    },
+  ],
+  [
+    DropdownTypes.country,
+    {
+      options: countries,
+      placeholder: "Select your country",
+      label: "Country",
+    },
+  ],
+]);

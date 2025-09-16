@@ -17,7 +17,7 @@ export default function DropDownInput({
   const dropdownConfig = dropdownOptions.get(type);
   const itemTemplate = (item: any) => {
     return (
-      <div className='bg-white p-4 text-black hover:bg-gray-300'>
+      <div className="bg-white p-4 text-black hover:bg-gray-300">
         {item.value}
       </div>
     );
@@ -26,23 +26,26 @@ export default function DropDownInput({
     // opts.filterInputProps carries the right handlers for filtering
     return (
       <div className="p-3 border-b border-[#E3C676] bg-[#1a1a1a]">
-  <span className="p-input-icon-left w-full">
-    <i className="pi pi-search text-[#E3C676]" />
-    <InputText
-      {...opts.filterInputProps}
-      className="w-full bg-transparent text-white placeholder-gray-400 border-b border-[#E3C676] focus:border-yellow-400 focus:ring-0"
-      placeholder="Search your school…"
-      autoFocus
-    />
-  </span>
-</div>
+        <span className="p-input-icon-left w-full">
+          <i className="pi pi-search text-[#E3C676]" />
+          <InputText
+            {...opts.filterInputProps}
+            className="w-full bg-transparent text-white placeholder-gray-400 border-b border-[#E3C676] focus:border-yellow-400 focus:ring-0"
+            placeholder="Search your school…"
+            autoFocus
+          />
+        </span>
+      </div>
     );
   };
-  const getText = (opt: any) => opt?.value ?? '';
+  const getText = (opt: any) => opt?.value ?? "";
   const valueTemplate = (opt: any, props: { placeholder?: string }) => {
-  if (!opt) return <span className="opacity-100 text-white">{props.placeholder}</span>;
-  return <span className="opacity-100 text-white">{getText(opt)}</span>;
-};
+    if (!opt)
+      return (
+        <span className="opacity-100 text-white">{props.placeholder}</span>
+      );
+    return <span className="opacity-100 text-white">{getText(opt)}</span>;
+  };
 
   return (
     <div>

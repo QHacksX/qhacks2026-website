@@ -34,7 +34,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          cache: "npm"
 
       # (Optional) cache Next.js build cache for faster rebuilds
       - name: Cache Next.js build cache
