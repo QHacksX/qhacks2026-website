@@ -130,6 +130,8 @@ export default function Home() {
             md:text-xl md:px-6 md:py-4
             lg:text-2xl lg:px-8 lg:py-4
             xl:text-xl xl:px-6 xl:py-3
+            transition-colors duration-300 ease-in-out
+            hover:bg-[#47483B]
           "
       >
         Register Here
