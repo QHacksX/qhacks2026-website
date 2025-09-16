@@ -1,5 +1,6 @@
 import { countryList } from "./countryList";
 import { schoolList } from "./schoolList";
+
 export enum DropdownTypes {
   age,
   school,
@@ -10,25 +11,14 @@ export enum DropdownTypes {
 
 const schoolOptions = schoolList;
 export type DropdownConfig = {
-  options: any[];
+  options: { value: string | number }[];
   placeholder: string;
   label: string;
 };
 
-const countries = countryList;
+const countries = countryList.map((c) => ({ value: c.value }));
 
-const ages = [
-  { value: 16 },
-  { value: 17 },
-  { value: 18 },
-  { value: 19 },
-  { value: 20 },
-  { value: 21 },
-  { value: 22 },
-  { value: 23 },
-  { value: 24 },
-  { value: 25 },
-];
+const ages = Array.from({ length: 10 }, (_, i) => ({ value: 16 + i }));
 
 const levelsOfStudy = [
   { value: "Less than Secondary / High School" },

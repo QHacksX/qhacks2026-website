@@ -1,7 +1,13 @@
-import { dropdownOptions, DropdownTypes } from "@/data/dropdown-options/option";
+import {
+  DropdownConfig,
+  dropdownOptions,
+  DropdownTypes,
+} from "@/data/dropdown-options/option";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Dispatch, SetStateAction } from "react";
+
+export type OptionType = { value: string | number };
 
 export default function DropDownInput({
   title,
@@ -11,18 +17,24 @@ export default function DropDownInput({
 }: {
   title: string;
   type: DropdownTypes;
-  value: any;
-  setValue: Dispatch<SetStateAction<any>>;
+  value: OptionType | null;
+  setValue: Dispatch<SetStateAction<OptionType | null>>;
 }) {
-  const dropdownConfig = dropdownOptions.get(type);
-  const itemTemplate = (item: any) => {
+  const dropdownConfig = dropdownOptions.get(type) as
+    | DropdownConfig
+    | undefined;
+
+  const itemTemplate = (item: OptionType) => {
     return (
       <div className="bg-white p-4 text-black hover:bg-gray-300">
         {item.value}
       </div>
     );
   };
-  const filterTemplate = (opts: any) => {
+
+  const filterTemplate = (opts: {
+    filterInputProps: React.ComponentProps<typeof InputText>;
+  }) => {
     // opts.filterInputProps carries the right handlers for filtering
     return (
       <div className="p-3 border-b border-[#E3C676] bg-[#1a1a1a]">
@@ -38,8 +50,12 @@ export default function DropDownInput({
       </div>
     );
   };
-  const getText = (opt: any) => opt?.value ?? "";
-  const valueTemplate = (opt: any, props: { placeholder?: string }) => {
+
+  const getText = (opt: OptionType | null) => opt?.value ?? "";
+  const valueTemplate = (
+    opt: OptionType | null,
+    props: { placeholder?: string },
+  ) => {
     if (!opt)
       return (
         <span className="opacity-100 text-white">{props.placeholder}</span>

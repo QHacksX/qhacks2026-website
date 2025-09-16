@@ -1,6 +1,6 @@
 "use client";
 
-import DropDownInput from "@/components/interest-form/dropdown";
+import DropDownInput, { OptionType } from "@/components/interest-form/dropdown";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { DropdownTypes } from "@/data/dropdown-options/option";
 import Link from "next/link";
@@ -13,9 +13,9 @@ const Page = () => {
   const [age, setAge] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [school, setSchool] = useState(null);
-  const [levelOfStudy, setLevelOfStudy] = useState(null);
-  const [country, setCountry] = useState(null);
+  const [school, setSchool] = useState<OptionType | null>(null);
+  const [levelOfStudy, setLevelOfStudy] = useState<OptionType | null>(null);
+  const [country, setCountry] = useState<OptionType | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
