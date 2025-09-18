@@ -214,15 +214,15 @@ const Page = () => {
             </div>
 
             <div className="mt-10">
-              <p className="max-w-2xl text-center text-gray-100 text-3xl mt-4 mb-4 sm:text-2xl text-bold text-base">
-                "We are currently in the process of partnering with MLH. The
+              <p className="max-w-2xl text-justify text-gray-100 text-3xl mt-4 mb-4 sm:text-2xl text-bold text-base">
+                We are currently in the process of partnering with MLH. The
                 following 3 checkboxes are for this partnership. If we do not
-                end up partnering with MLH, your information will not be shared"
+                end up partnering with MLH, your information will not be shared.
               </p>
             </div>
             <div className="flex flex-col space-y-4 justify-start items-start mt-10">
               <p className="max-w-2xl text-gray-100 text-5xl mt-4 mb-4 sm:text-xl text-base">
-                "I have read and agree to the MLH Code of Conduct." (
+                I have read and agree to the MLH Code of Conduct. (
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
                   target="_blank"
@@ -245,7 +245,7 @@ const Page = () => {
                 </label>
               </div>
               <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
-                “I authorize you to share my application/registration
+                I authorize you to share my application/registration
                 information with Major League Hacking for event administration,
                 ranking, and MLH administration in-line with the MLH Privacy
                 Policy (
@@ -276,7 +276,7 @@ const Page = () => {
                 >
                   https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md
                 </a>
-                ).”*
+                ).*
               </p>
               <div className="flex flex-row">
                 <input
@@ -290,8 +290,8 @@ const Page = () => {
                 </label>
               </div>
               <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
-                “I authorize MLH to send me occasional emails about relevant
-                events, career opportunities, and community announcements."
+                I authorize MLH to send me occasional emails about relevant
+                events, career opportunities, and community announcements.
               </p>
               <div className="flex flex-row">
                 <input
