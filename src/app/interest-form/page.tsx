@@ -233,22 +233,25 @@ const Page = () => {
                 </a>
                 )*
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-1"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-1"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
               <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
-                I authorize you to share my application/registration
-                information with Major League Hacking for event administration,
-                ranking, and MLH administration in-line with the MLH Privacy
-                Policy (
+                I authorize you to share my application/registration information
+                with Major League Hacking for event administration, ranking, and
+                MLH administration in-line with the MLH Privacy Policy (
                 <a
                   href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
                   target="_blank"
@@ -278,14 +281,18 @@ const Page = () => {
                 </a>
                 ).*
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-2"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-2"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
@@ -293,14 +300,18 @@ const Page = () => {
                 I authorize MLH to send me occasional emails about relevant
                 events, career opportunities, and community announcements.
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-3"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-3"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
