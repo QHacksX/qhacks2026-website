@@ -219,8 +219,16 @@ const Page = () => {
             </div>
             <div className="flex flex-col space-y-4 justify-start items-start mt-10">
               <p className="max-w-2xl text-gray-100 text-5xl mt-4 mb-4 sm:text-xl text-base">
-                "I have read and agree to the MLH Code of Conduct."
-                (https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md)*
+                "I have read and agree to the MLH Code of Conduct." (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md
+                </a>
+                )*
               </p>
               <div className="flex flex-row">
                 <input
@@ -237,13 +245,35 @@ const Page = () => {
                 “I authorize you to share my application/registration
                 information with Major League Hacking for event administration,
                 ranking, and MLH administration in-line with the MLH Privacy
-                Policy
-                (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).
-                I further agree to the terms of both the MLH Contest Terms and
-                Conditions
-                (https://github.com/MLH/mlh-policies/blob/main/contest-terms.md)
-                and the MLH Privacy Policy
-                (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).”*
+                Policy (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md
+                </a>
+                ). I further agree to the terms of both the MLH Contest Terms
+                and Conditions (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/contest-terms.md
+                </a>
+                ) and the MLH Privacy Policy (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md
+                </a>
+                ).”*
               </p>
               <div className="flex flex-row">
                 <input
