@@ -126,7 +126,7 @@ export default function Home() {
             href="/interest-form"
             prefetch={true}
             onMouseEnter={() => {
-              router.prefetch("/interest-form")
+              router.prefetch("/interest-form");
             }}
             className="
             inline-block text-white font-bold rounded-[100px] border-2 border-[#47483B]
