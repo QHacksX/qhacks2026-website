@@ -1,11 +1,11 @@
 "use client";
-const TimerNoSSR = dynamic(() => import("@/components/Timer/timer"), {
+const TimerNoSSR = dynamic(() => import("@/components/features/timer/timer"), {
   ssr: false,
 });
 import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
 import AnimatedStars from "@/components/ui/3d-models/Star";
-import TwinkleEffect from "@/components/ui/Twinkle";
-import Wave from "@/components/ui/wave";
+import TwinkleEffect from "@/components/animations/twinkle";
+import Wave from "@/components/animations/wave";
 import { signUserOut } from "@/firebase/auth/signout";
 import { auth } from "@/firebase/config";
 import { useCountdown } from "@/hooks/useCountdown";

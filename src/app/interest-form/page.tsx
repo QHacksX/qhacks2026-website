@@ -1,6 +1,6 @@
 "use client";
 
-import DropDownInput, { OptionType } from "@/components/interest-form/dropdown";
+import DropDownInput, { OptionType } from "@/components/features/interest-form/dropdown";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { DropdownTypes } from "@/data/dropdown-options/option";
 import Link from "next/link";
