@@ -124,6 +124,10 @@ export default function Home() {
         <div className="relative z-40 mb-2">
           <Link
             href="/interest-form"
+            prefetch={true}
+            onMouseEnter={() => {
+              router.prefetch("/interest-form")
+            }}
             className="
             inline-block text-white font-bold rounded-[100px] border-2 border-[#47483B]
             text-sm px-4 py-2

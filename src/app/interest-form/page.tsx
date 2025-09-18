@@ -48,7 +48,7 @@ const Page = () => {
 
         <div className="relative flex flex-col items-center font-semibold text-center max-w-3xl mx-auto text-2xl py-12">
           {/* Header */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12 py-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12 py-6">
             QHacks 2026 Interest Form
           </h1>
 
@@ -109,9 +109,12 @@ const Page = () => {
                 </label>
                 <input
                   id="age"
-                  type="number"
+                  type="text"
                   value={age}
-                  onChange={(e) => setAge(e.target.value)}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "");
+                    setAge(digits);
+                  }}
                   required
                   className="input-base"
                   placeholder="Age"
@@ -128,7 +131,10 @@ const Page = () => {
                   id="phone"
                   type="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "");
+                    setPhone(digits);
+                  }}
                   required
                   className="input-base"
                   placeholder="(000) 000-0000"
@@ -209,68 +215,110 @@ const Page = () => {
                   className="input-base"
                   required
                   onChange={(e) => setLinkedIn(e.target.value)}
+                  placeholder="LinkedIn URL"
                 ></input>
               </div>
             </div>
 
             <div className="mt-10">
-              <p className="max-w-2xl text-center text-gray-100 text-3xl mt-4 mb-4 sm:text-2xl text-bold text-base">
-                "We are currently in the process of partnering with MLH. The
+              <p className="max-w-2xl text-justify text-gray-100 text-3xl mt-4 mb-4 sm:text-2xl text-bold text-base">
+                We are currently in the process of partnering with MLH. The
                 following 3 checkboxes are for this partnership. If we do not
-                end up partnering with MLH, your information will not be shared"
+                end up partnering with MLH, your information will not be shared.
               </p>
             </div>
             <div className="flex flex-col space-y-4 justify-start items-start mt-10">
               <p className="max-w-2xl text-gray-100 text-5xl mt-4 mb-4 sm:text-xl text-base">
-                "I have read and agree to the MLH Code of Conduct."
-                (https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md)*
+                I have read and agree to the MLH Code of Conduct. (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md
+                </a>
+                )*
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-1"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-1"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
               <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
-                “I authorize you to share my application/registration
-                information with Major League Hacking for event administration,
-                ranking, and MLH administration in-line with the MLH Privacy
-                Policy
-                (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).
-                I further agree to the terms of both the MLH Contest Terms and
-                Conditions
-                (https://github.com/MLH/mlh-policies/blob/main/contest-terms.md)
-                and the MLH Privacy Policy
-                (https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md).”*
+                I authorize you to share my application/registration information
+                with Major League Hacking for event administration, ranking, and
+                MLH administration in-line with the MLH Privacy Policy (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md
+                </a>
+                ). I further agree to the terms of both the MLH Contest Terms
+                and Conditions (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/contest-terms.md
+                </a>
+                ) and the MLH Privacy Policy (
+                <a
+                  href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-[#E3C676]"
+                >
+                  https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md
+                </a>
+                ).*
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-2"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-2"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
               <p className="max-w-2xl text-gray-100 text-1xl mt-4 mb-4 sm:text-xl text-base">
-                “I authorize MLH to send me occasional emails about relevant
-                events, career opportunities, and community announcements."
+                I authorize MLH to send me occasional emails about relevant
+                events, career opportunities, and community announcements.
               </p>
-              <div className="flex flex-row">
+              <div className="flex flex-row items-center gap-3">
                 <input
                   type="checkbox"
-                  id="mlh-code-of-conduct"
+                  id="mlh-code-of-conduct-3"
                   required
-                  className="mr-2 "
+                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
+                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
                 />
-                <label htmlFor="mlh-code-of-conduct" className="text-gray-100">
+                <label
+                  htmlFor="mlh-code-of-conduct-3"
+                  className="text-gray-100 text-xl select-none tracking-wide"
+                >
                   I agree*
                 </label>
               </div>
