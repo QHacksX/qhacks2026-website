@@ -16,6 +16,7 @@ const Page = () => {
   const [school, setSchool] = useState<OptionType | null>(null);
   const [levelOfStudy, setLevelOfStudy] = useState<OptionType | null>(null);
   const [country, setCountry] = useState<OptionType | null>(null);
+  const [linkedIn, setLinkedIn] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ const Page = () => {
       school,
       levelOfStudy,
       country,
+      linkedIn,
     }); // Replace with API/DB call
   };
 
@@ -206,6 +208,7 @@ const Page = () => {
                   type="url"
                   className="input-base"
                   required
+                  onChange={(e) => setLinkedIn(e.target.value)}
                 ></input>
               </div>
             </div>
