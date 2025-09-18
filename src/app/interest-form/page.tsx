@@ -209,6 +209,7 @@ const Page = () => {
                   className="input-base"
                   required
                   onChange={(e) => setLinkedIn(e.target.value)}
+                  placeholder="LinkedIn URL"
                 ></input>
               </div>
             </div>

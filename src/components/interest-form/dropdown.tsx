@@ -3,7 +3,7 @@ import {
   dropdownOptions,
   DropdownTypes,
 } from "@/data/dropdown-options/option";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -31,10 +31,13 @@ export default function DropDownInput({
 
   const [filterText, setFilterText] = useState("");
 
-  const filteredOptions =
-    dropdownConfig?.options?.filter((opt: OptionType) =>
-      String(opt.value).toLowerCase().includes(filterText.toLowerCase()),
-    ) ?? [];
+  const filteredOptions = useMemo(() => {
+    return (
+      dropdownConfig?.options?.filter((opt: OptionType) =>
+        String(opt.value).toLowerCase().includes(filterText.toLowerCase()),
+      ) ?? []
+    );
+  }, [dropdownConfig?.options, filterText]);
 
   return (
     <DropdownMenu>
@@ -47,7 +50,11 @@ export default function DropDownInput({
         {value ? value.value : (dropdownConfig?.placeholder ?? title)}
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-64 bg-[#1A1A1A] text-white border border-[#E3C676]">
+      <DropdownMenuContent
+        sideOffset={4}
+        align="start"
+        className="w-64 bg-[#1A1A1A] text-white border border-[#E3C676]"
+      >
         <div className="p-2 border-b border-[#E3C676]">
           <input
             autoFocus
@@ -55,13 +62,14 @@ export default function DropDownInput({
             onChange={(e) => setFilterText(e.target.value)}
             placeholder="Type here to search..."
             className="w-full bg-transparent text-white placeholder-gray-400 px-2 py-1 focus:outline-none"
+            onKeyDown={(e) => e.stopPropagation()}
           />
         </div>
 
         {filteredOptions.length > 0 ? (
-          filteredOptions.map((opt, idx) => (
+          filteredOptions.map((opt) => (
             <DropdownMenuItem
-              key={`${String(opt.value)}-${idx}`}
+              key={String(opt.value)}
               className="px-3 py-2 cursor-pointer hover:bg-[#2A2A2A]"
               onSelect={() => setValue(opt)}
             >
