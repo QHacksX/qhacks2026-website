@@ -13,7 +13,7 @@ export async function passwordReset({ email }: { email?: string }) {
     } catch (e) {
       result = undefined;
       error = "Something went wrong please try again";
-      console.log('Error:', e);
+      console.log("Error:", e);
     }
   }
 

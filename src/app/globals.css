@@ -6,7 +6,9 @@
   animation: explode 1s ease-out forwards;
   transform: translate(0, 0) scale(0.5);
   opacity: 1;
-  box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+  box-shadow:
+    0 0 8px currentColor,
+    0 0 16px currentColor;
 }
 
 @keyframes explode {
@@ -16,7 +18,6 @@
     box-shadow: 0 0 2px currentColor;
   }
 }
-
 
 @theme inline {
   --color-background: var(--background);
@@ -134,4 +135,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.input-base {
+  @apply w-full bg-transparent text-white text-base sm:text-lg font-medium 
+         placeholder-white/80 focus:placeholder-transparent 
+         outline-none border-b border-[#C8B476] focus:border-[#E3C676] 
+         pb-2 sm:pb-3 transition-colors;
 }
