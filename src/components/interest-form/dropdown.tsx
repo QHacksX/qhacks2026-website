@@ -4,7 +4,7 @@ import {
   DropdownTypes,
 } from "@/data/dropdown-options/option";
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction, useMemo, useState } from "react";
+import { Dispatch, SetStateAction, useMemo, useState, useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +30,8 @@ export default function DropDownInput({
     | undefined;
 
   const [filterText, setFilterText] = useState("");
+  const [renderedCount, setRenderedCount] = useState(0);
+  const batchSize = 100;
 
   const filteredOptions = useMemo(() => {
     return (
@@ -38,6 +40,26 @@ export default function DropDownInput({
       ) ?? []
     );
   }, [dropdownConfig?.options, filterText]);
+
+  useEffect(() => {
+    setRenderedCount(Math.min(batchSize, filteredOptions.length));
+  }, [filteredOptions]);
+
+  const loadMore = () => {
+    setRenderedCount((prev) => {
+      const next = Math.min(prev + batchSize, filteredOptions.length);
+      return next;
+    });
+  };
+
+  const onScroll = (e: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    const target = e.currentTarget;
+    if (target.scrollTop + target.clientHeight >= target.scrollHeight - 20) {
+      if (renderedCount < filteredOptions.length) {
+        setTimeout(loadMore, 0);
+      }
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -66,8 +88,11 @@ export default function DropDownInput({
           />
         </div>
 
-        {filteredOptions.length > 0 ? (
-          filteredOptions.map((opt, idx) => (
+        <div
+          style={{ maxHeight: "300px", overflowY: "auto" }}
+          onScroll={onScroll}
+        >
+          {filteredOptions.slice(0, renderedCount).map((opt, idx) => (
             <DropdownMenuItem
               key={`${String(opt.value)}-${idx}`}
               className="px-3 py-2 cursor-pointer hover:bg-[#2A2A2A]"
@@ -75,12 +100,20 @@ export default function DropDownInput({
             >
               {String(opt.value)}
             </DropdownMenuItem>
-          ))
-        ) : (
-          <div className="px-3 py-2 text-sm text=gray-400">
-            No results found
-          </div>
-        )}
+          ))}
+
+          {renderedCount < filteredOptions.length && (
+            <div className="py-2 text-center text-sm text-gray-400">
+              Loading more...
+            </div>
+          )}
+
+          {filteredOptions.length === 0 && (
+            <div className="px-3 py-2 text-sm text-gray-400">
+              No results found
+            </div>
+          )}
+        </div>
       </DropdownMenuContent>
     </DropdownMenu>
   );
