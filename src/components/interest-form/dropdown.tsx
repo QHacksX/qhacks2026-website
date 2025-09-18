@@ -67,9 +67,9 @@ export default function DropDownInput({
         </div>
 
         {filteredOptions.length > 0 ? (
-          filteredOptions.map((opt) => (
+          filteredOptions.map((opt, idx) => (
             <DropdownMenuItem
-              key={String(opt.value)}
+              key={`${String(opt.value)}-${idx}`}
               className="px-3 py-2 cursor-pointer hover:bg-[#2A2A2A]"
               onSelect={() => setValue(opt)}
             >
