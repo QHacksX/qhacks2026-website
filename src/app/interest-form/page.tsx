@@ -16,6 +16,7 @@ const Page = () => {
   const [school, setSchool] = useState<OptionType | null>(null);
   const [levelOfStudy, setLevelOfStudy] = useState<OptionType | null>(null);
   const [country, setCountry] = useState<OptionType | null>(null);
+  const [linkedIn, setLinkedIn] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ const Page = () => {
       school,
       levelOfStudy,
       country,
+      linkedIn,
     }); // Replace with API/DB call
   };
 
@@ -46,7 +48,7 @@ const Page = () => {
 
         <div className="relative flex flex-col items-center font-semibold text-center max-w-3xl mx-auto text-2xl py-12">
           {/* Header */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12 py-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12 py-6">
             QHacks 2026 Interest Form
           </h1>
 
@@ -107,9 +109,12 @@ const Page = () => {
                 </label>
                 <input
                   id="age"
-                  type="number"
+                  type="text"
                   value={age}
-                  onChange={(e) => setAge(e.target.value)}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "");
+                    setAge(digits);
+                  }}
                   required
                   className="input-base"
                   placeholder="Age"
@@ -126,7 +131,10 @@ const Page = () => {
                   id="phone"
                   type="tel"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => {
+                    const digits = e.target.value.replace(/\D/g, "");
+                    setPhone(digits);
+                  }}
                   required
                   className="input-base"
                   placeholder="(000) 000-0000"
@@ -206,6 +214,8 @@ const Page = () => {
                   type="url"
                   className="input-base"
                   required
+                  onChange={(e) => setLinkedIn(e.target.value)}
+                  placeholder="LinkedIn URL"
                 ></input>
               </div>
             </div>

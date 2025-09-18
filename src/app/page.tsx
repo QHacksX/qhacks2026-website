@@ -105,9 +105,9 @@ export default function Home() {
           <img
             src="/logo/logo.png"
             alt="QHacks Logo"
-            className="w-60 h-auto sm:w-64 h-64 md:w-96 lg:w-112 xl:w-80 cursor-pointer transition-transform hover:scale-105"
+            className="w-60 h-auto sm:w-64 h-64 md:w-84 lg:w-84 xl:w-80 cursor-pointer transition-transform hover:scale-105 mt-20"
           />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none mt-20">
             <TwinkleEffect />
           </div>
         </div>
@@ -124,6 +124,10 @@ export default function Home() {
         <div className="relative z-40 mb-2">
           <Link
             href="/interest-form"
+            prefetch={true}
+            onMouseEnter={() => {
+              router.prefetch("/interest-form")
+            }}
             className="
             inline-block text-white font-bold rounded-[100px] border-2 border-[#47483B]
             text-sm px-4 py-2
