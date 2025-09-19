@@ -168,7 +168,7 @@ export default function Home() {
               </p>
             </div>
           )}
-          <div className="flex flex-col sm:flex-row sm:space-x-6 mt-3 justify-center items-center space-y-3 sm:space-y-0">
+          <div className="flex flex-row space-x-6 mt-3 justify-center items-center">
             <a
               href="https://www.instagram.com/qhacksx/"
               className="hover:cursor-pointer"
