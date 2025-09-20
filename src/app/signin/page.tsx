@@ -7,44 +7,45 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
   const router = useRouter();
 
   const handleForm = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage("");
-    setSuccessMessage("");
     const { user, error } = await signIn({ email, password });
     if (error) {
-      setErrorMessage(getAuthErrorMessage(error));
+      toast.error(getAuthErrorMessage(error));
       return console.log("Error signing in:", error);
     } else if (user) {
-      setSuccessMessage(
+      toast.success(
         `Account created for ${user.user.email ?? "your account"}. Please verify your email.`,
       );
       console.log("User signed in:", user);
       return router.push("/");
     }
   };
+
   const handlePasswordReset = async () => {
     console.log("email:", email);
     const { result, error } = await passwordReset({ email });
     if (error) {
       console.log(error);
-      setErrorMessage(getAuthErrorMessage(error));
+      toast.error(getAuthErrorMessage(error));
     } else if (result) {
       console.log("password reset result:", result);
-      setSuccessMessage(result);
+      toast.success(result);
     }
   };
 
   return (
     <div className="relative h-screen overflow-hidden">
+      <Toaster />
+
       <Link href="/" className="p-5 absolute left-0 z-10 text-white">
         <IoIosClose size={50} />
       </Link>
@@ -115,16 +116,6 @@ const SignUp = () => {
               <Link href="/signup">Click here to sign up!</Link>
             </p>
           </div>
-          {errorMessage && (
-            <p className="text-white bg-[#E3C676] font-medium rounded-lg text-sm sm:w-auto px-5 py-3 mt-3 text-center ">
-              {errorMessage}
-            </p>
-          )}
-          {successMessage && (
-            <p className="text-white bg-[#E3C676] font-medium rounded-lg text-sm sm:w-auto px-5 py-3 mt-3 text-center">
-              {successMessage}
-            </p>
-          )}
         </div>
       </div>
     </div>
