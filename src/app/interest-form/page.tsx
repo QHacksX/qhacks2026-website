@@ -4,6 +4,7 @@ import DropDownInput, {
   OptionType,
 } from "@/components/features/interest-form/dropdown";
 import AnimatedStars from "@/components/ui/3d-models/Star";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownTypes } from "@/data/dropdown-options/option";
 import Link from "next/link";
 import { useState } from "react";
@@ -243,12 +244,10 @@ const Page = () => {
                 )*
               </p>
               <div className="flex flex-row items-center gap-3">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="mlh-code-of-conduct-1"
                   required
-                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
-                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
+                  className="w-6 h-6 border-2 border-[#E3C676] data-[state=checked]:border-[#E3C676] data-[state=checked]:bg-[#E3C676] data-[state=checked]:text-black"
                 />
                 <label
                   htmlFor="mlh-code-of-conduct-1"
@@ -291,12 +290,10 @@ const Page = () => {
                 ).*
               </p>
               <div className="flex flex-row items-center gap-3">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="mlh-code-of-conduct-2"
                   required
-                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
-                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
+                  className="w-6 h-6 border-2 border-[#E3C676] data-[state=checked]:border-[#E3C676] data-[state=checked]:bg-[#E3C676] data-[state=checked]:text-black"
                 />
                 <label
                   htmlFor="mlh-code-of-conduct-2"
@@ -310,12 +307,10 @@ const Page = () => {
                 events, career opportunities, and community announcements.
               </p>
               <div className="flex flex-row items-center gap-3">
-                <input
-                  type="checkbox"
+                <Checkbox
                   id="mlh-code-of-conduct-3"
                   required
-                  className="w-6 h-6 rounded border-2 border-[#E3C676] accent-[#E3C676] focus:ring-2 focus:ring-[#E3C676] bg-transparent"
-                  style={{ minWidth: "1.5rem", minHeight: "1.5rem" }}
+                  className="w-6 h-6 border-2 border-[#E3C676] data-[state=checked]:border-[#E3C676] data-[state=checked]:bg-[#E3C676] data-[state=checked]:text-black"
                 />
                 <label
                   htmlFor="mlh-code-of-conduct-3"
