@@ -6,8 +6,12 @@ import DropDownInput, {
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownTypes } from "@/data/dropdown-options/option";
+import { db } from "@/firebase/config";
+import { addDoc, collection } from "firebase/firestore";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { IoIosClose } from "react-icons/io";
 
 const Page = () => {
@@ -20,8 +24,18 @@ const Page = () => {
   const [levelOfStudy, setLevelOfStudy] = useState<OptionType | null>(null);
   const [country, setCountry] = useState<OptionType | null>(null);
   const [linkedIn, setLinkedIn] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!successMessage) return;
+    setOpen(true);
+    const t = setTimeout(() => setOpen(false), 3500); // auto-dismiss
+    return () => clearTimeout(t);
+  }, [successMessage]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log({
       firstName,
@@ -33,7 +47,27 @@ const Page = () => {
       levelOfStudy,
       country,
       linkedIn,
-    }); // Replace with API/DB call
+    }); 
+    try{
+      await addDoc(collection(db, "interestForms"), {
+      firstName,
+      lastName,
+      age,
+      phone,
+      email,
+      school,
+      levelOfStudy,
+      country,
+      linkedIn,
+      createdAt: new Date(),
+    });
+    setSuccessMessage("Your information has been submitted successfully!");
+    // return router.push("/")
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSuccessMessage("There was an error submitting your information.");
+    }
+    
   };
 
   return (
@@ -135,13 +169,14 @@ const Page = () => {
                   type="tel"
                   value={phone}
                   onChange={(e) => {
-                    const digits = e.target.value.replace(/\D/g, "");
-                    setPhone(digits);
+                    // const digits = e.target.value.replace(/\D/g, "");
+                    // setPhone(digits);
+                    setPhone(e.target.value);
                   }}
                   required
                   className="input-base"
                   placeholder="(000) 000-0000"
-                  inputMode="tel"
+                  // inputMode="tel"
                   pattern="\(\d{3}\)\s\d{3}-\d{4}"
                   title="Format: (555) 123-4567"
                 />
@@ -330,6 +365,30 @@ const Page = () => {
                 Submit
               </button>
             </div>
+            {/* {successMessage && (
+              <div className="w-full mt-10">
+                <p className="text-white bg-green-600/90 font-medium rounded-lg text-sm sm:text-base px-4 sm:px-5 py-3 text-center break-words">
+                  {successMessage}
+                </p>
+              </div>
+            )} */}
+            <AnimatePresence>
+              {successMessage && open && (
+                <motion.div
+                  role="status"
+                  aria-live="polite"
+                  initial={{ x: -40, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -40, opacity: 0 }}
+                  transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                  className="fixed left-4 top-6 z-50 pointer-events-auto"
+                >
+                  <p className="text-white bg-green-600/90 font-medium rounded-lg text-sm sm:text-base px-4 sm:px-5 py-3 text-center break-words">
+                    {successMessage}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </form>
         </div>
       </div>
