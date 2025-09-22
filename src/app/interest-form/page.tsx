@@ -47,27 +47,26 @@ const Page = () => {
       levelOfStudy,
       country,
       linkedIn,
-    }); 
-    try{
-      await addDoc(collection(db, "interestForms"), {
-      firstName,
-      lastName,
-      age,
-      phone,
-      email,
-      school,
-      levelOfStudy,
-      country,
-      linkedIn,
-      createdAt: new Date(),
     });
-    setSuccessMessage("Your information has been submitted successfully!");
-    // return router.push("/")
+    try {
+      await addDoc(collection(db, "interestForms"), {
+        firstName,
+        lastName,
+        age,
+        phone,
+        email,
+        school,
+        levelOfStudy,
+        country,
+        linkedIn,
+        createdAt: new Date(),
+      });
+      setSuccessMessage("Your information has been submitted successfully!");
+      // return router.push("/")
     } catch (error) {
       console.error("Error submitting form:", error);
       setSuccessMessage("There was an error submitting your information.");
     }
-    
   };
 
   return (
