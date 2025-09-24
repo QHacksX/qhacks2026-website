@@ -2,10 +2,10 @@
 const TimerNoSSR = dynamic(() => import("@/components/features/timer/timer"), {
   ssr: false,
 });
-import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
-import AnimatedStars from "@/components/ui/3d-models/Star";
 import TwinkleEffect from "@/components/animations/twinkle";
 import Wave from "@/components/animations/wave";
+import GoldWireSphereCanvas from "@/components/ui/3d-models/Sphere";
+import AnimatedStars from "@/components/ui/3d-models/Star";
 import { signUserOut } from "@/firebase/auth/signout";
 import { auth } from "@/firebase/config";
 import { useCountdown } from "@/hooks/useCountdown";
@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 export default function Home() {
-  const [showFireworks, setShowFireworks] = useState(false);
+  // const [showFireworks, setShowFireworks] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const size = useWindowSize();
@@ -27,13 +27,13 @@ export default function Home() {
 
   useEffect(() => {
     const showTimer = setTimeout(() => {
-      setShowFireworks(true);
+      // setShowFireworks(true);
       setTimeout(() => setIsVisible(true), 50);
     }, 100);
 
     const hideTimer = setTimeout(() => {
       setIsVisible(false);
-      setTimeout(() => setShowFireworks(false), 500);
+      // setTimeout(() => setShowFireworks(false), 500);
     }, 4000);
 
     return () => {
@@ -62,7 +62,7 @@ export default function Home() {
       <Wave />
 
       {/* 1) Video layer (do NOT give it a solid background) */}
-      {showFireworks && (
+      {/* {showFireworks && (
         <video
           className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${
             isVisible ? "opacity-100" : "opacity-0"
@@ -76,7 +76,7 @@ export default function Home() {
           <source src="/videos/firework.webm" type="video/webm" />
           Your browser does not support the video tag.
         </video>
-      )}
+      )} */}
 
       {/* 3) Your content on top */}
       <div className="relative z-30 flex flex-col items-center justify-center min-h-screen text-white px-4">
