@@ -72,7 +72,6 @@ const Page = () => {
       setLevelOfStudy(null);
       setCountry(null);
       setLinkedIn("");
-
     } catch (error) {
       console.error("Error submitting form:", error);
       setSuccessMessage("There was an error submitting your information.");
