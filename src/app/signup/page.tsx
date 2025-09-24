@@ -1,11 +1,13 @@
 "use client";
 import AnimatedStars from "@/components/ui/3d-models/Star";
+import { Toaster } from "@/components/ui/sonner";
 import signUp from "@/firebase/auth/signup";
 import { getAuthErrorMessage } from "@/firebase/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
+import { toast } from "sonner";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,16 +23,19 @@ const SignUp = () => {
     const { result, error } = await signUp({ email, password });
     if (error) {
       setErrorMessage(getAuthErrorMessage(error));
+      toast.error(getAuthErrorMessage(error));
       return console.log("Error signing up:", error);
     } else if (result) {
       setSuccessMessage(result);
       // console.log("User signed up:", user);
+      toast.success(result);
       return router.push("/signin");
     }
   };
 
   return (
     <div className="relative min-h-screen overflow-hidden">
+      <Toaster />
       {/* Close button - responsive positioning */}
       <Link
         href="/"
@@ -98,22 +103,22 @@ const SignUp = () => {
             </div>
 
             {/* Error message - responsive styling */}
-            {errorMessage && (
+            {/* {errorMessage && (
               <div className="w-full">
                 <p className="text-white bg-red-600/90 font-medium rounded-lg text-sm sm:text-base px-4 sm:px-5 py-3 text-center break-words">
                   {errorMessage}
                 </p>
               </div>
-            )}
+            )} */}
 
             {/* Success message - responsive styling */}
-            {successMessage && (
+            {/* {successMessage && (
               <div className="w-full">
                 <p className="text-white bg-green-600/90 font-medium rounded-lg text-sm sm:text-base px-4 sm:px-5 py-3 text-center break-words">
                   {successMessage}
                 </p>
               </div>
-            )}
+            )} */}
           </form>
 
           {/* Sign in link - responsive text size */}

@@ -177,9 +177,15 @@ export default function Home() {
               </a>
             </p>
           ) : (
-            <div className="flex flex-col items-center space-y-3">
+            <div className="flex flex-col items-center space-y-3 z-40">
+            <div className="flex flex-col items-center space-y-3 z-40">
               <p
-                className="mt-4 text-white font-montserrat xl:text-2xl md:text-2xl lg:text-2xl sm:text-3xl font-bold hover:cursor-pointer"
+                className="relative text-[#BF9F5F] font-montserrat font-bold 
+                sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
+                after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[#BF9F5F] after:transition-all after:duration-300 hover:after:w-full hover:cursor-pointer"
+                className="relative text-[#BF9F5F] font-montserrat font-bold 
+                sm:text-xl md:text-2xl lg:text-3xl xl:text-2xl
+                after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-[#BF9F5F] after:transition-all after:duration-300 hover:after:w-full hover:cursor-pointer"
                 onClick={signUserOut}
               >
                 Logout
