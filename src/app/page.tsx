@@ -100,17 +100,37 @@ export default function Home() {
         <AnimatedStars />
 
         {/* <h1 className="text-3xl font-bold mb-4">Get ready to innovate!</h1> */}
+        {/* <div className="group relative z-40">
+            <img
+              src="/logo/logo.png"
+              alt="QHacks Logo"
+              className="w-60 h-auto sm:w-64 h-64 md:w-84 lg:w-84 xl:w-80 cursor-pointer transition-transform hover:scale-105 mt-20"
+            />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none mt-20">
+              <TwinkleEffect />
+            </div>
+          </div> */}
 
-        <div className="group relative z-40">
-          <img
-            src="/logo/logo.png"
-            alt="QHacks Logo"
-            className="w-60 h-auto sm:w-64 h-64 md:w-84 lg:w-84 xl:w-80 cursor-pointer transition-transform hover:scale-105 mt-20"
-          />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none mt-20">
-            <TwinkleEffect />
+        
+        {size.width && size.width >= 1024 ? (
+          <div className="group relative z-40">
+            <img
+              src="/logo/logo.png"
+              alt="QHacks Logo"
+              className="w-60 h-auto sm:w-64 h-64 md:w-84 lg:w-84 xl:w-80 cursor-pointer transition-transform hover:scale-105 mt-20"
+            />
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out pointer-events-none mt-20">
+              <TwinkleEffect />
+            </div>
           </div>
-        </div>
+        ):(
+          <img
+              src="/logo/logo.png"
+              alt="QHacks Logo"
+              className="w-60 h-auto sm:w-64 h-64 md:w-84 lg:w-84 xl:w-80 cursor-pointer transition-transform hover:scale-105 mt-20"
+            />
+
+        )}
 
         <div className="text-white font-bold  mb-4 sm:text-lg md:text-2xl lg:text-3xl xl:text-2xl">
           {/* 75 days, 15 hours, 20 minutes */}
