@@ -60,7 +60,6 @@ export default function Home() {
       {/* 0) Base gradient (behind everything) */}
       <div className="absolute inset-0  bg-gradient-to-b from-[#020202] to-[#2B2929]" />
       <Wave />
-      <div>QHacks rules</div>
 
       {/* 1) Video layer (do NOT give it a solid background) */}
       {showFireworks && (
