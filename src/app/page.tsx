@@ -59,7 +59,12 @@ export default function Home() {
     <main className="relative min-h-screen">
       {/* 0) Base gradient (behind everything) */}
       <div className="absolute inset-0  bg-gradient-to-b from-[#020202] to-[#2B2929]" />
-      <Wave />
+       <div className="absolute inset-0 z-0">
+    <AnimatedStars />
+  </div>
+      <div className="absolute inset-0 z-25">
+        <Wave />
+      </div>
 
       {/* 1) Video layer (do NOT give it a solid background) */}
       {showFireworks && (
@@ -97,7 +102,9 @@ export default function Home() {
           </>
         )}
 
-        <AnimatedStars />
+         {/* <div className="absolute inset-0 z-10">
+          <AnimatedStars />
+        </div> */}
 
         {/* <h1 className="text-3xl font-bold mb-4">Get ready to innovate!</h1> */}
         {/* <div className="group relative z-40">
