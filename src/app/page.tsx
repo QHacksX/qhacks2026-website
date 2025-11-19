@@ -59,9 +59,9 @@ export default function Home() {
     <main className="relative min-h-screen">
       {/* 0) Base gradient (behind everything) */}
       <div className="absolute inset-0  bg-gradient-to-b from-[#020202] to-[#2B2929]" />
-       <div className="absolute inset-0 z-0">
-    <AnimatedStars />
-  </div>
+      <div className="absolute inset-0 z-0">
+        <AnimatedStars />
+      </div>
       <div className="absolute inset-0 z-25">
         <Wave />
       </div>
@@ -102,7 +102,7 @@ export default function Home() {
           </>
         )}
 
-         {/* <div className="absolute inset-0 z-10">
+        {/* <div className="absolute inset-0 z-10">
           <AnimatedStars />
         </div> */}
 
