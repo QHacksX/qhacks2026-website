@@ -93,11 +93,11 @@ const Page = () => {
 
         <div className="relative flex flex-col items-center font-semibold text-center max-w-3xl mx-auto text-2xl py-12">
           {/* Header */}
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12 py-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl min-sm:text-nowrap font-bold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-8 py-6">
             QHacks 2026 Interest Form
           </h1>
 
-          <p className="mt-4 max-w-2xl text-center text-gray-300">
+          <p className="mt-4 max-w-2xl max-md:text-xl text-center text-gray-300">
             QHacks is your chance to learn, create, and connect with an awesome
             community. Let us know you're interested—we'll make sure you're the
             first to hear when applications open!
@@ -105,7 +105,7 @@ const Page = () => {
         </div>
 
         {/* Form below header div */}
-        <div className="relative flex justify-center mt-8">
+        <div className="relative flex justify-center min-sm:mt-8">
           <form onSubmit={handleSubmit} className="w-full max-w-2xl  p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mb-4">
               {/* First Name */}
