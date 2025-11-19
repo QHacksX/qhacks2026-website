@@ -1,0 +1,63 @@
+"use client";
+import { useEffect, useRef } from "react";
+
+export default function StaticBackground() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return; // ✅ TS now knows canvas is not null
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return; // ✅ TS now knows ctx is not null
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    let animationFrameId: number;
+
+    const renderGrain = () => {
+      const { width, height } = canvas;
+      const imageData = ctx.createImageData(width, height);
+      const buffer = imageData.data;
+
+      // subtle film grain
+      for (let i = 0; i < buffer.length; i += 4) {
+        const shade = Math.random() * 50; // keep it dark & soft
+        buffer[i] = shade;
+        buffer[i + 1] = shade;
+        buffer[i + 2] = shade;
+        buffer[i + 3] = 255;
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      animationFrameId = requestAnimationFrame(renderGrain);
+    };
+
+    renderGrain();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="
+        fixed inset-0
+        w-screen h-screen
+        pointer-events-none
+        opacity-25
+        mix-blend-overlay
+        z-[1]
+      "
+    />
+  );
+}
