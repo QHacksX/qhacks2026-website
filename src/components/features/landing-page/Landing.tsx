@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const Landing = () => {
   return (
@@ -10,7 +11,6 @@ const Landing = () => {
         aria-hidden="true"
       />
 
-      {/* LEFT SIDE – Ellipse + Crown + Logo */}
       <div className="w-[70%] h-full relative flex items-center justify-center">
         
         {/* Glow background */}
@@ -49,10 +49,10 @@ const Landing = () => {
         <div className="absolute flex flex-col items-center top-[65%]">
           <button
             className="
-              rounded-full border border-[#f4d389]
+              rounded-full border border-[#BF9F5F]
               px-8 py-2 text-sm
               text-[#f4d389]
-              bg-black/20
+              bg-[rgba(217,217,217,0)]
               hover:bg-[#f4d389] hover:text-black
               transition
               shadow-[0_0_20px_rgba(244,211,137,0.45)]
@@ -60,6 +60,10 @@ const Landing = () => {
           >
             Register Here
           </button>
+          <div className="mt-4 text-center space-y-1">
+            <p className="text-white">Already have an Account?</p>
+            <Link href="/signin" className="text-[#BF9F5F]">Log in</Link>
+          </div>
         </div>
         
 

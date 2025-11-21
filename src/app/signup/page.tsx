@@ -1,13 +1,12 @@
 "use client";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { Toaster } from "@/components/ui/sonner";
-import signUp from "@/firebase/auth/signup";
-import { getAuthErrorMessage } from "@/firebase/utils";
+// import signUp from "@/firebase/auth/signup";
+// import { getAuthErrorMessage } from "@/firebase/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
-import { toast } from "sonner";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,22 +15,22 @@ const SignUp = () => {
 
   const router = useRouter();
 
-  const handleForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage("");
-    setSuccessMessage("");
-    const { result, error } = await signUp({ email, password });
-    if (error) {
-      setErrorMessage(getAuthErrorMessage(error));
-      toast.error(getAuthErrorMessage(error));
-      return console.log("Error signing up:", error);
-    } else if (result) {
-      setSuccessMessage(result);
-      // console.log("User signed up:", user);
-      toast.success(result);
-      return router.push("/signin");
-    }
-  };
+  // const handleForm = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setErrorMessage("");
+  //   setSuccessMessage("");
+  //   const { result, error } = await signUp({ email, password });
+  //   if (error) {
+  //     setErrorMessage(getAuthErrorMessage(error));
+  //     toast.error(getAuthErrorMessage(error));
+  //     return console.log("Error signing up:", error);
+  //   } else if (result) {
+  //     setSuccessMessage(result);
+  //     // console.log("User signed up:", user);
+  //     toast.success(result);
+  //     return router.push("/signin");
+  //   }
+  // };
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -53,7 +52,7 @@ const SignUp = () => {
             Sign Up
           </h1>
 
-          <form onSubmit={handleForm} className="space-y-6 sm:space-y-8">
+          <form  className="space-y-6 sm:space-y-8">
             {/* Email field */}
             <div className="w-full">
               <label

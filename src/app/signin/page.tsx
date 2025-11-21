@@ -1,46 +1,45 @@
 "use client";
 import AnimatedStars from "@/components/ui/3d-models/Star";
-import { passwordReset } from "@/firebase/auth/passwrodReset";
-import signIn from "@/firebase/auth/signin";
-import { getAuthErrorMessage } from "@/firebase/utils";
+// import { passwordReset } from "@/firebase/auth/passwrodReset";
+// import signIn from "@/firebase/auth/signin";
+// import { getAuthErrorMessage } from "@/firebase/utils";
+import { Toaster } from "@/components/ui/sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
-import { toast } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const { user, error } = await signIn({ email, password });
-    if (error) {
-      toast.error(getAuthErrorMessage(error));
-      return console.log("Error signing in:", error);
-    } else if (user) {
-      toast.success(
-        `Account created for ${user.user.email ?? "your account"}. Please verify your email.`,
-      );
-      console.log("User signed in:", user);
-      return router.push("/");
-    }
-  };
+  // const handleForm = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const { user, error } = await signIn({ email, password });
+  //   if (error) {
+  //     toast.error(getAuthErrorMessage(error));
+  //     return console.log("Error signing in:", error);
+  //   } else if (user) {
+  //     toast.success(
+  //       `Account created for ${user.user.email ?? "your account"}. Please verify your email.`,
+  //     );
+  //     console.log("User signed in:", user);
+  //     return router.push("/");
+  //   }
+  // };
 
-  const handlePasswordReset = async () => {
-    console.log("email:", email);
-    const { result, error } = await passwordReset({ email });
-    if (error) {
-      console.log(error);
-      toast.error(getAuthErrorMessage(error));
-    } else if (result) {
-      console.log("password reset result:", result);
-      toast.success(result);
-    }
-  };
+  // const handlePasswordReset = async () => {
+  //   console.log("email:", email);
+  //   const { result, error } = await passwordReset({ email });
+  //   if (error) {
+  //     console.log(error);
+  //     toast.error(getAuthErrorMessage(error));
+  //   } else if (result) {
+  //     console.log("password reset result:", result);
+  //     toast.success(result);
+  //   }
+  // };
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -57,7 +56,7 @@ const SignUp = () => {
             Sign In
           </h1>
           <form
-            onSubmit={handleForm}
+            // onSubmit={handleForm}
             className="lg:mt-12 space-y-6 sm:space-y-8"
           >
             <div className="w-full">
@@ -105,7 +104,7 @@ const SignUp = () => {
             <button
               type="button"
               className="text-white font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center hover:text-[#E3C676] hover:cursor-pointer"
-              onClick={handlePasswordReset}
+              // onClick={handlePasswordReset}
             >
               Forgot Password
             </button>
