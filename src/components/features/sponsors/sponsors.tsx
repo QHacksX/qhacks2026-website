@@ -5,7 +5,7 @@ const Sponsors = () => {
     <section className="relative h-full w-full overflow-hidden">
         {/* Background */}
         <Image 
-          src="/carousel-background.jpg" 
+          src="/static/carousel-background.jpg"
           alt="Sponsors Background"
           priority
           className='object-cover'
@@ -16,7 +16,7 @@ const Sponsors = () => {
         {/* Top black tape - angled */}
         <div className="absolute top-[10%] left-0 w-full -rotate-2 transform">
           <Image 
-            src="/blacktape1.png" 
+            src="/static/blacktape1.png"
             alt="Film strip decoration"
             className='w-full h-auto'
             width={1920}
@@ -27,7 +27,7 @@ const Sponsors = () => {
         {/* Bottom black tape - angled opposite direction */}
         <div className="absolute bottom-[-21%] left-[5%] w-full rotate-2 transform">
           <Image 
-            src="/blacktape2.png" 
+            src="/static/blacktape2.png"
             alt="Film strip decoration"
             className='w-full h-auto'
             width={1920}

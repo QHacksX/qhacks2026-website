@@ -4,7 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 
-function GoldStarImage({ textureUrl = "/stars/gold-star.png", size = 10 }) {
+function GoldStarImage({ textureUrl = "/static/stars/gold-star.png", size = 10 }) {
   const meshRef = useRef<THREE.Mesh>(null!);
 
   const texture = useMemo(() => {
