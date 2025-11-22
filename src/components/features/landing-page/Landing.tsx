@@ -1,7 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useAuthStore } from "@/stores/auth";
+import { useEffect, useState } from "react";
 
 const Landing = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const logout = useAuthStore((state) => state.logout);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <main className="relative z-10 w-full h-screen bg-black">
       
@@ -47,7 +59,8 @@ const Landing = () => {
           />
         </div>
         <div className="absolute flex flex-col items-center top-[65%]">
-          <button
+          <Link
+            href={mounted && isAuthenticated ? "/application" : "/register"}
             className="
               rounded-full border border-[#BF9F5F]
               px-8 py-3 text-sm
@@ -58,12 +71,25 @@ const Landing = () => {
               shadow-[0_0_20px_rgba(244,211,137,0.45)]
             "
           >
-            Register Here
-          </button>
-          <div className="mt-4 text-center space-y-1">
-            <p className="text-white">Already have an Account?</p>
-            <Link href="/signin" className="text-[#BF9F5F]">Log in</Link>
-          </div>
+            {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
+          </Link>
+          {mounted && isAuthenticated ? (
+            <div className="mt-4 text-center space-y-1">
+              <button
+                onClick={() => logout()}
+                className="text-[#BF9F5F] hover:underline hover:cursor-pointer"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div className="mt-4 text-center space-y-1">
+              <p className="text-white">Already have an Account?</p>
+              <Link href="/login" className="text-[#BF9F5F]">
+                Log in
+              </Link>
+            </div>
+          )}
         </div>
         
 
