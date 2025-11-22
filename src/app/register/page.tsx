@@ -86,20 +86,20 @@ const SignUp = () => {
         <AnimatedStars />
 
         <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-6 sm:mb-8">
             Sign Up
           </h1>
 
           <form
             onSubmit={handleForm}
-            className="space-y-6 sm:space-y-8"
+            className="space-y-4 sm:space-y-6"
             noValidate
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="w-full">
                 <label
                   htmlFor="givenName"
-                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-2 sm:mb-3"
+                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
                 >
                   First Name
                 </label>
@@ -125,7 +125,7 @@ const SignUp = () => {
               <div className="w-full">
                 <label
                   htmlFor="surname"
-                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-2 sm:mb-3"
+                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
                 >
                   Last Name
                 </label>
@@ -151,7 +151,7 @@ const SignUp = () => {
             <div className="w-full">
               <label
                 htmlFor="email"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-2 sm:mb-3"
+                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
               >
                 Email
               </label>
@@ -176,7 +176,7 @@ const SignUp = () => {
             <div className="w-full">
               <label
                 htmlFor="password"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-2 sm:mb-3"
+                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
               >
                 Password
               </label>
@@ -207,12 +207,12 @@ const SignUp = () => {
               </div>
             )}
 
-            <div className="pt-4 sm:pt-6">
+            <div>
               <button
                 type="submit"
                 className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold shadow-lg hover:cursor-pointer hover:scale-105 transition-transform bg-[#E3C676] text-white min-w-[120px] mx-auto sm:mx-0"
               >
-                Sign Up
+                Register
               </button>
             </div>
 
@@ -243,13 +243,13 @@ const SignUp = () => {
           </form>
 
           <div className="mt-6 sm:mt-8 text-center">
-            <p className="text-white text-base sm:text-lg underline underline-offset-4 hover:text-[#E3C676] transition-colors">
+            <p className="text-white text-base sm:text-lg">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="font-semibold hover:text-[#C8B476] transition-colors"
+                className="underline underline-offset-4 hover:text-[#E3C676] transition-colors"
               >
-                Click here to sign in!
+                Login!
               </Link>
             </p>
           </div>
