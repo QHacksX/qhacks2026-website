@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function Intro() {
   return (
-    <main className="relative w-full h-screen overflow-hidden bg-black">
+    <main className="relative w-full h-screen bg-black">
       {/* Noise texture overlay */}
       <div
         className="absolute inset-0 bg-[url('/noise.png')] bg-cover bg-center opacity-50 pointer-events-none"
@@ -27,7 +27,7 @@ export default function Intro() {
       <div
         className="
           absolute top-0 right-0 
-          h-full w-auto         /* fixed height, flexible width */
+          h-full w-auto
         "
       >
         <Image

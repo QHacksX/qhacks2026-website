@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Landing = () => {
   return (
-    <main className="relative z-10 w-full h-screen overflow-hidden bg-black">
+    <main className="relative z-10 w-full h-screen bg-black">
       
       {/* Noise texture */}
       <div
@@ -50,7 +50,7 @@ const Landing = () => {
           <button
             className="
               rounded-full border border-[#BF9F5F]
-              px-8 py-2 text-sm
+              px-8 py-3 text-sm
               text-[#f4d389]
               bg-[rgba(217,217,217,0)]
               hover:bg-[#f4d389] hover:text-black
