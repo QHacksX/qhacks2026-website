@@ -3,6 +3,7 @@
 import Intro from "@/components/features/intro/intro";
 import Landing from "@/components/features/landing-page/Landing";
 import Stats from "@/components/features/stats/stats";
+import Sponsors from "@/components/features/sponsors/sponsors";
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
       <Intro />
       <Landing />
       <Stats />
+      <Sponsors />
     </main>
   );
 }
