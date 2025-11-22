@@ -1,9 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const Landing = () => {
   return (
-    <main className="relative z-10 w-full h-screen overflow-hidden bg-black">
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ 
+        duration: 1.5, 
+        delay: 4,
+        ease: "easeInOut"
+      }}
+      className="relative z-10 w-full h-screen overflow-hidden bg-black"
+    >
       
       {/* Noise texture */}
       <div
@@ -46,6 +58,7 @@ const Landing = () => {
             priority
           />
         </div>
+        
         <div className="absolute flex flex-col items-center top-[65%]">
           <button
             className="
@@ -83,7 +96,7 @@ const Landing = () => {
         </div>
       </div>
 
-    </main>
+    </motion.main>
   );
 };
 
