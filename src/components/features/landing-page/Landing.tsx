@@ -23,8 +23,8 @@ const Landing = () => {
         aria-hidden="true"
       />
 
-      {/* Main content container - full width on mobile, 70% on desktop */}
-      <div className="w-full md:w-[70%] h-full relative flex items-center justify-center px-4 md:px-0">
+      {/* Main content container - centered on mobile/tablet, 70% with projector on desktop */}
+      <div className="w-full lg:w-[70%] h-full relative flex items-center justify-center px-4 lg:px-0">
         
         {/* Glow background - responsive sizing */}
         <Image
@@ -32,7 +32,7 @@ const Landing = () => {
           alt="glowing ellipse"
           width={900}
           height={900}
-          className="absolute w-[90vw] md:w-[70vw] max-w-[580px] object-contain"
+          className="absolute w-[90vw] lg:w-[70vw] max-w-[580px] object-contain"
           priority
         />
 
@@ -85,8 +85,8 @@ const Landing = () => {
 
       </div>
 
-      {/* RIGHT SIDE – Projector - Hidden on mobile */}
-      <div className="hidden md:flex w-[30%] h-full items-end justify-end">
+      {/* RIGHT SIDE – Projector - Hidden on mobile and tablet, shown on desktop only */}
+      <div className="hidden lg:flex w-[30%] h-full items-end justify-end">
         <div className="absolute top-0 right-0 h-full w-auto">
           <Image
             src="/projector.svg"

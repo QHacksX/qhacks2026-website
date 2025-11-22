@@ -13,6 +13,9 @@ export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
 
   useEffect(() => {
+    // Scroll to top on page load/refresh
+    window.scrollTo(0, 0);
+    
     // Lock scroll during intro
     if (!introComplete) {
       document.body.style.overflow = 'hidden';
@@ -45,7 +48,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 5 }}
           className="fixed inset-0 w-full h-screen z-40 pointer-events-none"
         >
-          <div className="w-full md:w-[70%] h-full relative flex items-center justify-center px-4 md:px-0">
+          <div className="w-full lg:w-[70%] h-full relative flex items-center justify-center px-4 lg:px-0">
             {/* Glow background - animates from 0 to full opacity - responsive */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -62,7 +65,7 @@ export default function Home() {
                 alt="glowing ellipse"
                 width={900}
                 height={900}
-                className="w-[90vw] md:w-[70vw] max-w-[580px] object-contain"
+                className="w-[90vw] lg:w-[70vw] max-w-[580px] object-contain"
                 priority
               />
             </motion.div>
