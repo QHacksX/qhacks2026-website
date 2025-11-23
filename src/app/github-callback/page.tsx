@@ -6,6 +6,8 @@ import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { toast } from "sonner";
 import AnimatedStars from "@/components/ui/3d-models/Star";
+import { FaGithub } from "react-icons/fa";
+import { CgSpinner } from "react-icons/cg";
 
 const GithubCallback = () => {
   const router = useRouter();
@@ -41,8 +43,12 @@ const GithubCallback = () => {
   return (
     <div className="relative h-screen overflow-hidden bg-gradient-to-b from-[#020202] to-[#2B2929] flex justify-center items-center">
       <AnimatedStars />
-      <div className="text-white text-xl font-semibold z-10">
-        Authenticating with GitHub...
+      <div className="z-10 flex flex-col items-center gap-6 p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl">
+        <FaGithub className="text-white text-6xl" />
+        <div className="flex items-center gap-3 text-white text-xl font-semibold">
+          <CgSpinner className="animate-spin text-[#E3C676]" />
+          Authenticating with GitHub...
+        </div>
       </div>
     </div>
   );

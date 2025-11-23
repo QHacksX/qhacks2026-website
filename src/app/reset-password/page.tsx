@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/lib/api";
+import { authApi, HTTPError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { toast } from "sonner";
 import Link from "next/link";
 import { CgSpinner } from "react-icons/cg";
+import { IoIosWarning } from "react-icons/io";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 
 export default function ResetPasswordPage() {
@@ -16,6 +17,8 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isCheckingToken, setIsCheckingToken] = useState(true);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [generalError, setGeneralError] = useState<string | null>(null);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -32,24 +35,49 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     if (!token) return;
 
+    setErrors({});
+    setGeneralError(null);
+
     if (password.length < 8) {
-      toast.error("Password must be at least 8 characters.");
+      setErrors({ newPassword: "Password must be at least 8 characters" });
+      return;
+    }
+
+    if (password.length > 128) {
+      setErrors({ newPassword: "Password must be less than 128 characters" });
       return;
     }
 
     setIsLoading(true);
+
     try {
       const response = await authApi.resetPassword({
         token,
         newPassword: password,
       });
       login(response.token);
-      toast.success("Password reset successfully! Logging you in...");
-      router.push("/dashboard");
+      toast.success("Password reset successfully! Redirecting...");
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     } catch (error: any) {
       console.error(error);
-      toast.error(error.message || "Failed to reset password.");
-    } finally {
+      if (error instanceof HTTPError) {
+        if (error.isFormError() && Array.isArray(error.errors)) {
+          const newErrors: Record<string, string> = {};
+          error.errors.forEach((err) => {
+            newErrors[err.field] = err.message;
+          });
+          if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            setIsLoading(false);
+            return;
+          }
+        }
+        setGeneralError(error.message);
+      } else {
+        setGeneralError("An unexpected error occurred");
+      }
       setIsLoading(false);
     }
   };
@@ -89,7 +117,11 @@ export default function ResetPasswordPage() {
             Reset Password
           </h1>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-4 sm:space-y-6"
+            noValidate
+          >
             <div className="w-full">
               <label className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2">
                 New Password
@@ -98,11 +130,26 @@ export default function ResetPasswordPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border border-[#C8B476] focus:border-[#E3C676] p-3 rounded-lg transition-colors"
-                required
-                minLength={8}
+                className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border p-3 rounded-lg transition-colors ${
+                  errors.newPassword
+                    ? "border-red-500 focus:border-red-500"
+                    : "border-[#C8B476] focus:border-[#E3C676]"
+                }`}
+                maxLength={128}
               />
+              {errors.newPassword && (
+                <p className="mt-1 text-sm text-red-500 font-medium">
+                  {errors.newPassword}
+                </p>
+              )}
             </div>
+
+            {generalError && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex items-start gap-3">
+                <IoIosWarning className="text-red-500 text-xl shrink-0 mt-0.5" />
+                <p className="text-sm text-red-200">{generalError}</p>
+              </div>
+            )}
 
             <div>
               <button

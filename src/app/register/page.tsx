@@ -65,11 +65,7 @@ const Register = () => {
         if (error.isFormError() && Array.isArray(error.errors)) {
           const newErrors: Record<string, string> = {};
           error.errors.forEach((err) => {
-            // Convert snake_case to camelCase for field matching
-            const field = err.field.replace(/_([a-z])/g, (_, letter) =>
-              letter.toUpperCase(),
-            );
-            newErrors[field] = err.message;
+            newErrors[err.field] = err.message;
           });
           if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
@@ -119,7 +115,7 @@ const Register = () => {
                   id="givenName"
                   type="text"
                   className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
-                    errors.given_name
+                    errors.givenName
                       ? "border-red-500 focus:border-red-500"
                       : "border-[#C8B476] focus:border-[#E3C676]"
                   } p-3 rounded-lg transition-colors`}
@@ -127,9 +123,9 @@ const Register = () => {
                   required
                   value={givenName}
                 />
-                {errors.given_name && (
+                {errors.givenName && (
                   <p className="text-red-500 text-sm mt-1">
-                    {errors.given_name}
+                    {errors.givenName}
                   </p>
                 )}
               </div>

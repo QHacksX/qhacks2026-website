@@ -9,6 +9,7 @@ import {
 import { useCaptchaStore } from "@/stores/captcha";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { useRef } from "react";
+import { FaRobot } from "react-icons/fa";
 
 export function CaptchaModal() {
   const { isOpen, siteKey, resolve, close, reset } = useCaptchaStore();
@@ -38,8 +39,11 @@ export function CaptchaModal() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px] bg-[#1a1a1a] border-[#333] text-white duration-0">
-        <DialogHeader>
-          <DialogTitle className="text-[#E3C676]">Are you human?</DialogTitle>
+        <DialogHeader className="flex flex-col items-center gap-4">
+          <FaRobot className="text-[#E3C676] text-6xl" />
+          <DialogTitle className="text-[#E3C676] text-xl">
+            Are you human?
+          </DialogTitle>
         </DialogHeader>
         <div className="flex justify-center py-4">
           <HCaptcha

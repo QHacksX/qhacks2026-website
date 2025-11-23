@@ -1,5 +1,3 @@
-"use client";
-
 import Intro from "@/components/features/intro/intro";
 import Landing from "@/components/features/landing-page/Landing";
 import Stats from "@/components/features/stats/stats";

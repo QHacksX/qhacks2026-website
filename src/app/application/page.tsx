@@ -387,23 +387,7 @@ const ApplicationPage = () => {
         if (error.isFormError() && Array.isArray(error.errors)) {
           const newErrors: Record<string, string> = {};
           error.errors.forEach((err) => {
-            let field = err.field;
-
-            // Handle array types (e.g. potential_teammates.0 -> potential_teammates)
-            if (field.includes(".")) {
-              const parts = field.split(".");
-              // If the part after dot is a number, strip it
-              if (!isNaN(Number(parts[parts.length - 1]))) {
-                parts.pop();
-                field = parts.join(".");
-              }
-            }
-
-            // Convert snake_case to camelCase for field matching
-            field = field.replace(/_([a-z])/g, (_, letter) =>
-              letter.toUpperCase(),
-            );
-            newErrors[field] = err.message;
+            newErrors[err.field] = err.message;
           });
           setErrors(newErrors);
           setGeneralError(
@@ -581,7 +565,6 @@ const ApplicationPage = () => {
                       Phone <span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
-                      placeholder="Enter phone number"
                       value={formData.phone}
                       onChange={(value) => {
                         setFormData((prev) => ({
@@ -666,7 +649,10 @@ const ApplicationPage = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      School Email
+                      School Email{" "}
+                      {formData.school && (
+                        <span className="text-red-500">*</span>
+                      )}
                     </label>
                     <input
                       name="schoolEmail"
@@ -750,7 +736,7 @@ const ApplicationPage = () => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      Resume (PDF, max 25MB){" "}
+                      Resume (max 25MB){" "}
                       <span className="text-red-500">*</span>
                     </label>
                     <input

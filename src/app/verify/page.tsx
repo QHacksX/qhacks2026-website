@@ -3,14 +3,17 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authApi } from "@/lib/api";
+import { useAuthStore } from "@/stores/auth";
 import { toast } from "sonner";
 import Link from "next/link";
+import Image from "next/image";
 import { CgSpinner } from "react-icons/cg";
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 
 export default function VerifyPage() {
   const router = useRouter();
+  const { isAuthenticated } = useAuthStore();
   const [status, setStatus] = useState<"loading" | "success" | "error">(
     "loading",
   );
@@ -68,14 +71,14 @@ export default function VerifyPage() {
               Email Verified!
             </h1>
             <p className="text-white/70">
-              Your email has been successfully verified. You can now log in.
+              Your email has been successfully verified.
             </p>
-            <Link
-              href="/signin"
+            <button
+              onClick={() => router.push(isAuthenticated ? "/" : "/login")}
               className="inline-block w-full bg-[#E3C676] text-black font-bold py-3 px-6 rounded-xl hover:scale-[1.02] transition-transform"
             >
-              Sign In
-            </Link>
+              {isAuthenticated ? "Return Home" : "Login"}
+            </button>
           </>
         )}
 
@@ -88,12 +91,12 @@ export default function VerifyPage() {
             <p className="text-white/70">
               The verification link is invalid or has expired.
             </p>
-            <Link
-              href="/"
+            <button
+              onClick={() => router.push("/")}
               className="inline-block w-full bg-white/10 text-white font-bold py-3 px-6 rounded-xl hover:bg-white/20 transition-colors"
             >
               Return Home
-            </Link>
+            </button>
           </>
         )}
       </div>

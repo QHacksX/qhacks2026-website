@@ -1,5 +1,4 @@
 import { countryList } from "./countryList";
-import { schoolList } from "./schoolList";
 
 export enum DropdownTypes {
   age,
@@ -13,10 +12,8 @@ export enum DropdownTypes {
   sexualIdentity,
 }
 
-const schoolOptions = schoolList;
 export type DropdownConfig = {
   options: { value: string | number; label?: string }[];
-  placeholder: string;
   label: string;
 };
 
@@ -79,15 +76,13 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.age,
     {
       options: ages,
-      placeholder: "Select your age",
       label: "Age",
     },
   ],
   [
     DropdownTypes.school,
     {
-      options: schoolOptions,
-      placeholder: "Select your school",
+      options: [],
       label: "School",
     },
   ],
@@ -95,7 +90,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.levelsOfStudy,
     {
       options: levelsOfStudy,
-      placeholder: "Select your level of study",
       label: "Level of Study",
     },
   ],
@@ -103,7 +97,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.country,
     {
       options: countries,
-      placeholder: "Select your country",
       label: "Country",
     },
   ],
@@ -111,7 +104,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.shirtSize,
     {
       options: shirtSizes,
-      placeholder: "Select your shirt size",
       label: "Shirt Size",
     },
   ],
@@ -119,7 +111,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.gender,
     {
       options: genders,
-      placeholder: "Select your gender",
       label: "Gender",
     },
   ],
@@ -127,7 +118,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.ethnicity,
     {
       options: ethnicities,
-      placeholder: "Select your ethnicity",
       label: "Ethnicity",
     },
   ],
@@ -135,7 +125,6 @@ export const dropdownOptions = new Map<DropdownTypes, DropdownConfig>([
     DropdownTypes.sexualIdentity,
     {
       options: sexualIdentities,
-      placeholder: "Select your sexual identity",
       label: "Sexual Identity",
     },
   ],

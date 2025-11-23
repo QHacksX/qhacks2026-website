@@ -14,7 +14,24 @@ export class HTTPError extends Error {
     super(message);
     this.status = status;
     this.message = message;
-    this.errors = errors;
+    this.errors = errors.map((err) => {
+      let field = err.field;
+
+      // Handle array types (e.g. potential_teammates.0 -> potential_teammates)
+      if (field.includes(".")) {
+        const parts = field.split(".");
+        // If the part after dot is a number, strip it
+        if (!isNaN(Number(parts[parts.length - 1]))) {
+          parts.pop();
+          field = parts.join(".");
+        }
+      }
+
+      // Convert snake_case to camelCase
+      field = field.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+
+      return { ...err, field };
+    });
   }
 
   isFormError(): boolean {
@@ -193,7 +210,7 @@ export enum LevelOfStudy {
 export interface ApplicationQuestions {
   whyJoin: string;
   projectIdea: string;
-  experience: string;
+  experience?: string;
 }
 
 export interface ApplicationCreatePayload {
