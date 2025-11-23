@@ -80,14 +80,14 @@ const Stats = () => {
         }`}
       >
         {/* preview */}
-        <div className="w-[80%] max-w-2xl rounded-lg overflow-hidden shadow-lg">
-          <div className="relative w-full flex items-center justify-center gap-7">
+        <div className="w-full rounded-lg overflow-hidden shadow-lg">
+          <div className="relative flex items-center justify-center gap-7">
             <Image
               src="/leftarrow.png"
               alt="left arrow"
               width={85}
               height={85}
-              className="hover:scale-105 transition-transform"
+              className="hover:scale-110 transition-transform relative left-80"
               priority
               onClick={() => prev()}
             />
@@ -104,7 +104,7 @@ const Stats = () => {
               alt="right arrow"
               width={85}
               height={85}
-              className="hover:scale-105 transition-transform"
+              className="hover:scale-110 transition-transform relative right-80"
               priority
               onClick={() => next()}
             />
@@ -116,6 +116,16 @@ const Stats = () => {
               width={200}
               height={100}
               className="z-20"
+              priority
+            />
+          </div>
+          <div className="absolute inset-0 pointer-events-none flex justify-center items-center">
+            <Image
+              src="/preview cover.png"
+              alt="frame cover"
+              width={349}
+              height={677}
+              className="z-30 my-auto mx-auto"
               priority
             />
           </div>
