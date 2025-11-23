@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {
@@ -13,16 +13,16 @@ import {
   Application,
   ApplicationStatus,
   hasFlag,
-  userApi,
 } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { IoIosClose, IoIosWarning, IoIosCheckmarkCircle } from "react-icons/io";
 import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
-import { countryList } from "@/data/dropdown-options/countryList";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import DropDownInput, { OptionType } from "@/components/dropdown";
+import { DropdownTypes, dropdownOptions } from "@/data/dropdown-options/option";
 
 const ApplicationPage = () => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const ApplicationPage = () => {
     city: "",
     age: undefined,
     phone: "",
-    levelOfStudy: LevelOfStudy.Undergraduate,
+    levelOfStudy: undefined as unknown as LevelOfStudy,
     major: "",
     school: "",
     schoolEmail: null,
@@ -65,9 +65,9 @@ const ApplicationPage = () => {
     personalUrl: "",
     travelRequired: false,
     dietaryRestrictions: "",
-    shirtSize: "M",
+    shirtSize: undefined as unknown as "M",
     underrepresented: false,
-    gender: undefined,
+    gender: "" as any,
     sexualIdentity: "",
     pronouns: "",
     ethnicity: "",
@@ -87,6 +87,42 @@ const ApplicationPage = () => {
     "Teammates",
   ];
 
+  const schoolOptions = useMemo(
+    () => [
+      { value: "", label: "Not Listed" },
+      ...schools.map((s) => ({ value: s })),
+    ],
+    [schools],
+  );
+
+  const getOption = (
+    type: DropdownTypes | undefined,
+    value: string | number | undefined,
+    customOptions?: OptionType[],
+  ): OptionType | null => {
+    if (value === undefined || value === null) return null;
+    const options =
+      customOptions ||
+      (type !== undefined ? dropdownOptions.get(type)?.options : []);
+
+    const foundOption = options?.find((o) => o.value === value);
+    if (foundOption) return foundOption;
+
+    if (value === "") return null;
+
+    return {
+      value,
+      label: String(value),
+    };
+  };
+
+  const handleDropdownChange = (name: string, option: OptionType | null) => {
+    const value = option?.value;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    const error = validateField(name, value);
+    setErrors((prev) => ({ ...prev, [name]: error }));
+  };
+
   const validateField = (name: string, value: any): string => {
     switch (name) {
       case "city":
@@ -105,18 +141,23 @@ const ApplicationPage = () => {
         if (value && !isValidPhoneNumber(value)) return "Invalid phone number";
         break;
       case "schoolEmail":
-        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-          return "Invalid email address";
-        if (value && value.length > 255)
-          return "Email must be less than 255 characters";
+        if (value) {
+          if (value.length < 5) return "Email must be at least 5 characters";
+          if (value.length > 255)
+            return "Email must be less than 255 characters";
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+            return "Invalid email address";
+        }
         break;
       case "githubUrl":
       case "linkedinUrl":
       case "personalUrl":
-        if (value && !/^https?:\/\//.test(value))
-          return "URL must start with http:// or https://";
-        if (value && value.length > 255)
-          return "URL must be less than 255 characters";
+        if (value) {
+          if (value.length < 5) return "URL must be at least 5 characters";
+          if (value.length > 255) return "URL must be less than 255 characters";
+          if (!/^https?:\/\//.test(value))
+            return "URL must start with http:// or https://";
+        }
         break;
       case "major":
       case "sexualIdentity":
@@ -135,14 +176,10 @@ const ApplicationPage = () => {
       case "whyJoin":
       case "projectIdea":
       case "experience":
-        if (value && value.length > 3000)
-          return "Must be less than 3000 characters";
-        if (
-          (name === "whyJoin" || name === "projectIdea") &&
-          value &&
-          value.length < 10
-        )
-          return "Must be at least 10 characters";
+        if (value) {
+          if (value.length < 10) return "Must be at least 10 characters";
+          if (value.length > 3000) return "Must be less than 3000 characters";
+        }
         break;
     }
     return "";
@@ -160,14 +197,18 @@ const ApplicationPage = () => {
           formData.age >= 13 &&
           formData.age <= 120 &&
           !!formData.phone &&
+          formData.phone.length >= 2 &&
+          formData.phone.length <= 20 &&
           isValidPhoneNumber(formData.phone)
         );
       case 1: // Education
+        if (formData.levelOfStudy === undefined) return false;
         if (formData.school && !formData.schoolEmail) return false;
         if (
           formData.schoolEmail &&
-          (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.schoolEmail) ||
-            formData.schoolEmail.length > 255)
+          (formData.schoolEmail.length < 5 ||
+            formData.schoolEmail.length > 255 ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.schoolEmail))
         )
           return false;
         if (formData.major && formData.major.length > 64) return false;
@@ -176,20 +217,23 @@ const ApplicationPage = () => {
         if (!resume) return false;
         if (
           formData.githubUrl &&
-          (!/^https?:\/\//.test(formData.githubUrl) ||
-            formData.githubUrl.length > 255)
+          (formData.githubUrl.length < 5 ||
+            formData.githubUrl.length > 255 ||
+            !/^https?:\/\//.test(formData.githubUrl))
         )
           return false;
         if (
           formData.linkedinUrl &&
-          (!/^https?:\/\//.test(formData.linkedinUrl) ||
-            formData.linkedinUrl.length > 255)
+          (formData.linkedinUrl.length < 5 ||
+            formData.linkedinUrl.length > 255 ||
+            !/^https?:\/\//.test(formData.linkedinUrl))
         )
           return false;
         if (
           formData.personalUrl &&
-          (!/^https?:\/\//.test(formData.personalUrl) ||
-            formData.personalUrl.length > 255)
+          (formData.personalUrl.length < 5 ||
+            formData.personalUrl.length > 255 ||
+            !/^https?:\/\//.test(formData.personalUrl))
         )
           return false;
         return true;
@@ -202,9 +246,11 @@ const ApplicationPage = () => {
           formData.questions.projectIdea.length >= 10 &&
           formData.questions.projectIdea.length <= 3000 &&
           (!formData.questions?.experience ||
-            formData.questions.experience.length <= 3000)
+            (formData.questions.experience.length >= 10 &&
+              formData.questions.experience.length <= 3000))
         );
       case 4: // Logistics
+        if (!formData.shirtSize) return false;
         if (
           formData.dietaryRestrictions &&
           formData.dietaryRestrictions.length > 255
@@ -287,7 +333,8 @@ const ApplicationPage = () => {
 
   const handleTeammateAdd = () => {
     if (
-      teammateInput.trim() &&
+      teammateInput.trim().length >= 2 &&
+      teammateInput.trim().length <= 100 &&
       (formData.potentialTeammates?.length || 0) < 3
     ) {
       setFormData((prev) => ({
@@ -326,6 +373,7 @@ const ApplicationPage = () => {
       const payload = { ...formData };
       if (!payload.ethnicity) delete payload.ethnicity;
       if (!payload.sexualIdentity) delete payload.sexualIdentity;
+      if (!payload.gender) delete payload.gender;
 
       const app = await applicationApi.create(
         payload as ApplicationCreatePayload,
@@ -339,13 +387,28 @@ const ApplicationPage = () => {
         if (error.isFormError() && Array.isArray(error.errors)) {
           const newErrors: Record<string, string> = {};
           error.errors.forEach((err) => {
+            let field = err.field;
+
+            // Handle array types (e.g. potential_teammates.0 -> potential_teammates)
+            if (field.includes(".")) {
+              const parts = field.split(".");
+              // If the part after dot is a number, strip it
+              if (!isNaN(Number(parts[parts.length - 1]))) {
+                parts.pop();
+                field = parts.join(".");
+              }
+            }
+
             // Convert snake_case to camelCase for field matching
-            const field = err.field.replace(/_([a-z])/g, (_, letter) =>
+            field = field.replace(/_([a-z])/g, (_, letter) =>
               letter.toUpperCase(),
             );
             newErrors[field] = err.message;
           });
           setErrors(newErrors);
+          setGeneralError(
+            "Errors have been found in your responses. Please review and try again.",
+          );
         } else {
           setGeneralError(error.message);
         }
@@ -466,26 +529,12 @@ const ApplicationPage = () => {
                     <label className="block text-sm font-medium mb-1">
                       Country <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                      required
-                    >
-                      <option value="" className="bg-gray-900">
-                        Select a country
-                      </option>
-                      {countryList.map((c) => (
-                        <option
-                          key={c.code}
-                          value={c.code}
-                          className="bg-gray-900"
-                        >
-                          {c.value}
-                        </option>
-                      ))}
-                    </select>
+                    <DropDownInput
+                      title="Select a country"
+                      type={DropdownTypes.country}
+                      value={getOption(DropdownTypes.country, formData.country)}
+                      onChange={(opt) => handleDropdownChange("country", opt)}
+                    />
                     {errors.country && (
                       <p className="text-red-500 text-xs mt-1">
                         {errors.country}
@@ -564,65 +613,34 @@ const ApplicationPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      Level of Study
+                      Level of Study <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="levelOfStudy"
-                      value={formData.levelOfStudy}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      <option
-                        value={LevelOfStudy.HighSchool}
-                        className="bg-gray-900"
-                      >
-                        High School
-                      </option>
-                      <option
-                        value={LevelOfStudy.Undergraduate}
-                        className="bg-gray-900"
-                      >
-                        Undergraduate
-                      </option>
-                      <option
-                        value={LevelOfStudy.Graduate}
-                        className="bg-gray-900"
-                      >
-                        Graduate
-                      </option>
-                      <option
-                        value={LevelOfStudy.PostGraduate}
-                        className="bg-gray-900"
-                      >
-                        Post Graduate
-                      </option>
-                      <option
-                        value={LevelOfStudy.Other}
-                        className="bg-gray-900"
-                      >
-                        Other
-                      </option>
-                    </select>
+                    <DropDownInput
+                      title="Select level of study"
+                      type={DropdownTypes.levelsOfStudy}
+                      value={getOption(
+                        DropdownTypes.levelsOfStudy,
+                        formData.levelOfStudy,
+                      )}
+                      onChange={(opt) =>
+                        handleDropdownChange("levelOfStudy", opt)
+                      }
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
                       School
                     </label>
-                    <select
-                      name="school"
-                      value={formData.school}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      <option value="" className="bg-gray-900">
-                        School not listed
-                      </option>
-                      {schools.map((s) => (
-                        <option key={s} value={s} className="bg-gray-900">
-                          {s}
-                        </option>
-                      ))}
-                    </select>
+                    <DropDownInput
+                      title="Select your school"
+                      options={schoolOptions}
+                      value={getOption(
+                        undefined,
+                        formData.school,
+                        schoolOptions,
+                      )}
+                      onChange={(opt) => handleDropdownChange("school", opt)}
+                    />
                     {errors.school && (
                       <p className="text-red-500 text-xs mt-1">
                         {errors.school}
@@ -826,20 +844,17 @@ const ApplicationPage = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">
-                      Shirt Size
+                      Shirt Size <span className="text-red-500">*</span>
                     </label>
-                    <select
-                      name="shirtSize"
-                      value={formData.shirtSize}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      {["XS", "S", "M", "L", "XL"].map((size) => (
-                        <option key={size} value={size} className="bg-gray-900">
-                          {size}
-                        </option>
-                      ))}
-                    </select>
+                    <DropDownInput
+                      title="Select shirt size"
+                      type={DropdownTypes.shirtSize}
+                      value={getOption(
+                        DropdownTypes.shirtSize,
+                        formData.shirtSize,
+                      )}
+                      onChange={(opt) => handleDropdownChange("shirtSize", opt)}
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
@@ -890,25 +905,12 @@ const ApplicationPage = () => {
                     <label className="block text-sm font-medium mb-1">
                       Gender
                     </label>
-                    <select
-                      name="gender"
-                      value={formData.gender || ""}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      <option value="" className="bg-gray-900">
-                        Prefer not to say
-                      </option>
-                      <option value="M" className="bg-gray-900">
-                        Male
-                      </option>
-                      <option value="F" className="bg-gray-900">
-                        Female
-                      </option>
-                      <option value="NB" className="bg-gray-900">
-                        Non-binary
-                      </option>
-                    </select>
+                    <DropDownInput
+                      title="Select gender"
+                      type={DropdownTypes.gender}
+                      value={getOption(DropdownTypes.gender, formData.gender)}
+                      onChange={(opt) => handleDropdownChange("gender", opt)}
+                    />
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">
@@ -931,49 +933,15 @@ const ApplicationPage = () => {
                     <label className="block text-sm font-medium mb-1">
                       Ethnicity
                     </label>
-                    <select
-                      name="ethnicity"
-                      value={formData.ethnicity || ""}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      <option value="" className="bg-gray-900">
-                        Prefer not to say
-                      </option>
-                      <option value="Asian" className="bg-gray-900">
-                        Asian
-                      </option>
-                      <option value="Black or African" className="bg-gray-900">
-                        Black or African
-                      </option>
-                      <option value="Hispanic or Latino/a/x" className="bg-gray-900">
-                        Hispanic or Latino/a/x
-                      </option>
-                      <option value="Middle Eastern or North African" className="bg-gray-900">
-                        Middle Eastern or North African
-                      </option>
-                      <option value="Indigenous / Aboriginal / Native" className="bg-gray-900">
-                        Indigenous / Aboriginal / Native
-                      </option>
-                      <option value="Pacific Islander" className="bg-gray-900">
-                        Pacific Islander
-                      </option>
-                      <option value="South Asian" className="bg-gray-900">
-                        South Asian
-                      </option>
-                      <option value="Southeast Asian" className="bg-gray-900">
-                        Southeast Asian
-                      </option>
-                      <option value="East Asian" className="bg-gray-900">
-                        East Asian
-                      </option>
-                      <option value="White / Caucasian" className="bg-gray-900">
-                        White / Caucasian
-                      </option>
-                      <option value="Mixed / Multiracial" className="bg-gray-900">
-                        Mixed / Multiracial
-                      </option>
-                    </select>
+                    <DropDownInput
+                      title="Select ethnicity"
+                      type={DropdownTypes.ethnicity}
+                      value={getOption(
+                        DropdownTypes.ethnicity,
+                        formData.ethnicity,
+                      )}
+                      onChange={(opt) => handleDropdownChange("ethnicity", opt)}
+                    />
                     {errors.ethnicity && (
                       <p className="text-red-500 text-xs mt-1">
                         {errors.ethnicity}
@@ -984,40 +952,17 @@ const ApplicationPage = () => {
                     <label className="block text-sm font-medium mb-1">
                       Sexual Identity
                     </label>
-                    <select
-                      name="sexualIdentity"
-                      value={formData.sexualIdentity || ""}
-                      onChange={handleInputChange}
-                      className="w-full bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none text-white"
-                    >
-                      <option value="" className="bg-gray-900">
-                        Prefer not to say
-                      </option>
-                      <option value="Asexual" className="bg-gray-900">
-                        Asexual
-                      </option>
-                      <option value="Bisexual" className="bg-gray-900">
-                        Bisexual
-                      </option>
-                      <option value="Gay" className="bg-gray-900">
-                        Gay
-                      </option>
-                      <option value="Lesbian" className="bg-gray-900">
-                        Lesbian
-                      </option>
-                      <option value="Pansexual" className="bg-gray-900">
-                        Pansexual
-                      </option>
-                      <option value="Queer" className="bg-gray-900">
-                        Queer
-                      </option>
-                      <option value="Straight / Heterosexual" className="bg-gray-900">
-                        Straight / Heterosexual
-                      </option>
-                      <option value="Two-Spirit" className="bg-gray-900">
-                        Two-Spirit
-                      </option>
-                    </select>
+                    <DropDownInput
+                      title="Select sexual identity"
+                      type={DropdownTypes.sexualIdentity}
+                      value={getOption(
+                        DropdownTypes.sexualIdentity,
+                        formData.sexualIdentity,
+                      )}
+                      onChange={(opt) =>
+                        handleDropdownChange("sexualIdentity", opt)
+                      }
+                    />
                     {errors.sexualIdentity && (
                       <p className="text-red-500 text-xs mt-1">
                         {errors.sexualIdentity}
@@ -1060,6 +1005,7 @@ const ApplicationPage = () => {
                       placeholder="Enter teammate name"
                       className="flex-1 bg-black/20 border border-white/20 rounded-lg p-2 focus:border-[#E3C676] outline-none"
                       disabled={(formData.potentialTeammates?.length || 0) >= 3}
+                      maxLength={100}
                     />
                     <button
                       type="button"
