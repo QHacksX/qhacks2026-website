@@ -45,7 +45,12 @@ const ApplicationPage = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   // Form State
-  const [formData, setFormData] = useState<Partial<ApplicationCreatePayload>>({
+  const [formData, setFormData] = useState<
+    Partial<ApplicationCreatePayload> & {
+      mlhCodeOfConduct?: boolean;
+      mlhPrivacyPolicy?: boolean;
+    }
+  >({
     country: "",
     city: "",
     age: undefined,
@@ -71,6 +76,9 @@ const ApplicationPage = () => {
     sexualIdentity: "",
     pronouns: "",
     ethnicity: "",
+    mlhCodeOfConduct: false,
+    mlhPrivacyPolicy: false,
+    mlhEmails: false,
   });
 
   const [resume, setResume] = useState<File | null>(null);
@@ -85,6 +93,7 @@ const ApplicationPage = () => {
     "Logistics",
     "Demographics",
     "Teammates",
+    "MLH Policies",
   ];
 
   const schoolOptions = useMemo(
@@ -270,6 +279,8 @@ const ApplicationPage = () => {
         return true;
       case 6: // Teammates
         return true;
+      case 7: // MLH Policies
+        return !!formData.mlhCodeOfConduct && !!formData.mlhPrivacyPolicy;
       default:
         return false;
     }
@@ -380,6 +391,8 @@ const ApplicationPage = () => {
       if (!payload.ethnicity) delete payload.ethnicity;
       if (!payload.sexualIdentity) delete payload.sexualIdentity;
       if (!payload.gender) delete payload.gender;
+      delete payload.mlhCodeOfConduct;
+      delete payload.mlhPrivacyPolicy;
 
       const app = await applicationApi.create(
         payload as ApplicationCreatePayload,
@@ -981,7 +994,6 @@ const ApplicationPage = () => {
                 </div>
               </section>
             )}
-
             {/* Teammates */}
             {currentStep === 6 && (
               <section className="space-y-4">
@@ -1029,6 +1041,120 @@ const ApplicationPage = () => {
                       {errors.potentialTeammates}
                     </p>
                   )}
+                </div>
+              </section>
+            )}
+
+            {/* MLH Policies */}
+            {currentStep === 7 && (
+              <section className="space-y-4">
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
+                  MLH Policies
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="mlhCodeOfConduct"
+                      checked={formData.mlhCodeOfConduct}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mlhCodeOfConduct: e.target.checked,
+                        }))
+                      }
+                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
+                    />
+                    <label
+                      htmlFor="mlhCodeOfConduct"
+                      className="text-sm text-white/80"
+                    >
+                      I have read and agree to the{" "}
+                      <a
+                        href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#E3C676] hover:underline"
+                      >
+                        MLH Code of Conduct
+                      </a>
+                      . <span className="text-red-500">*</span>
+                    </label>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="mlhPrivacyPolicy"
+                      checked={formData.mlhPrivacyPolicy}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mlhPrivacyPolicy: e.target.checked,
+                        }))
+                      }
+                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
+                    />
+                    <label
+                      htmlFor="mlhPrivacyPolicy"
+                      className="text-sm text-white/80"
+                    >
+                      I authorize you to share my application/registration
+                      information with Major League Hacking for event
+                      administration, ranking, and MLH administration in-line
+                      with the{" "}
+                      <a
+                        href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#E3C676] hover:underline"
+                      >
+                        MLH Privacy Policy
+                      </a>
+                      . I further agree to the terms of both the{" "}
+                      <a
+                        href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#E3C676] hover:underline"
+                      >
+                        MLH Contest Terms and Conditions
+                      </a>{" "}
+                      and the{" "}
+                      <a
+                        href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#E3C676] hover:underline"
+                      >
+                        MLH Privacy Policy
+                      </a>
+                      . <span className="text-red-500">*</span>
+                    </label>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <input
+                      type="checkbox"
+                      id="mlhEmails"
+                      checked={formData.mlhEmails}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          mlhEmails: e.target.checked,
+                        }))
+                      }
+                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
+                    />
+                    <label
+                      htmlFor="mlhEmails"
+                      className="text-sm text-white/80"
+                    >
+                      I authorize MLH to send me occasional emails about
+                      relevant events, career opportunities, and community
+                      announcements.
+                    </label>
+                  </div>
                 </div>
               </section>
             )}

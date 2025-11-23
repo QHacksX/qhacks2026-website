@@ -235,6 +235,7 @@ export interface ApplicationCreatePayload {
   sexualIdentity?: string;
   pronouns?: string;
   ethnicity?: string;
+  mlhEmails: boolean;
 }
 
 export interface Application extends ApplicationCreatePayload {
