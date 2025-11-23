@@ -29,9 +29,10 @@ export const useAuthStore = create<AuthState>()(
       logout: () => set({ isAuthenticated: false, token: null, user: null }),
       update: (user) => set({ user }),
       updateFlags: (flags: number) =>
-        set((state) => ({
-          user: state.user ? { ...state.user, flags } : null,
-        })),
+        set((state) => {
+          if (!state.user || state.user.flags === flags) return state;
+          return { user: { ...state.user, flags } };
+        }),
       _hasHydrated: false,
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),

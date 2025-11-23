@@ -742,7 +742,7 @@ const ApplicationPage = () => {
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
-                      Resume (max 25MB) <span className="text-red-500">*</span>
+                      Resume (max 10 MB) <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="file"

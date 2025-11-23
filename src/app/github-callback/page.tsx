@@ -14,10 +14,21 @@ const GithubCallbackContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get("code");
+  const error = searchParams.get("error");
+  const errorDescription = searchParams.get("error_description");
   const processedRef = useRef(false);
 
   useEffect(() => {
-    if (!code || processedRef.current) return;
+    if (processedRef.current) return;
+
+    if (error) {
+      processedRef.current = true;
+      toast.error(errorDescription || "Failed to sign in with GitHub");
+      router.push("/login");
+      return;
+    }
+
+    if (!code) return;
     processedRef.current = true;
 
     const login = async () => {
@@ -39,7 +50,7 @@ const GithubCallbackContent = () => {
     };
 
     login();
-  }, [code, router]);
+  }, [code, error, errorDescription, router]);
 
   return (
     <div className="relative flex h-screen items-center justify-center overflow-hidden bg-linear-to-b from-[#020202] to-[#2B2929]">
