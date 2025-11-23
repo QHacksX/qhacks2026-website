@@ -45,6 +45,38 @@ const RegisterForm = () => {
     setErrors({});
     setGeneralError(null);
 
+    // Client-side validation
+    const newErrors: Record<string, string> = {};
+
+    if (givenName.trim().length < 2) {
+      newErrors.givenName = "First name must be at least 2 characters";
+    }
+
+    if (surname.trim().length < 2) {
+      newErrors.surname = "Last name must be at least 2 characters";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (
+      email.length < 5 ||
+      email.length > 255 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const response = await authApi.register({
         email,
@@ -123,6 +155,7 @@ const RegisterForm = () => {
                   autoComplete="given-name"
                   required
                   value={givenName}
+                  maxLength={100}
                 />
                 {errors.givenName && (
                   <p className="mt-1 text-sm text-red-500">
@@ -149,6 +182,7 @@ const RegisterForm = () => {
                   autoComplete="family-name"
                   required
                   value={surname}
+                  maxLength={100}
                 />
                 {errors.surname && (
                   <p className="mt-1 text-sm text-red-500">{errors.surname}</p>
@@ -200,6 +234,7 @@ const RegisterForm = () => {
                 autoComplete="new-password"
                 required
                 value={password}
+                maxLength={128}
               />
               {errors.password && (
                 <p className="mt-1 text-sm text-red-500">{errors.password}</p>

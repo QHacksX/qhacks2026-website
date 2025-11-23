@@ -43,6 +43,27 @@ const LoginForm = () => {
     setErrors({});
     setGeneralError(null);
 
+    // Client-side validation
+    const newErrors: Record<string, string> = {};
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (
+      email.length < 5 ||
+      email.length > 255 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const response = await authApi.login({ email, password });
       login(response.token);
@@ -77,6 +98,18 @@ const LoginForm = () => {
   const handlePasswordReset = async () => {
     setErrors({});
     setGeneralError(null);
+
+    if (!email) {
+      setErrors({ email: "Email is required" });
+      return;
+    } else if (
+      email.length < 5 ||
+      email.length > 255 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      setErrors({ email: "Invalid email address" });
+      return;
+    }
 
     try {
       await authApi.forgotPassword({ email });
@@ -168,6 +201,7 @@ const LoginForm = () => {
                 autoComplete="current-password"
                 required
                 value={password}
+                maxLength={128}
               />
               {errors.password && (
                 <p className="mt-1 text-sm text-red-500">{errors.password}</p>

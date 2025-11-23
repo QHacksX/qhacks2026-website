@@ -43,11 +43,6 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    if (password.length > 128) {
-      setErrors({ newPassword: "Password must be less than 128 characters" });
-      return;
-    }
-
     setIsLoading(true);
 
     try {
