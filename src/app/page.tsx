@@ -1,16 +1,15 @@
 "use client";
 
 // import Intro from "@/components/features/intro/intro";
+import Blank from "@/components/features/Blank";
 import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
-import Stats from "@/components/stats/stats";
-import Blank from "@/components/features/Blank";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
-import HorizontalScroll from "@/components/features/HorizontalScroll";
-import LandingToStats from "@/components/features/LandingToStats";
-import { useEffect, useState } from "react";
+import Stats from "@/components/stats/stats";
+// import LandingToStats from "@/components/features/LandingToStats";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
@@ -149,7 +148,7 @@ export default function Home() {
       <NowPresenting />
       
       {/* Horizontal scroll transition from Landing -> Stats */}
-      <LandingToStats 
+      {/* <LandingToStats 
         enabled={introComplete}
         landingComponent={
           <section id="home">
@@ -161,7 +160,9 @@ export default function Home() {
             <Stats />
           </section>
         }
-      />
+      /> */}
+      <Landing />
+      <Stats />
 
       {/* About section placeholder - vertical scroll continues */}
       <section id="about" className="min-h-screen">
