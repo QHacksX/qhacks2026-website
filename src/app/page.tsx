@@ -1,10 +1,10 @@
 "use client";
 
 // import Intro from "@/components/features/intro/intro";
-import Blank from "@/components/features/Blank";
 import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
+import Sponsors2 from "@/components/features/sponsors/sponsors2";
 import Stats from "@/components/stats/stats";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { motion } from "framer-motion";
@@ -163,36 +163,36 @@ export default function Home() {
       /> */}
       <Landing />
       <Stats />
+      <Sponsors2 />
 
       {/* About section placeholder - vertical scroll continues */}
-      <section id="about" className="min-h-screen">
-        {/* Add About content here later */}
-      </section>
+      {/* <section id="about" className="min-h-screen">
+        Add About content here later
+      </section> */}
 
       {/* Projects section placeholder */}
-      <section id="projects" className="min-h-screen">
-        {/* Add Projects & Stories content here later */}
-      </section>
+      {/* <section id="projects" className="min-h-screen">
+        Add Projects & Stories content here later
+      </section> */}
 
       {/* What's New section placeholder */}
-      <section id="news" className="min-h-screen">
-        {/* Add What's New content here later */}
-      </section>
+      {/* <section id="news" className="min-h-screen">
+        Add What's New content here later
+      </section> */}
 
       {/* Sponsors section */}
-      <section id="sponsors">
+      {/* <section id="sponsors">
         <Blank />
-      </section>
+      </section> */}
 
       {/* FAQ section placeholder */}
-      <section id="faq" className="min-h-screen">
-        {/* Add FAQ content here later */}
-      </section>
+      {/* <section id="faq" className="min-h-screen">
+        Add FAQ content here later
+      </section> */}
 
       {/* 2024 section placeholder */}
-      <section id="2024" className="min-h-screen">
-        {/* Add 2024 content here later */}
-      </section>
+      {/* <section id="2024" className="min-h-screen">
+      </section> */}
     </main>
   );
 }
