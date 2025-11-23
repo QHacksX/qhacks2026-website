@@ -72,7 +72,7 @@ const Landing = () => {
               shadow-[0_0_20px_rgba(244,211,137,0.45)]
             "
           >
-            {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
+            {mounted && isAuthenticated ? "Apply Now" : "Register"}
           </Link>
           {mounted && isAuthenticated ? (
             <div className="mt-4 text-center space-y-1">
@@ -85,9 +85,9 @@ const Landing = () => {
             </div>
           ) : (
             <div className="mt-4 text-center space-y-1">
-              <p className="text-white">Already have an Account?</p>
+              <p className="text-white">Already have an account?</p>
               <Link href="/login" className="text-[#BF9F5F]">
-                Log in
+                Login
               </Link>
             </div>
           )}

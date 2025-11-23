@@ -24,7 +24,11 @@ const GithubCallback = () => {
             redirectUri: `${window.location.origin}/github-callback`
         });
         useAuthStore.getState().login(response.token);
-        router.push("/");
+        const redirectTo = localStorage.getItem("redirect_to");
+        if (redirectTo) {
+          localStorage.removeItem("redirect_to");
+        }
+        router.push(redirectTo || "/");
       } catch (error: any) {
         console.error(error);
         toast.error("Failed to sign in with GitHub");

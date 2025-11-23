@@ -50,17 +50,22 @@ export async function fetchApi<T>(
     }
   }
 
+  const headers: HeadersInit = {
+    Authorization: token ?? "",
+    "X-Client-Type": "website", // Differentiate from dashboard
+    ...options.headers,
+  };
+
+  if (!(options.body instanceof FormData)) {
+    (headers as Record<string, string>)["Content-Type"] = "application/json";
+  }
+
   const response = await fetch(url, {
     ...options,
-    headers: {
-      Authorization: token ?? "",
-      "Content-Type": "application/json",
-      "X-Client-Type": "website", // Differentiate from dashboard
-      ...options.headers,
-    },
+    headers,
   });
 
-  if (response.headers.get("X-User-Flags") !== undefined) {
+  if (response.headers.get("X-User-Flags") !== null) {
     // Lazily update user flags
     const flags = parseInt(response.headers.get("X-User-Flags") || "0", 10);
     useAuthStore.getState().updateFlags(flags);
@@ -124,6 +129,11 @@ export enum UserFlags {
   Accepted = 1 << 4,
 }
 
+export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {
+  if (!user) return false;
+  return (user.flags & flag) === flag;
+}
+
 export interface TokenResponse {
   token: string;
 }
@@ -164,6 +174,59 @@ export interface UpdateUserRequest {
   surname?: string;
   password?: string;
   newPassword?: string;
+}
+
+export enum ApplicationStatus {
+  Pending = 0,
+  Accepted = 1,
+  Denied = 2,
+}
+
+export enum LevelOfStudy {
+  HighSchool = 0,
+  Undergraduate = 1,
+  Graduate = 2,
+  PostGraduate = 3,
+  Other = 4,
+}
+
+export interface ApplicationQuestions {
+  whyJoin: string;
+  projectIdea: string;
+  experience: string;
+}
+
+export interface ApplicationCreatePayload {
+  country: string;
+  city: string;
+  age: number;
+  phone: string;
+  levelOfStudy: LevelOfStudy;
+  major?: string;
+  school?: string;
+  schoolEmail?: string | null;
+  questions: ApplicationQuestions;
+  potentialTeammates?: string[];
+  githubUrl?: string;
+  linkedinUrl?: string;
+  personalUrl?: string;
+  travelRequired: boolean;
+  dietaryRestrictions?: string;
+  shirtSize: "XS" | "S" | "M" | "L" | "XL";
+  underrepresented: boolean;
+  gender?: "M" | "F" | "NB";
+  sexualIdentity?: string;
+  pronouns?: string;
+  ethnicity?: string;
+}
+
+export interface Application extends ApplicationCreatePayload {
+  id: string;
+  userId: string;
+  status: ApplicationStatus;
+  resumeUrl: string;
+  createdAt: string;
+  user?: User;
 }
 
 export const authApi = {
@@ -219,4 +282,21 @@ export const userApi = {
       method: "PATCH",
       body: JSON.stringify(data),
     }),
+};
+
+export const applicationApi = {
+  listSchools: () => fetchApi<string[]>("/applications/schools"),
+  getMe: () => fetchApi<Application>("/applications/@me"),
+  create: (data: ApplicationCreatePayload, resume: File) => {
+    const formData = new FormData();
+    // Convert camelCase payload to snake_case for the backend
+    const snakeCaseData = camelToSnakeCase(data);
+    formData.append("payload_json", JSON.stringify(snakeCaseData));
+    formData.append("resume", resume);
+
+    return fetchApi<Application>("/applications", {
+      method: "POST",
+      body: formData,
+    });
+  },
 };

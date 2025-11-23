@@ -10,6 +10,8 @@ interface AuthState {
   logout: () => void;
   update: (user: User) => void;
   updateFlags: (flags: number) => void;
+  _hasHydrated: boolean;
+  setHasHydrated: (state: boolean) => void;
 }
 
 export async function logout() {
@@ -30,9 +32,14 @@ export const useAuthStore = create<AuthState>()(
         set((state) => ({
           user: state.user ? { ...state.user, flags } : null,
         })),
+      _hasHydrated: false,
+      setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
       name: "auth-store",
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );

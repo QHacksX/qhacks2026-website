@@ -2,7 +2,7 @@
 import AnimatedStars from "@/components/ui/3d-models/Star";
 import { toast } from "sonner";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { IoIosClose, IoIosWarning } from "react-icons/io";
 import { FaGithub, FaGoogle } from "react-icons/fa";
@@ -10,18 +10,30 @@ import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
 
-const SignIn = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [generalError, setGeneralError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const login = useAuthStore((state) => state.login);
 
   useEffect(() => {
+    const redirectTo = searchParams.get("redirect_to");
+    if (redirectTo) {
+      localStorage.setItem("redirect_to", redirectTo);
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/");
+      const cachedRedirect = localStorage.getItem("redirect_to");
+      if (cachedRedirect) {
+        localStorage.removeItem("redirect_to");
+      }
+      router.replace(cachedRedirect || "/");
     }
   }, [isAuthenticated, router]);
 
@@ -34,7 +46,6 @@ const SignIn = () => {
       const response = await authApi.login({ email, password });
       login(response.token);
       toast.success("Signed in successfully");
-      router.push("/");
     } catch (error) {
       if (error instanceof CaptchaCancelledError) {
         return;
@@ -229,4 +240,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;
