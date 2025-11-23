@@ -1,8 +1,8 @@
 "use client";
 
+import { useAuthStore } from "@/stores/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuthStore } from "@/stores/auth";
 import { useEffect, useState } from "react";
 
 const Landing = () => {
