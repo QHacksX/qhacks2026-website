@@ -550,6 +550,7 @@ const ApplicationPage = () => {
                     </label>
                     <input
                       name="city"
+                      placeholder="Enter your city"
                       value={formData.city}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
@@ -568,6 +569,7 @@ const ApplicationPage = () => {
                     <input
                       name="age"
                       type="number"
+                      placeholder="Enter your age"
                       value={formData.age || ""}
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
@@ -595,6 +597,8 @@ const ApplicationPage = () => {
                       }}
                       defaultCountry="CA"
                       className="phone-input-container"
+                      placeholder="(000) 000-0000"
+                      smartCaret
                     />
                     {errors.phone && (
                       <p className="mt-1 text-xs text-red-500">
@@ -659,6 +663,7 @@ const ApplicationPage = () => {
                       onChange={handleInputChange}
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
                       maxLength={64}
+                      placeholder="Enter your major"
                     />
                     {errors.major && (
                       <p className="mt-1 text-xs text-red-500">
@@ -681,6 +686,7 @@ const ApplicationPage = () => {
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
                       maxLength={255}
                       required={!!formData.school}
+                      placeholder="Enter your school email"
                     />
                     {errors.schoolEmail && (
                       <p className="mt-1 text-xs text-red-500">
