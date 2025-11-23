@@ -4,15 +4,17 @@ import Intro from "@/components/features/intro/intro";
 import Landing from "@/components/features/landing-page/Landing";
 import Stats from "@/components/features/stats/stats";
 import Sponsors from "@/components/features/sponsors/sponsors";
+import Sponsors2 from "@/components/features/sponsors/sponsors2";
 
 export default function Home() {
   return (
-    <main className="relative w-full h-screen  bg-black">
+    <main className="relative w-full min-h-screen bg-black">
       {/* Noise texture overlay */}
       <Intro />
       <Landing />
       <Stats />
       <Sponsors />
+      <Sponsors2 />
     </main>
   );
 }
