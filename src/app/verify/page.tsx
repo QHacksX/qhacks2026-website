@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Route } from "next";
 import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { toast } from "sonner";
-import Link from "next/link";
-import Image from "next/image";
 import { CgSpinner } from "react-icons/cg";
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import AnimatedStars from "@/components/ui/3d-models/Star";
@@ -47,16 +46,16 @@ export default function VerifyPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#020202] text-white">
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020202] text-white">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] pointer-events-none">
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#020202] to-[#2B2929]">
         <AnimatedStars />
       </div>
 
-      <div className="relative z-10 w-full max-w-md p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-center space-y-6">
+      <div className="relative z-10 w-full max-w-md space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
         {status === "loading" && (
           <>
-            <CgSpinner className="animate-spin text-[#E3C676] text-6xl mx-auto" />
+            <CgSpinner className="mx-auto animate-spin text-6xl text-[#E3C676]" />
             <h1 className="text-2xl font-semibold">Verifying Email...</h1>
             <p className="text-white/70">
               Please wait while we verify your email address.
@@ -66,7 +65,7 @@ export default function VerifyPage() {
 
         {status === "success" && (
           <>
-            <IoIosCheckmarkCircle className="text-green-500 text-6xl mx-auto" />
+            <IoIosCheckmarkCircle className="mx-auto text-6xl text-green-500" />
             <h1 className="text-2xl font-semibold text-green-500">
               Email Verified!
             </h1>
@@ -74,8 +73,10 @@ export default function VerifyPage() {
               Your email has been successfully verified.
             </p>
             <button
-              onClick={() => router.push(isAuthenticated ? "/" : "/login")}
-              className="inline-block w-full bg-[#E3C676] text-black font-bold py-3 px-6 rounded-xl hover:scale-[1.02] transition-transform"
+              onClick={() =>
+                router.push((isAuthenticated ? "/" : "/login") as Route)
+              }
+              className="inline-block w-full rounded-xl bg-[#E3C676] px-6 py-3 font-bold text-black transition-transform hover:scale-[1.02]"
             >
               {isAuthenticated ? "Return Home" : "Login"}
             </button>
@@ -84,7 +85,7 @@ export default function VerifyPage() {
 
         {status === "error" && (
           <>
-            <IoIosCloseCircle className="text-red-500 text-6xl mx-auto" />
+            <IoIosCloseCircle className="mx-auto text-6xl text-red-500" />
             <h1 className="text-2xl font-semibold text-red-500">
               Verification Failed
             </h1>
@@ -93,7 +94,7 @@ export default function VerifyPage() {
             </p>
             <button
               onClick={() => router.push("/")}
-              className="inline-block w-full bg-white/10 text-white font-bold py-3 px-6 rounded-xl hover:bg-white/20 transition-colors"
+              className="inline-block w-full rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition-colors hover:bg-white/20"
             >
               Return Home
             </button>

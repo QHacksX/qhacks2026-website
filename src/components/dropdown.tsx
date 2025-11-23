@@ -4,7 +4,7 @@ import {
   DropdownTypes,
 } from "@/data/dropdown-options/option";
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction, useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,11 +27,12 @@ export default function DropDownInput({
   onChange: (value: OptionType | null) => void;
   options?: OptionType[];
 }) {
-  const dropdownConfig = type
-    ? (dropdownOptions.get(type) as DropdownConfig | undefined)
-    : undefined;
-
-  const availableOptions = options || dropdownConfig?.options || [];
+  const availableOptions = useMemo(() => {
+    const config = type
+      ? (dropdownOptions.get(type) as DropdownConfig | undefined)
+      : undefined;
+    return options || config?.options || [];
+  }, [options, type]);
 
   const [filterText, setFilterText] = useState("");
   const [renderedCount, setRenderedCount] = useState(0);
@@ -74,7 +75,7 @@ export default function DropDownInput({
       >
         {value
           ? value.label || value.value
-          : dropdownConfig?.placeholder ?? title}
+          : title}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent

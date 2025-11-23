@@ -3,14 +3,15 @@ import AnimatedStars from "@/components/ui/3d-models/Star";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { IoIosClose, IoIosWarning } from "react-icons/io";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
+import { Route } from "next";
 
-const Login = () => {
+const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -33,7 +34,7 @@ const Login = () => {
       if (cachedRedirect) {
         localStorage.removeItem("redirect_to");
       }
-      router.replace(cachedRedirect || "/");
+      router.replace((cachedRedirect || "/") as Route);
     }
   }, [isAuthenticated, router]);
 
@@ -108,14 +109,14 @@ const Login = () => {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      <Link href="/" className="p-5 absolute left-0 z-10 text-white">
+      <Link href="/" className="absolute left-0 z-10 p-5 text-white">
         <IoIosClose size={50} />
       </Link>
 
-      <div className=" absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] flex justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-[#020202] to-[#2B2929] px-4 sm:px-6 lg:px-8">
         <AnimatedStars />
         <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-6 sm:mb-8">
+          <h1 className="mb-6 text-center text-4xl font-semibold tracking-tight text-[#E3C676] sm:mb-8 sm:text-5xl">
             Sign In
           </h1>
           <form
@@ -126,7 +127,7 @@ const Login = () => {
             <div className="w-full">
               <label
                 htmlFor="email"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
               >
                 Email
               </label>
@@ -135,23 +136,23 @@ const Login = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 type="email"
-                className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
                   errors.email
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
-                } p-3 rounded-lg transition-colors`}
+                } rounded-lg p-3 transition-colors`}
                 autoComplete="email"
                 required
                 value={email}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
               )}
             </div>
             <div>
               <label
                 htmlFor="password"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
               >
                 Password
               </label>
@@ -159,56 +160,56 @@ const Login = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 type="password"
-                className={`w-full bg-transparent text-white text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                className={`w-full border bg-transparent text-lg font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent ${
                   errors.password
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
-                } p-3 rounded-lg transition-colors`}
+                } rounded-lg p-3 transition-colors`}
                 autoComplete="current-password"
                 required
                 value={password}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
               )}
             </div>
 
             {generalError && (
-              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 flex items-center gap-2">
-                <IoIosWarning className="text-red-500 text-xl shrink-0" />
-                <p className="text-red-500 text-sm font-medium text-left">
+              <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
+                <IoIosWarning className="shrink-0 text-xl text-red-500" />
+                <p className="text-left text-sm font-medium text-red-500">
                   {generalError}
                 </p>
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
               <button
                 type="submit"
-                className="inline-flex items-center rounded-xl px-6 py-3 font-semibold shadow-lg hover:cursor-pointer hover:scale-105 transition bg-[#E3C676] text-white"
+                className="inline-flex items-center rounded-xl bg-[#E3C676] px-6 py-3 font-semibold text-white shadow-lg transition hover:scale-105 hover:cursor-pointer"
               >
                 Login
               </button>
               <button
                 type="button"
-                className="text-white font-medium rounded-lg text-sm sm:w-auto px-5 py-2.5 text-center hover:text-[#E3C676] hover:cursor-pointer"
+                className="rounded-lg px-5 py-2.5 text-center text-sm font-medium text-white hover:cursor-pointer hover:text-[#E3C676] sm:w-auto"
                 onClick={handlePasswordReset}
               >
                 Forgot Password
               </button>
             </div>
 
-            <div className="flex items-center gap-4 my-6">
-              <div className="h-px bg-white/20 flex-1" />
-              <span className="text-white/60 text-sm">Or continue with</span>
-              <div className="h-px bg-white/20 flex-1" />
+            <div className="my-6 flex items-center gap-4">
+              <div className="h-px flex-1 bg-white/20" />
+              <span className="text-sm text-white/60">Or continue with</span>
+              <div className="h-px flex-1 bg-white/20" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={handleGithubLogin}
-                className="flex items-center justify-center gap-2 px-4 py-3 border border-white/20 rounded-xl text-white hover:bg-white/10 transition-colors font-medium"
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
               >
                 <FaGithub size={20} />
                 GitHub
@@ -216,7 +217,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={handleGoogleLogin}
-                className="flex items-center justify-center gap-2 px-4 py-3 border border-white/20 rounded-xl text-white hover:bg-white/10 transition-colors font-medium"
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
               >
                 <FaGoogle size={20} />
                 Google
@@ -224,11 +225,11 @@ const Login = () => {
             </div>
           </form>
           <div className="mt-6 text-center">
-            <p className="text-white text-lg">
+            <p className="text-lg text-white">
               Don&apos;t have an account?{" "}
               <Link
                 href="/register"
-                className="underline underline-offset-4 hover:text-[#E3C676] transition-colors"
+                className="underline underline-offset-4 transition-colors hover:text-[#E3C676]"
               >
                 Register!
               </Link>
@@ -237,6 +238,14 @@ const Login = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Login = () => {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 };
 

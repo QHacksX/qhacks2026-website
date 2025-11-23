@@ -3,14 +3,15 @@ import AnimatedStars from "@/components/ui/3d-models/Star";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { IoIosClose, IoIosWarning } from "react-icons/io";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
+import { Route } from "next";
 
-const Register = () => {
+const RegisterForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [givenName, setGivenName] = useState("");
@@ -35,7 +36,7 @@ const Register = () => {
       if (cachedRedirect) {
         localStorage.removeItem("redirect_to");
       }
-      router.replace(cachedRedirect || "/");
+      router.replace((cachedRedirect || "/") as Route);
     }
   }, [isAuthenticated, router]);
 
@@ -84,16 +85,16 @@ const Register = () => {
     <div className="relative min-h-screen overflow-hidden">
       <Link
         href="/"
-        className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 text-white hover:text-[#E3C676] transition-colors"
+        className="absolute top-4 left-4 z-10 text-white transition-colors hover:text-[#E3C676] sm:top-6 sm:left-6"
       >
-        <IoIosClose size={40} className="sm:w-12 sm:h-12" />
+        <IoIosClose size={40} className="sm:h-12 sm:w-12" />
       </Link>
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] flex justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-[#020202] to-[#2B2929] px-4 sm:px-6 lg:px-8">
         <AnimatedStars />
 
         <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-6 sm:mb-8">
+          <h1 className="mb-6 text-center text-3xl font-semibold tracking-tight text-[#E3C676] sm:mb-8 sm:text-4xl lg:text-5xl">
             Sign Up
           </h1>
 
@@ -102,11 +103,11 @@ const Register = () => {
             className="space-y-4 sm:space-y-6"
             noValidate
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="w-full">
                 <label
                   htmlFor="givenName"
-                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                  className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
                 >
                   First Name
                 </label>
@@ -114,17 +115,17 @@ const Register = () => {
                   onChange={(e) => setGivenName(e.target.value)}
                   id="givenName"
                   type="text"
-                  className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                  className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
                     errors.givenName
                       ? "border-red-500 focus:border-red-500"
                       : "border-[#C8B476] focus:border-[#E3C676]"
-                  } p-3 rounded-lg transition-colors`}
+                  } rounded-lg p-3 transition-colors`}
                   autoComplete="given-name"
                   required
                   value={givenName}
                 />
                 {errors.givenName && (
-                  <p className="text-red-500 text-sm mt-1">
+                  <p className="mt-1 text-sm text-red-500">
                     {errors.givenName}
                   </p>
                 )}
@@ -132,7 +133,7 @@ const Register = () => {
               <div className="w-full">
                 <label
                   htmlFor="surname"
-                  className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                  className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
                 >
                   Last Name
                 </label>
@@ -140,17 +141,17 @@ const Register = () => {
                   onChange={(e) => setSurname(e.target.value)}
                   id="surname"
                   type="text"
-                  className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                  className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
                     errors.surname
                       ? "border-red-500 focus:border-red-500"
                       : "border-[#C8B476] focus:border-[#E3C676]"
-                  } p-3 rounded-lg transition-colors`}
+                  } rounded-lg p-3 transition-colors`}
                   autoComplete="family-name"
                   required
                   value={surname}
                 />
                 {errors.surname && (
-                  <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
+                  <p className="mt-1 text-sm text-red-500">{errors.surname}</p>
                 )}
               </div>
             </div>
@@ -158,7 +159,7 @@ const Register = () => {
             <div className="w-full">
               <label
                 htmlFor="email"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
               >
                 Email
               </label>
@@ -166,24 +167,24 @@ const Register = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 id="email"
                 type="email"
-                className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
                   errors.email
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
-                } p-3 rounded-lg transition-colors`}
+                } rounded-lg p-3 transition-colors`}
                 autoComplete="email"
                 required
                 value={email}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
               )}
             </div>
 
             <div className="w-full">
               <label
                 htmlFor="password"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
+                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
               >
                 Password
               </label>
@@ -191,24 +192,24 @@ const Register = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 type="password"
-                className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
                   errors.password
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
-                } p-3 rounded-lg transition-colors`}
+                } rounded-lg p-3 transition-colors`}
                 autoComplete="new-password"
                 required
                 value={password}
               />
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
               )}
             </div>
 
             {generalError && (
-              <div className="bg-red-500/10 border border-red-500/50 rounded-lg p-3 flex items-center gap-2">
-                <IoIosWarning className="text-red-500 text-xl shrink-0" />
-                <p className="text-red-500 text-sm font-medium text-left">
+              <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
+                <IoIosWarning className="shrink-0 text-xl text-red-500" />
+                <p className="text-left text-sm font-medium text-red-500">
                   {generalError}
                 </p>
               </div>
@@ -217,23 +218,23 @@ const Register = () => {
             <div>
               <button
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold shadow-lg hover:cursor-pointer hover:scale-105 transition-transform bg-[#E3C676] text-white min-w-[120px] mx-auto sm:mx-0"
+                className="mx-auto inline-flex w-full min-w-[120px] items-center justify-center rounded-xl bg-[#E3C676] px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:cursor-pointer sm:mx-0 sm:w-auto"
               >
                 Register
               </button>
             </div>
 
-            <div className="flex items-center gap-4 my-6">
-              <div className="h-px bg-white/20 flex-1" />
-              <span className="text-white/60 text-sm">Or continue with</span>
-              <div className="h-px bg-white/20 flex-1" />
+            <div className="my-6 flex items-center gap-4">
+              <div className="h-px flex-1 bg-white/20" />
+              <span className="text-sm text-white/60">Or continue with</span>
+              <div className="h-px flex-1 bg-white/20" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={handleGithubLogin}
-                className="flex items-center justify-center gap-2 px-4 py-3 border border-white/20 rounded-xl text-white hover:bg-white/10 transition-colors font-medium"
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
               >
                 <FaGithub size={20} />
                 GitHub
@@ -241,7 +242,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={handleGoogleLogin}
-                className="flex items-center justify-center gap-2 px-4 py-3 border border-white/20 rounded-xl text-white hover:bg-white/10 transition-colors font-medium"
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
               >
                 <FaGoogle size={20} />
                 Google
@@ -249,12 +250,12 @@ const Register = () => {
             </div>
           </form>
 
-          <div className="mt-6 sm:mt-8 text-center">
-            <p className="text-white text-base sm:text-lg">
+          <div className="mt-6 text-center sm:mt-8">
+            <p className="text-base text-white sm:text-lg">
               Already have an account?{" "}
               <Link
                 href="/login"
-                className="underline underline-offset-4 hover:text-[#E3C676] transition-colors"
+                className="underline underline-offset-4 transition-colors hover:text-[#E3C676]"
               >
                 Login!
               </Link>
@@ -263,6 +264,14 @@ const Register = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Register = () => {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
   );
 };
 

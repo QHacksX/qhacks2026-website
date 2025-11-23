@@ -13,34 +13,36 @@ function toCamelCase(str: string): string {
   return str.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
 }
 
-export function camelToSnakeCase(obj: any): any {
+export function camelToSnakeCase<T>(obj: T): T {
   if (obj === null || obj === undefined || typeof obj !== "object") {
     return obj;
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(camelToSnakeCase);
+    return obj.map(camelToSnakeCase) as T;
   }
 
   return Object.keys(obj).reduce((acc, key) => {
     const snakeKey = toSnakeCase(key);
-    acc[snakeKey] = camelToSnakeCase(obj[key]);
+    const value = (obj as Record<string, unknown>)[key];
+    acc[snakeKey] = camelToSnakeCase(value);
     return acc;
-  }, {} as any);
+  }, {} as Record<string, unknown>) as unknown as T;
 }
 
-export function snakeToCamelCase(obj: any): any {
+export function snakeToCamelCase<T>(obj: T): T {
   if (obj === null || obj === undefined || typeof obj !== "object") {
     return obj;
   }
 
   if (Array.isArray(obj)) {
-    return obj.map(snakeToCamelCase);
+    return obj.map(snakeToCamelCase) as T;
   }
 
   return Object.keys(obj).reduce((acc, key) => {
     const camelKey = toCamelCase(key);
-    acc[camelKey] = snakeToCamelCase(obj[key]);
+    const value = (obj as Record<string, unknown>)[key];
+    acc[camelKey] = snakeToCamelCase(value);
     return acc;
-  }, {} as any);
+  }, {} as Record<string, unknown>) as unknown as T;
 }

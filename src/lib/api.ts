@@ -62,7 +62,7 @@ export async function fetchApi<T>(
     try {
       const bodyObj = JSON.parse(options.body);
       options.body = JSON.stringify(camelToSnakeCase(bodyObj));
-    } catch (e) {
+    } catch {
       // Not JSON, leave as is
     }
   }

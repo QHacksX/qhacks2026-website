@@ -4,11 +4,11 @@ interface CaptchaState {
   isOpen: boolean;
   siteKey: string | null;
   resolve: ((token: string) => void) | null;
-  reject: ((reason?: any) => void) | null;
+  reject: ((reason?: Error) => void) | null;
   open: (
     siteKey: string,
     resolve: (token: string) => void,
-    reject: (reason?: any) => void,
+    reject: (reason?: Error) => void,
   ) => void;
   close: () => void;
   reset: () => void;

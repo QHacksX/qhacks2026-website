@@ -60,7 +60,7 @@ export default function ResetPasswordPage() {
       setTimeout(() => {
         router.push("/");
       }, 2000);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
       if (error instanceof HTTPError) {
         if (error.isFormError() && Array.isArray(error.errors)) {
@@ -88,15 +88,15 @@ export default function ResetPasswordPage() {
 
   if (!token) {
     return (
-      <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#020202] text-white">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] pointer-events-none">
+      <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020202] text-white">
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#020202] to-[#2B2929]">
           <AnimatedStars />
         </div>
-        <div className="relative z-10 p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-center max-w-md w-full">
-          <h1 className="text-2xl font-semibold text-red-500 mb-4">
+        <div className="relative z-10 w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
+          <h1 className="mb-4 text-2xl font-semibold text-red-500">
             Invalid Link
           </h1>
-          <p className="text-white/70 mb-6">
+          <p className="mb-6 text-white/70">
             This password reset link is invalid or missing.
           </p>
           <Link href="/" className="text-[#E3C676] hover:underline">
@@ -109,11 +109,11 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="relative h-screen overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] flex justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-[#020202] to-[#2B2929] px-4 sm:px-6 lg:px-8">
         <AnimatedStars />
 
         <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-6 sm:mb-8">
+          <h1 className="mb-6 text-center text-4xl font-semibold tracking-tight text-[#E3C676] sm:mb-8 sm:text-5xl">
             Reset Password
           </h1>
 
@@ -123,14 +123,14 @@ export default function ResetPasswordPage() {
             noValidate
           >
             <div className="w-full">
-              <label className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2">
+              <label className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg">
                 New Password
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full bg-transparent text-white text-base sm:text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border p-3 rounded-lg transition-colors ${
+                className={`w-full rounded-lg border bg-transparent p-3 text-base font-medium text-white placeholder-white/80 transition-colors outline-none focus:placeholder-transparent sm:text-lg ${
                   errors.newPassword
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
@@ -138,15 +138,15 @@ export default function ResetPasswordPage() {
                 maxLength={128}
               />
               {errors.newPassword && (
-                <p className="mt-1 text-sm text-red-500 font-medium">
+                <p className="mt-1 text-sm font-medium text-red-500">
                   {errors.newPassword}
                 </p>
               )}
             </div>
 
             {generalError && (
-              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 flex items-start gap-3">
-                <IoIosWarning className="text-red-500 text-xl shrink-0 mt-0.5" />
+              <div className="flex items-start gap-3 rounded-lg border border-red-500/20 bg-red-500/10 p-3">
+                <IoIosWarning className="mt-0.5 shrink-0 text-xl text-red-500" />
                 <p className="text-sm text-red-200">{generalError}</p>
               </div>
             )}
@@ -155,11 +155,11 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full sm:w-auto inline-flex items-center justify-center rounded-xl px-6 py-3 font-semibold shadow-lg hover:cursor-pointer hover:scale-105 transition-transform bg-[#E3C676] text-white min-w-[120px] mx-auto sm:mx-0"
+                className="mx-auto inline-flex w-full min-w-[120px] items-center justify-center rounded-xl bg-[#E3C676] px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:cursor-pointer sm:mx-0 sm:w-auto"
               >
                 {isLoading ? (
                   <>
-                    <CgSpinner className="animate-spin text-xl mr-2" />
+                    <CgSpinner className="mr-2 animate-spin text-xl" />
                     Resetting...
                   </>
                 ) : (
