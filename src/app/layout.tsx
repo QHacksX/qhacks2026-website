@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description:
     "Queen's University's annual hackathon is back for it's 11th iteration! Come pre-register for the event in February 2026 and join hundreds of applicants, meet tech companies, and have one of the best experiences ever!",
   keywords: ["QHacks", "QHacks 2026", "Queens Hackathon"],
-  icons: "/logo/5.png",
+  icons: "/favicon.png",
 };
 
 export default function RootLayout({

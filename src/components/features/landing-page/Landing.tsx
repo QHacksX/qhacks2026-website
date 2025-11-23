@@ -19,7 +19,8 @@ const Landing = () => {
       
       {/* Noise texture */}
       <div
-        className="absolute inset-0 bg-[url('/noise.png')] bg-cover bg-center opacity-50 pointer-events-none"
+        className="absolute inset-0 bg-cover bg-center opacity-50 pointer-events-none"
+        style={{ backgroundImage: `url('/static/noise.png')` }}
         aria-hidden="true"
       />
 
@@ -27,7 +28,7 @@ const Landing = () => {
         
         {/* Glow background */}
         <Image
-          src="/Ellipse.svg"
+          src="/static/Ellipse.svg"
           alt="glowing ellipse"
           width={900}
           height={900}
@@ -40,7 +41,7 @@ const Landing = () => {
           
           {/* Crown */}
           <Image
-            src="/crown.png"
+            src="/static/crown.png"
             alt="QHacks crown"
             width={600}
             height={500}
@@ -50,7 +51,7 @@ const Landing = () => {
 
           {/* QHacks 2026 logo on top of crown */}
           <Image
-            src="/logo.png"
+            src="/static/logo-text.png"
             alt="QHacks logo"
             width={500}
             height={300}
@@ -99,7 +100,7 @@ const Landing = () => {
       <div className="w-[30%] h-full flex items-end justify-end">
         <div className="absolute top-0 right-0 h-full w-auto">
           <Image
-            src="/projector.svg"
+            src="/static/projector.svg"
             alt="projector"
             width={2000}
             height={13}

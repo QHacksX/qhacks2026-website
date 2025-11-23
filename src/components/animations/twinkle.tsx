@@ -36,7 +36,7 @@ export default function TwinkleEffect() {
       {stars.map((star, index) => (
         <motion.img
           key={index}
-          src="/stars/star.png"
+          src="/static/stars/star.png"
           alt="Twinkling Star"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{

@@ -104,14 +104,18 @@ const SignIn = () => {
       <div className=" absolute inset-0 bg-gradient-to-b from-[#020202] to-[#2B2929] flex justify-center items-center px-4 sm:px-6 lg:px-8">
         <AnimatedStars />
         <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[#E3C676] text-center">
+          <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight text-[#E3C676] text-center mb-6 sm:mb-8">
             Sign In
           </h1>
-          <form onSubmit={handleForm} className="lg:mt-12 space-y-6 sm:space-y-8" noValidate>
+          <form
+            onSubmit={handleForm}
+            className="space-y-4 sm:space-y-6"
+            noValidate
+          >
             <div className="w-full">
               <label
                 htmlFor="email"
-                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-2 sm:mb-3"
+                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
               >
                 Email
               </label>
@@ -136,7 +140,7 @@ const SignIn = () => {
             <div>
               <label
                 htmlFor="password"
-                className="block text-lg font-semibold tracking-wide text-white"
+                className="block text-base sm:text-lg font-semibold tracking-wide text-white mb-1 sm:mb-2"
               >
                 Password
               </label>
@@ -144,7 +148,7 @@ const SignIn = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 id="password"
                 type="password"
-                className={`mt-3 w-full bg-transparent text-white text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
+                className={`w-full bg-transparent text-white text-lg font-medium placeholder-white/80 focus:placeholder-transparent outline-none border ${
                   errors.password
                     ? "border-red-500 focus:border-red-500"
                     : "border-[#C8B476] focus:border-[#E3C676]"
@@ -167,12 +171,12 @@ const SignIn = () => {
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <button
                 type="submit"
                 className="inline-flex items-center rounded-xl px-6 py-3 font-semibold shadow-lg hover:cursor-pointer hover:scale-105 transition bg-[#E3C676] text-white"
               >
-                Sign In
+                Login
               </button>
               <button
                 type="button"
@@ -209,9 +213,14 @@ const SignIn = () => {
             </div>
           </form>
           <div className="mt-6 text-center">
-            <p className="text-white text-lg underline underline-offset-4 hover:text-[#E3C676] transition-colors">
+            <p className="text-white text-lg">
               Don&apos;t have an account?{" "}
-              <Link href="/register">Click here to sign up!</Link>
+              <Link
+                href="/register"
+                className="underline underline-offset-4 hover:text-[#E3C676] transition-colors"
+              >
+                Register!
+              </Link>
             </p>
           </div>
         </div>
