@@ -4,15 +4,17 @@ import Image from "next/image";
 
 const Stats = () => {
   return (
-    <section className="w-full h-screen relative overflow-hidden">
-      <div className="w-full h-full relative">
-        {/* Use next/image fill so the SVG covers the full viewport */}
+    <section className="w-full h-screen relative overflow-hidden flex items-center justify-center bg-black">
+      <div className="w-full h-full relative will-change-transform" style={{ transform: 'translateZ(0)' }}>
+        {/* Use next/image fill with object-contain to show true size */}
         <Image
-          src="/test1.svg"
+          src="/stats1.png"
           alt="decorative full-screen"
           fill
-          className="object-cover"
-          priority
+          className="object-contain"
+          quality={85}
+          sizes="100vw"
+          loading="lazy"
         />
       </div>
     </section>
