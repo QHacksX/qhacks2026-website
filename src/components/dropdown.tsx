@@ -10,36 +10,39 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
+} from "./ui/dropdown-menu";
 
-export type OptionType = { value: string | number };
+export type OptionType = { value: string | number; label?: string };
 
 export default function DropDownInput({
   title,
   type,
   value,
-  setValue,
+  onChange,
+  options,
 }: {
   title: string;
-  type: DropdownTypes;
+  type?: DropdownTypes;
   value: OptionType | null;
-  setValue: Dispatch<SetStateAction<OptionType | null>>;
+  onChange: (value: OptionType | null) => void;
+  options?: OptionType[];
 }) {
-  const dropdownConfig = dropdownOptions.get(type) as
-    | DropdownConfig
-    | undefined;
+  const dropdownConfig = type
+    ? (dropdownOptions.get(type) as DropdownConfig | undefined)
+    : undefined;
+
+  const availableOptions = options || dropdownConfig?.options || [];
 
   const [filterText, setFilterText] = useState("");
   const [renderedCount, setRenderedCount] = useState(0);
   const batchSize = 100;
 
   const filteredOptions = useMemo(() => {
-    return (
-      dropdownConfig?.options?.filter((opt: OptionType) =>
-        String(opt.value).toLowerCase().includes(filterText.toLowerCase()),
-      ) ?? []
-    );
-  }, [dropdownConfig?.options, filterText]);
+    return availableOptions.filter((opt: OptionType) => {
+      const searchStr = opt.label || String(opt.value);
+      return searchStr.toLowerCase().includes(filterText.toLowerCase());
+    });
+  }, [availableOptions, filterText]);
 
   useEffect(() => {
     setRenderedCount(Math.min(batchSize, filteredOptions.length));
@@ -69,7 +72,9 @@ export default function DropDownInput({
           "bg-[#1A1A1A] text-white hover:bg-[#2A2A2A] focus:outline-none",
         )}
       >
-        {value ? value.value : (dropdownConfig?.placeholder ?? title)}
+        {value
+          ? value.label || value.value
+          : dropdownConfig?.placeholder ?? title}
       </DropdownMenuTrigger>
 
       <DropdownMenuContent
@@ -96,9 +101,9 @@ export default function DropDownInput({
             <DropdownMenuItem
               key={`${String(opt.value)}-${idx}`}
               className="px-3 py-2 cursor-pointer hover:bg-[#2A2A2A]"
-              onSelect={() => setValue(opt)}
+              onSelect={() => onChange(opt)}
             >
-              {String(opt.value)}
+              {opt.label || String(opt.value)}
             </DropdownMenuItem>
           ))}
 
