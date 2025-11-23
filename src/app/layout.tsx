@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Providers } from "@/components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   description:
     "Queen's University's annual hackathon is back for it's 11th iteration! Come pre-register for the event in February 2026 and join hundreds of applicants, meet tech companies, and have one of the best experiences ever!",
   keywords: ["QHacks", "QHacks 2026", "Queens Hackathon"],
-  icons: "/logo/5.png",
+  icons: "/favicon.png",
 };
 
 export default function RootLayout({
@@ -31,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

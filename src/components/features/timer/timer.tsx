@@ -1,4 +1,3 @@
-"use client";
 type TimerProps = {
   days: number;
   hours: number;
