@@ -19,7 +19,7 @@ const NowPresenting = () => {
       >
         {/* Noise texture overlay - reduced opacity on mobile */}
         <div
-          className="absolute inset-0 bg-[url('/noise.png')] bg-cover bg-center opacity-30 md:opacity-50 pointer-events-none"
+          className="absolute inset-0 bg-[url('/static/noise.png')] bg-cover bg-center opacity-30 md:opacity-50 pointer-events-none"
           aria-hidden="true"
         />
         
