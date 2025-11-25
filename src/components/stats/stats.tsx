@@ -77,7 +77,7 @@ const Stats = () => {
       <div
         id="stats-overlay"
         aria-hidden={!overlayVisible}
-        className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 transition-opacity duration-500 ease-out ${
+        className={`absolute inset-0 z-50 flex items-center justify-center bg-black/80 transition-opacity duration-500 ease-out ${
           overlayVisible ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
