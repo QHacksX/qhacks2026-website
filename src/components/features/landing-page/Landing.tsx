@@ -16,7 +16,7 @@ const Landing = () => {
 
   return (
     <main id="home" className="relative z-10 w-full h-screen bg-black">
-      
+
       {/* Noise texture */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-50 pointer-events-none"
@@ -33,6 +33,7 @@ const Landing = () => {
             width={1200}
             height={1200}
             className="w-[85vw] lg:w-[65vw] max-w-[640px] object-contain opacity-90"
+
             priority
           />
         </div>
@@ -110,7 +111,8 @@ const Landing = () => {
             alt="projector"
             width={2000}
             height={13}
-            className="h-full w-auto object-contain mix-blend-lighten drop-shadow-2xl pointer-events-none select-none"
+            className="h-full w-auto object-contain mix-blend-lighten drop-shadow-2xl pointer-events-none select-none opacity-80 brightness-[0.85]"
+
             priority
           />
         </div>

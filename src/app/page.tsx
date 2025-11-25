@@ -5,10 +5,8 @@ import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
-import Stats from "@/components/stats/stats";
+// import Stats from "@/components/stats/stats";
 // import LandingToStats from "@/components/features/LandingToStats";
-import { motion } from "framer-motion";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -99,7 +97,7 @@ export default function Home() {
         }
       /> */}
       <Landing />
-      <Stats />
+      {/* <Stats /> */}
       <Sponsors2 />
 
       {/* About section placeholder - vertical scroll continues */}
