@@ -2,6 +2,84 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+/* Ensure full height scrolling */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#__next {
+  height: 100%;
+}
+
+/* Performance optimizations */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GPU acceleration for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Smooth scrolling with hardware acceleration */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optimize images */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom minimal scrollbar for desktop */
+@media (min-width: 768px) {
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  /* Chrome, Edge, Safari */
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
 .firework-particle {
   animation: explode 1s ease-out forwards;
   transform: translate(0, 0) scale(0.5);
@@ -61,7 +139,7 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(0% 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -95,7 +173,7 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
@@ -132,6 +210,9 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    background: black;
+  }
   body {
     @apply bg-background text-foreground;
   }
@@ -142,4 +223,29 @@
          placeholder-white/80 focus:placeholder-transparent 
          outline-none border-b border-[#C8B476] focus:border-[#E3C676] 
          pb-2 sm:pb-3 transition-colors;
+}
+
+/* Phone Input Styles */
+.phone-input-container .PhoneInputInput {
+  @apply w-full bg-transparent border-none outline-none text-white placeholder-white/50;
+}
+
+.phone-input-container {
+  @apply w-full bg-black/20 border border-white/20 rounded-lg p-2 focus-within:border-[#E3C676] transition-colors flex items-center gap-2;
+}
+
+.phone-input-container .PhoneInputCountry {
+  @apply relative mr-2;
+}
+
+.phone-input-container .PhoneInputCountrySelect {
+  @apply bg-black text-white opacity-0 absolute inset-0 w-full h-full cursor-pointer;
+}
+
+.phone-input-container .PhoneInputCountryIcon {
+  @apply block w-6 h-4;
+}
+
+.phone-input-container .PhoneInputCountryIconImg {
+  @apply block w-full h-full object-cover;
 }
