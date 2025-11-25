@@ -3,7 +3,7 @@ import Image from 'next/image'
 const Stats = () => {
   return (
     <section className="h-full w-full object-cover">
-        <Image src="/static/S.png"
+        <Image src="/static/stat1.png"
         alt="Description"
         priority
         className='object-cover'
