@@ -52,7 +52,6 @@ const ApplicationPage = () => {
     }
   >({
     country: "",
-    city: "",
     age: undefined,
     phone: "",
     levelOfStudy: undefined as unknown as LevelOfStudy,
@@ -138,12 +137,6 @@ const ApplicationPage = () => {
     value: string | number | undefined | null,
   ): string => {
     switch (name) {
-      case "city":
-        if (typeof value === "string" && value.length < 2)
-          return "City must be at least 2 characters";
-        if (typeof value === "string" && value.length > 168)
-          return "City must be less than 168 characters";
-        break;
       case "age":
         if (value !== undefined) {
           if (Number(value) < 13) return "You must be at least 13 years old";
@@ -204,9 +197,6 @@ const ApplicationPage = () => {
       case 0: // Personal Information
         return (
           !!formData.country &&
-          !!formData.city &&
-          formData.city.length >= 2 &&
-          formData.city.length <= 168 &&
           !!formData.age &&
           formData.age >= 13 &&
           formData.age <= 120 &&
@@ -546,43 +536,6 @@ const ApplicationPage = () => {
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
-                      City <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="city"
-                      placeholder="Enter your city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      required
-                      minLength={2}
-                      maxLength={168}
-                    />
-                    {errors.city && (
-                      <p className="mt-1 text-xs text-red-500">{errors.city}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Age <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="age"
-                      type="number"
-                      placeholder="Enter your age"
-                      value={formData.age || ""}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      required
-                      min={13}
-                      max={120}
-                    />
-                    {errors.age && (
-                      <p className="mt-1 text-xs text-red-500">{errors.age}</p>
-                    )}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
                       Phone <span className="text-red-500">*</span>
                     </label>
                     <PhoneInput
@@ -604,6 +557,25 @@ const ApplicationPage = () => {
                       <p className="mt-1 text-xs text-red-500">
                         {errors.phone}
                       </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="mb-1 block text-sm font-medium">
+                      Age <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      name="age"
+                      type="number"
+                      placeholder="Enter your age"
+                      value={formData.age || ""}
+                      onChange={handleInputChange}
+                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
+                      required
+                      min={13}
+                      max={120}
+                    />
+                    {errors.age && (
+                      <p className="mt-1 text-xs text-red-500">{errors.age}</p>
                     )}
                   </div>
                 </div>
@@ -897,7 +869,7 @@ const ApplicationPage = () => {
                       className="h-4 w-4 accent-[#E3C676]"
                     />
                     <label className="text-sm font-medium">
-                      Travel Reimbursement Required?
+                      Are you travelling from outside of Queen's University?
                     </label>
                   </div>
                 </div>
