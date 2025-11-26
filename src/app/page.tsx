@@ -5,7 +5,8 @@ import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
-// import Stats from "@/components/stats/stats";
+import Stats from "@/components/stats/stats";
+import FAQ from "@/components/features/faq/faq";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { useEffect, useState } from "react";
 
@@ -99,6 +100,7 @@ export default function Home() {
       <Landing />
       {/* <Stats /> */}
       <Sponsors2 />
+      <FAQ />
 
       {/* About section placeholder - vertical scroll continues */}
       {/* <section id="about" className="min-h-screen">
