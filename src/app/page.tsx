@@ -4,6 +4,7 @@
 import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
+import JoinUs from "@/components/features/join-us/JoinUs";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
 // import Stats from "@/components/stats/stats";
 // import LandingToStats from "@/components/features/LandingToStats";
@@ -24,6 +25,14 @@ export default function Home() {
         e.preventDefault();
       }
     };
+    const preventKeys = (e: KeyboardEvent) => {
+      if (
+        !introComplete &&
+        ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", "Home", "End"].includes(e.key)
+      ) {
+        e.preventDefault();
+      }
+    };
 
     // Lock scroll during intro
     if (!introComplete) {
@@ -36,11 +45,7 @@ export default function Home() {
       // Prevent wheel, touch, and keyboard scrolling
       window.addEventListener('wheel', preventScroll, { passive: false });
       window.addEventListener('touchmove', preventScroll, { passive: false });
-      window.addEventListener('keydown', (e) => {
-        if (['ArrowUp', 'ArrowDown', 'Space', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) {
-          e.preventDefault();
-        }
-      });
+      window.addEventListener('keydown', preventKeys);
     } else {
       document.body.style.overflow = '';
       document.body.style.position = '';
@@ -63,6 +68,7 @@ export default function Home() {
       clearTimeout(timer);
       window.removeEventListener('wheel', preventScroll);
       window.removeEventListener('touchmove', preventScroll);
+      window.removeEventListener('keydown', preventKeys);
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
@@ -98,6 +104,7 @@ export default function Home() {
       /> */}
       <Landing />
       {/* <Stats /> */}
+      <JoinUs />
       <Sponsors2 />
 
       {/* About section placeholder - vertical scroll continues */}

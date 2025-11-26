@@ -40,39 +40,41 @@ const Gallery4 = ({ items }: Gallery4Props) => {
   return (
     <section className="py-8 sm:py-12 md:py-16">
       <div className="w-full flex justify-center">
-        <div className="w-[98vw] sm:w-[92vw] lg:w-[84vw] xl:w-[78vw]">
+        <div className="relative w-[98vw] sm:w-[92vw] lg:w-[84vw] xl:w-[78vw]">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-12 bg-gradient-to-r from-black via-black/40 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-12 bg-gradient-to-l from-black via-black/40 to-transparent" />
           <Carousel
             setApi={setCarouselApi}
             opts={{
               align: "center",
-              containScroll: "trimSnaps",
+              loop: true,
               breakpoints: {
                 "(max-width: 768px)": {
-                  dragFree: true,
+                  dragFree: false,
                 },
               },
             }}
           >
-            <CarouselContent className="ml-0 px-4 sm:px-8 lg:px-10">
+            <CarouselContent className="ml-0 px-4 sm:px-8 lg:px-10 will-change-transform">
               {items.map((item) => (
                 <CarouselItem
                   key={item.id}
-                  className="pl-[16px] lg:pl-[20px] flex justify-center basis-auto"
+                  className="pl-[16px] lg:pl-[20px] flex justify-center basis-auto snap-center"
                 >
                   <a
                     href={item.href}
-                    className="group block rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+                    className="group block rounded-2xl overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.28)]"
                   >
                     <div
-                      className="relative bg-black"
-                      style={{ width: SLIDE_WIDTH, height: SLIDE_HEIGHT }}
+                      className="relative bg-black transform-gpu w-[68vw] sm:w-[56vw] md:w-[48vw] lg:w-[360px] max-w-[360px]"
+                      style={{ aspectRatio: "418 / 645" }}
                     >
                       <Image
                         src={item.image}
                         alt={item.title}
-                        width={SLIDE_WIDTH}
-                        height={SLIDE_HEIGHT}
-                        className="object-contain object-center w-full h-full transition-transform duration-300 group-hover:scale-[1.02]"
+                        fill
+                        sizes="(min-width: 1280px) 420px, (min-width: 1024px) 380px, (min-width: 768px) 60vw, 80vw"
+                        className="object-contain object-center w-full h-full transition-transform duration-150 ease-out group-hover:scale-[1.015] will-change-transform"
                         loading="lazy"
                       />
                     </div>

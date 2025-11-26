@@ -42,7 +42,7 @@ const FilmSprockets = () => (
 
 const Sponsors2 = () => {
   return (
-    <section className="relative w-full min-h-screen md:min-h-[120vh] bg-[#0a0a0a] overflow-hidden flex flex-col items-center justify-center py-12 md:py-24">
+    <section className="relative w-full min-h-screen lg:h-screen bg-[#0a0a0a] overflow-hidden flex flex-col items-center justify-center py-10 md:py-16">
       
       {/* Cinematic Background with Heavy Noise */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -53,8 +53,7 @@ const Sponsors2 = () => {
           fill
           sizes="100vw"
           className="object-cover"
-          quality={100}
-          priority
+          quality={80}
         />
         
         {/* Dark overlay to ensure text readability */}
@@ -110,7 +109,7 @@ const Sponsors2 = () => {
 
 
       {/* Film Strip Carousel 1 */}
-      <div className="w-full relative py-4 rotate-[-6deg] scale-110 transform-gpu my-4 z-10">
+      <div className="w-full relative py-4 rotate-[-4deg] scale-[1.02] transform-gpu my-4 z-10">
          
          <div 
             className="flex overflow-hidden relative z-10 bg-black/90 border-y-4 md:border-y-8 border-black shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
@@ -145,6 +144,8 @@ const Sponsors2 = () => {
                               src={sponsor.logo}
                               alt={sponsor.name}
                               fill
+                              sizes="(max-width: 768px) 160px, 320px"
+                              quality={82}
                               className="object-contain grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
                            />
                         </div>
@@ -177,7 +178,7 @@ const Sponsors2 = () => {
       </div>
 
       {/* Film Strip Carousel 2 */}
-      <div className="w-full relative py-4 rotate-[4deg] scale-110 transform-gpu my-4 z-0">
+      <div className="w-full relative py-4 rotate-[3deg] scale-[1.02] transform-gpu my-4 z-0">
          
          <div 
             className="flex overflow-hidden relative z-10 bg-black/90 border-y-4 md:border-y-8 border-black shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
@@ -210,6 +211,8 @@ const Sponsors2 = () => {
                               src={sponsor.logo}
                               alt={sponsor.name}
                               fill
+                              sizes="(max-width: 768px) 160px, 320px"
+                              quality={82}
                               className="object-contain grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0 transition-all duration-500"
                            />
                         </div>

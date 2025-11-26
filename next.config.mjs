@@ -6,6 +6,9 @@ export default {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    qualities: [65, 75, 80, 82, 85, 88, 90],
+  },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
