@@ -6,6 +6,7 @@ import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
 import Stats from "@/components/stats/stats";
+import FAQ from "@/components/features/faq/faq";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -164,6 +165,7 @@ export default function Home() {
       <Landing />
       <Stats />
       <Sponsors2 />
+      <FAQ />
 
       {/* About section placeholder - vertical scroll continues */}
       {/* <section id="about" className="min-h-screen">
