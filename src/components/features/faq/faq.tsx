@@ -13,62 +13,115 @@ export default function FAQ() {
     { id: 6, image: "/faq6.png" },
   ];
 
-const getBunchedStyle = (index: number) => {
-    // Bunched layout: tickets radiate from center with significant overlap
+  const getBunchedStyle = (index: number) => {
     const positions = [
-      { x: -150, y: -120, rotate: -30 },   // Top left ticket
-      { x: 150, y: -100, rotate: 20 },     // Top right ticket
-      { x: -170, y: -30, rotate: 30 },    // Middle left ticket
-      { x: 160, y: -10, rotate: -30 },      // Middle right ticket
-      { x: -140, y: 80, rotate: -10 },     // Bottom left ticket
-      { x: 150, y: 100, rotate: 10 },      // Bottom right ticket
+      {
+        x: { mobile: -50, desktop: -150 },
+        y: { mobile: -70, desktop: -120 },
+        rotate: -30,
+      }, // Top left ticket
+      {
+        x: { mobile: 80, desktop: 150 },
+        y: { mobile: -60, desktop: -100 },
+        rotate: 20,
+      }, // Top right ticket
+      {
+        x: { mobile: -60, desktop: -170 },
+        y: { mobile: -20, desktop: -30 },
+        rotate: 30,
+      }, // Middle left ticket
+      {
+        x: { mobile: 85, desktop: 160 },
+        y: { mobile: -10, desktop: -10 },
+        rotate: -30,
+      }, // Middle right ticket
+      {
+        x: { mobile: -75, desktop: -140 },
+        y: { mobile: 50, desktop: 80 },
+        rotate: -10,
+      }, // Bottom left ticket
+      {
+        x: { mobile: 80, desktop: 150 },
+        y: { mobile: 60, desktop: 100 },
+        rotate: 20,
+      }, // Bottom right ticket
     ];
-    
+
     const pos = positions[index];
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const x = isMobile ? pos.x.mobile : pos.x.desktop;
+    const y = isMobile ? pos.y.mobile : pos.y.desktop;
+
     return {
-      transform: `translateX(${pos.x}px) translateY(${pos.y}px) rotate(${pos.rotate}deg)`,
+      transform: `translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
       zIndex: 6 - index,
     };
   };
 
   const getFannedStyle = (index: number) => {
-    // Fanned layout: 2x3 grid with proper spacing for 530x400 tickets
+    // Fanned layout: 2x3 grid with proper spacing for tickets
+    // Mobile: smaller spacing and vertical layout, Desktop: larger spacing
     const positions = [
-      { x: -300, y: -250, rotate: 0 },  // Top left
-      { x: 300, y: -250, rotate: 0 },   // Top right
-      { x: -300, y: 0, rotate: 0 },     // Middle left
-      { x: 300, y: 0, rotate: 0 },      // Middle right
-      { x: -300, y: 250, rotate: 0 },   // Bottom left
-      { x: 300, y: 250, rotate: 0 },    // Bottom right
+      {
+        x: { mobile: -120, desktop: -300 },
+        y: { mobile: -180, desktop: -250 },
+        rotate: 0,
+      }, // Top left
+      {
+        x: { mobile: 120, desktop: 300 },
+        y: { mobile: -180, desktop: -250 },
+        rotate: 0,
+      }, // Top right
+      {
+        x: { mobile: -120, desktop: -300 },
+        y: { mobile: 0, desktop: 0 },
+        rotate: 0,
+      }, // Middle left
+      {
+        x: { mobile: 120, desktop: 300 },
+        y: { mobile: 0, desktop: 0 },
+        rotate: 0,
+      }, // Middle right
+      {
+        x: { mobile: -120, desktop: -300 },
+        y: { mobile: 180, desktop: 250 },
+        rotate: 0,
+      }, // Bottom left
+      {
+        x: { mobile: 120, desktop: 300 },
+        y: { mobile: 180, desktop: 250 },
+        rotate: 0,
+      }, // Bottom right
     ];
-    
+
     const pos = positions[index];
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const x = isMobile ? pos.x.mobile : pos.x.desktop;
+    const y = isMobile ? pos.y.mobile : pos.y.desktop;
+
     return {
-      transform: `translateX(${pos.x}px) translateY(${pos.y}px) rotate(${pos.rotate}deg)`,
+      transform: `translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
       zIndex: index,
     };
   };
 
   return (
-    <section className="flex items-center justify-center min-h-screen bg-black">
+    <section className="flex min-h-screen items-center justify-center bg-black px-4">
       <div
-        className="relative cursor-pointer"
-        style={{ width: '800px', height: '700px' }}
+        className="relative h-[500px] w-full max-w-[800px] cursor-pointer md:h-[500px]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {tickets.map((ticket, index) => (
           <div
             key={ticket.id}
-            className="absolute transition-all duration-700 ease-out"
+            className="absolute h-[155px] w-[200px] transition-all duration-700 ease-out sm:h-[220px] sm:w-[280px] md:h-[350px] md:w-[450px]"
             style={{
-              left: '50%',
-              top: '60%',
-              width: '450px',
-              height: '350px',
-              marginLeft: '-265px',
-              marginTop: '-200px',
-              ...(isHovered ? getFannedStyle(index) : getBunchedStyle(index))
+              left: "50%",
+              top: "80%",
+              marginLeft: "calc(-50% / 2)",
+              marginTop: "calc(-60% / 2)",
+              ...(isHovered ? getFannedStyle(index) : getBunchedStyle(index)),
             }}
           >
             <Image
