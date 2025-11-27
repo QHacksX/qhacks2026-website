@@ -2,12 +2,11 @@
 
 // import Intro from "@/components/features/intro/intro";
 import NowPresenting from "@/components/features/NowPresenting";
+import FAQ from "@/components/features/faq/faq";
+import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
-import JoinUs from "@/components/features/join-us/JoinUs";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
-import Stats from "@/components/stats/stats";
-import FAQ from "@/components/features/faq/faq";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { useEffect, useState } from "react";
 

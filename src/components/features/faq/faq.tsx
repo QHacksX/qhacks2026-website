@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
+
 export default function FAQ() {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Replace these with your actual ticket image URLs
   const tickets = [
     { id: 1, image: "/faq1.png" },
     { id: 2, image: "/faq2.png" },
@@ -15,36 +15,12 @@ export default function FAQ() {
 
   const getBunchedStyle = (index: number) => {
     const positions = [
-      {
-        x: { mobile: -50, desktop: -150 },
-        y: { mobile: -70, desktop: -120 },
-        rotate: -30,
-      }, // Top left ticket
-      {
-        x: { mobile: 80, desktop: 150 },
-        y: { mobile: -60, desktop: -100 },
-        rotate: 20,
-      }, // Top right ticket
-      {
-        x: { mobile: -60, desktop: -170 },
-        y: { mobile: -20, desktop: -30 },
-        rotate: 30,
-      }, // Middle left ticket
-      {
-        x: { mobile: 85, desktop: 160 },
-        y: { mobile: -10, desktop: -10 },
-        rotate: -30,
-      }, // Middle right ticket
-      {
-        x: { mobile: -75, desktop: -140 },
-        y: { mobile: 50, desktop: 80 },
-        rotate: -10,
-      }, // Bottom left ticket
-      {
-        x: { mobile: 80, desktop: 150 },
-        y: { mobile: 60, desktop: 100 },
-        rotate: 20,
-      }, // Bottom right ticket
+      { x: { mobile: -40, desktop: -80 }, y: { mobile: -40, desktop: -60 }, rotate: -30 },
+      { x: { mobile: 40,  desktop: 80 },  y: { mobile: -30, desktop: -50 }, rotate: 20 },
+      { x: { mobile: -50, desktop: -90 }, y: { mobile: 0,  desktop: -10 }, rotate: 30 },
+      { x: { mobile: 50,  desktop: 90 },  y: { mobile: 10, desktop: 0 },  rotate: -30 },
+      { x: { mobile: -60, desktop: -80 }, y: { mobile: 60, desktop: 60 }, rotate: -10 },
+      { x: { mobile: 60,  desktop: 80 },  y: { mobile: 70, desktop: 70 }, rotate: 20 },
     ];
 
     const pos = positions[index];
@@ -53,74 +29,89 @@ export default function FAQ() {
     const y = isMobile ? pos.y.mobile : pos.y.desktop;
 
     return {
-      transform: `translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
+      transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
       zIndex: 6 - index,
     };
   };
 
-  const getFannedStyle = (index: number) => {
-    // Fanned layout: 2x3 grid with proper spacing for tickets
-    // Mobile: smaller spacing and vertical layout, Desktop: larger spacing
-    const positions = [
-      {
-        x: { mobile: -120, desktop: -300 },
-        y: { mobile: -180, desktop: -250 },
-        rotate: 0,
-      }, // Top left
-      {
-        x: { mobile: 120, desktop: 300 },
-        y: { mobile: -180, desktop: -250 },
-        rotate: 0,
-      }, // Top right
-      {
-        x: { mobile: -120, desktop: -300 },
-        y: { mobile: 0, desktop: 0 },
-        rotate: 0,
-      }, // Middle left
-      {
-        x: { mobile: 120, desktop: 300 },
-        y: { mobile: 0, desktop: 0 },
-        rotate: 0,
-      }, // Middle right
-      {
-        x: { mobile: -120, desktop: -300 },
-        y: { mobile: 180, desktop: 250 },
-        rotate: 0,
-      }, // Bottom left
-      {
-        x: { mobile: 120, desktop: 300 },
-        y: { mobile: 180, desktop: 250 },
-        rotate: 0,
-      }, // Bottom right
-    ];
+const getFannedStyle = (index: number) => {
+  const positions = [
+    {
+      // top left
+      x: { mobile: -70, desktop: -260 },
+      y: { mobile: -120, desktop: -240 },
+      rotate: 0,
+    },
+    {
+      // top right
+      x: { mobile: 70, desktop: 260 },
+      y: { mobile: -120, desktop: -240 },
+      rotate: 0,
+    },
+    {
+      // middle left
+      x: { mobile: -70, desktop: -260 },
+      y: { mobile: 0, desktop: 0 },
+      rotate: 0,
+    },
+    {
+      // middle right
+      x: { mobile: 70, desktop: 260 },
+      y: { mobile: 0, desktop: 0 },
+      rotate: 0,
+    },
+    {
+      // bottom left
+      x: { mobile: -70, desktop: -260 },
+      y: { mobile: 120, desktop: 240 },
+      rotate: 0,
+    },
+    {
+      // bottom right
+      x: { mobile: 70, desktop: 260 },
+      y: { mobile: 120, desktop: 240 },
+      rotate: 0,
+    },
+  ];
 
-    const pos = positions[index];
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const x = isMobile ? pos.x.mobile : pos.x.desktop;
-    const y = isMobile ? pos.y.mobile : pos.y.desktop;
+  const pos = positions[index];
+  const isMobile =
+    typeof window !== "undefined" && window.innerWidth < 768;
 
-    return {
-      transform: `translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
-      zIndex: index,
-    };
+  const x = isMobile ? pos.x.mobile : pos.x.desktop;
+  const y = isMobile ? pos.y.mobile : pos.y.desktop;
+
+  return {
+    transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(0deg)`,
+    zIndex: index,
   };
+};
+
+
+
 
   return (
     <section className="flex min-h-screen items-center justify-center bg-black px-4">
       <div
-        className="relative h-[500px] w-full max-w-[800px] cursor-pointer md:h-[500px]"
+        className="relative h-[680px] w-full max-w-[900px] cursor-pointer md:h-[780px] lg:h-[880px] overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {tickets.map((ticket, index) => (
           <div
             key={ticket.id}
-            className="absolute h-[155px] w-[200px] transition-all duration-700 ease-out sm:h-[220px] sm:w-[280px] md:h-[350px] md:w-[450px]"
+            className="
+              absolute
+              transition-all duration-700 ease-out
+              h-[150px]  w-[230px]      /* mobile */
+              sm:h-[190px] sm:w-[280px] /* small screens */
+              md:h-[230px] md:w-[340px] /* tablets */
+              lg:h-[270px] lg:w-[400px] /* desktop */
+              xl:h-[300px] xl:w-[440px] /* large desktop */
+            "
             style={{
               left: "50%",
-              top: "80%",
-              marginLeft: "calc(-50% / 2)",
-              marginTop: "calc(-60% / 2)",
+              top: "50%",
               ...(isHovered ? getFannedStyle(index) : getBunchedStyle(index)),
             }}
           >
