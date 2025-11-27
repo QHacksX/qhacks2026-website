@@ -1,6 +1,6 @@
 {
   "quoteProps": "consistent",
-  "endOfLine": "crlf",
+  "endOfLine": "auto",
   "printWidth": 125,
   "useTabs": false,
   "tabWidth": 2,
