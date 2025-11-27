@@ -32,20 +32,10 @@ jobs:
           cache: pnpm
 
       - name: Export Environment Variables
-        id: export-next-public-env
         run: |
-          printenv | grep '^NEXT_PUBLIC_' > .next_public_env || true
-          while IFS= read -r line; do
-            echo "$line" >> $GITHUB_ENV
-          done < .next_public_env
+          printenv | grep '^NEXT_PUBLIC_' >> $GITHUB_ENV
 
       - name: Install and Build Artifacts
-        env:
-          # Expose all NEXT_PUBLIC_* env vars to the build
-          # (GitHub automatically exposes repo-level and org-level env vars)
-          # This will also include any set in the workflow or repository settings
-          # shellcheck disable=SC2046
-          $(cat .next_public_env | sed 's/=.*//g' | xargs -I{} echo '{}=${{ env.{} }}' | tr '\n' ' ')
         run: |
           # Prevent supply chain attack by installing packages before pulling PR
           pnpm install --frozen-lockfile --production=false
@@ -61,10 +51,6 @@ jobs:
       - name: Deploy Site
         id: deploy
         uses: cloudflare/wrangler-action@v3
-        env:
-          # Expose all NEXT_PUBLIC_* env vars to the deploy step
-          # shellcheck disable=SC2046
-          $(cat .next_public_env | sed 's/=.*//g' | xargs -I{} echo '{}=${{ env.{} }}' | tr '\n' ' ')
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
