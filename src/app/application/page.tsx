@@ -250,10 +250,10 @@ const ApplicationPage = () => {
   useEffect(() => {
     if (!_hasHydrated) return;
 
-    if (!isAuthenticated || !user) {
-      router.replace("/login?redirect_to=/application");
-      return;
-    }
+    // if (!isAuthenticated || !user) {
+    //   router.replace("/login?redirect_to=/application");
+    //   return;
+    // }
 
     const loadData = async () => {
       try {
@@ -392,7 +392,7 @@ const ApplicationPage = () => {
           <div className="flex items-center justify-center py-20">
             <CgSpinner className="animate-spin text-6xl text-[#E3C676]" />
           </div>
-        ) : !hasFlag(user, UserFlags.VerifiedEmail) ? (
+        ) : /* !hasFlag(user, UserFlags.VerifiedEmail) ? (
           <div className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
             <div className="flex justify-center">
               <IoIosWarning className="text-6xl text-[#E3C676]" />
@@ -409,7 +409,7 @@ const ApplicationPage = () => {
               {isResendingEmail ? "Sending..." : "Resend Verification Email"}
             </button>
           </div>
-        ) : existingApplication ? (
+        ) : */ existingApplication ? (
           <div className="space-y-8 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
             {isSubmitted && (
               <div className="space-y-2 rounded-xl border border-green-500/50 bg-green-500/10 p-6 text-center">
