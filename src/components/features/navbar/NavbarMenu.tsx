@@ -22,7 +22,7 @@ const NavbarMenu = () => {
     { name: "What's New", href: "#news" },
     { name: "Sponsors", href: "#sponsors" },
     { name: "FAQ", href: "#faq" },
-    { name: "2024", href: "#2024" },
+    { name: "2025", href: "https://2025.qhacks.io" },
   ];
 
   const socialLinks = [

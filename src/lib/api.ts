@@ -215,7 +215,6 @@ export interface ApplicationQuestions {
 
 export interface ApplicationCreatePayload {
   country: string;
-  city: string;
   age: number;
   phone: string;
   levelOfStudy: LevelOfStudy;
