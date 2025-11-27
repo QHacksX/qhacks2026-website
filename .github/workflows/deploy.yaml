@@ -31,10 +31,6 @@ jobs:
           node-version: 23
           cache: pnpm
 
-      - name: Export Environment Variables
-        run: |
-          printenv | grep '^NEXT_PUBLIC_' >> $GITHUB_ENV
-
       - name: Install and Build Artifacts
         run: |
           # Prevent supply chain attack by installing packages before pulling PR
@@ -60,9 +56,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
           PROJECT_NAME: "qhacks-2026"
-
           DEPLOYMENT_DESCRIPTION: ${{ github.event_name == 'push' &&  github.event.head_commit.message || github.event.pull_request.title }}
         with:
           script: |
