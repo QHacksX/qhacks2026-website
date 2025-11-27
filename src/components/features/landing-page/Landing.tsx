@@ -15,16 +15,15 @@ const Landing = () => {
   }, []);
 
   return (
-    <main id="home" className="relative z-10 w-full h-screen bg-black">
-
+    <main id="home" className="relative z-10 h-screen w-full bg-black">
       {/* Noise texture */}
       <div
-        className="absolute inset-0 bg-cover bg-center opacity-50 pointer-events-none"
+        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"
         style={{ backgroundImage: `url('/static/noise.png')` }}
         aria-hidden="true"
       />
 
-      <div className="w-full lg:w-[70%] h-full relative flex items-center justify-center px-4 lg:px-0">
+      <div className="relative flex h-full w-full items-center justify-center px-4 lg:w-[70%] lg:px-0">
         {/* Glow background - at the back (z-10) */}
         <div className="absolute inset-0 z-10 flex items-center justify-center">
           <Image
@@ -32,7 +31,7 @@ const Landing = () => {
             alt="glowing ellipse"
             width={1200}
             height={1200}
-            className="w-[85vw] lg:w-[65vw] max-w-[640px] object-contain opacity-90"
+            className="w-[85vw] max-w-[640px] object-contain opacity-90 lg:w-[65vw]"
             quality={88}
             sizes="(min-width: 1024px) 65vw, 85vw"
           />
@@ -45,7 +44,7 @@ const Landing = () => {
             alt="QHacks crown"
             width={600}
             height={500}
-            className="w-[320px] sm:w-[420px] md:w-[480px] lg:w-[520px] pointer-events-none mix-blend-screen -translate-y-3 sm:-translate-y-4 opacity-70"
+            className="pointer-events-none w-[320px] -translate-y-3 opacity-70 mix-blend-screen sm:w-[420px] sm:-translate-y-4 md:w-[480px] lg:w-[520px]"
             priority
             quality={90}
             sizes="(min-width: 1024px) 520px, (min-width: 768px) 480px, (min-width: 640px) 420px, 320px"
@@ -53,50 +52,42 @@ const Landing = () => {
         </div>
 
         {/* QHacks 2026 text and actions - on top (z-30) */}
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 pointer-events-none text-center translate-y-8 sm:translate-y-10">
+        <div className="pointer-events-none absolute inset-0 z-30 flex translate-y-8 flex-col items-center justify-center gap-5 text-center sm:translate-y-10">
           <div className="flex flex-col items-center gap-1">
             <h1
-              className="text-[#e7dfcf] font-bold text-[44px] sm:text-[56px] md:text-[68px] lg:text-[76px] leading-tight tracking-tight"
+              className="text-[44px] leading-tight font-bold tracking-tight text-[#e7dfcf] sm:text-[56px] md:text-[68px] lg:text-[76px]"
               style={{ fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif" }}
             >
               QHacks
             </h1>
             <p
-              className="text-[#c3a046] font-semibold text-[30px] sm:text-[40px] md:text-[50px] lg:text-[58px] leading-tight tracking-tight"
+              className="text-[30px] leading-tight font-semibold tracking-tight text-[#c3a046] sm:text-[40px] md:text-[50px] lg:text-[58px]"
               style={{ fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif" }}
             >
               2026
             </p>
           </div>
 
-          <div className="flex flex-col items-center pointer-events-auto gap-3">
+          <div className="pointer-events-auto flex flex-col items-center gap-3">
             <Link
               href={mounted && isAuthenticated ? "/application" : "/register"}
-              className="
-                rounded-full border border-[#F4D389]
-                px-9 py-2.5 text-base font-semibold tracking-wide
-                text-[#f4d389]
-                bg-transparent
-                hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]
-                transition
-                shadow-[0_10px_40px_rgba(244,211,137,0.2)]
-              "
+              className="rounded-full border border-[#F4D389] bg-transparent px-9 py-2.5 text-base font-semibold tracking-wide text-[#f4d389] shadow-[0_10px_40px_rgba(244,211,137,0.2)] transition hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]"
             >
               {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
             </Link>
             {mounted && isAuthenticated ? (
-              <div className="text-center space-y-2">
+              <div className="space-y-2 text-center">
                 <button
                   onClick={() => logout()}
-                  className="text-[#F4D389] text-base font-semibold hover:underline hover:cursor-pointer"
+                  className="text-base font-semibold text-[#F4D389] hover:cursor-pointer hover:underline"
                 >
                   Logout
                 </button>
               </div>
             ) : (
-              <div className="text-center space-y-1">
-                <p className="text-white text-sm sm:text-base font-medium">Already have an account?</p>
-                <Link href="/login" className="text-[#c3a046] text-base font-semibold hover:underline">
+              <div className="space-y-1 text-center">
+                <p className="text-sm font-medium text-white sm:text-base">Already have an account?</p>
+                <Link href="/login" className="text-base font-semibold text-[#c3a046] hover:underline">
                   Login
                 </Link>
               </div>
@@ -106,20 +97,19 @@ const Landing = () => {
       </div>
 
       {/* RIGHT SIDE – Projector */}
-      <div className="hidden lg:flex w-[30%] h-full items-end justify-end">
+      <div className="hidden h-full w-[30%] items-end justify-end lg:flex">
         <div className="absolute top-0 right-0 h-full w-auto">
           <Image
             src="/static/projector.svg"
             alt="projector"
             width={2000}
             height={13}
-            className="h-full w-auto object-contain mix-blend-lighten drop-shadow-2xl pointer-events-none select-none opacity-80 brightness-[0.85]"
+            className="pointer-events-none h-full w-auto object-contain opacity-80 mix-blend-lighten brightness-[0.85] drop-shadow-2xl select-none"
             quality={82}
             sizes="(min-width: 1024px) 30vw, 60vw"
           />
         </div>
       </div>
-
     </main>
   );
 };

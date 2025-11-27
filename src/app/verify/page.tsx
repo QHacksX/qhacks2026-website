@@ -13,9 +13,7 @@ import AnimatedStars from "@/components/ui/3d-models/Star";
 export default function VerifyPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
-  const [status, setStatus] = useState<"loading" | "success" | "error">(
-    "loading",
-  );
+  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
 
   useEffect(() => {
     const verifyToken = async () => {
@@ -57,25 +55,17 @@ export default function VerifyPage() {
           <>
             <CgSpinner className="mx-auto animate-spin text-6xl text-[#E3C676]" />
             <h1 className="text-2xl font-semibold">Verifying Email...</h1>
-            <p className="text-white/70">
-              Please wait while we verify your email address.
-            </p>
+            <p className="text-white/70">Please wait while we verify your email address.</p>
           </>
         )}
 
         {status === "success" && (
           <>
             <IoIosCheckmarkCircle className="mx-auto text-6xl text-green-500" />
-            <h1 className="text-2xl font-semibold text-green-500">
-              Email Verified!
-            </h1>
-            <p className="text-white/70">
-              Your email has been successfully verified.
-            </p>
+            <h1 className="text-2xl font-semibold text-green-500">Email Verified!</h1>
+            <p className="text-white/70">Your email has been successfully verified.</p>
             <button
-              onClick={() =>
-                router.push((isAuthenticated ? "/" : "/login") as Route)
-              }
+              onClick={() => router.push((isAuthenticated ? "/" : "/login") as Route)}
               className="inline-block w-full rounded-xl bg-[#E3C676] px-6 py-3 font-bold text-black transition-transform hover:scale-[1.02]"
             >
               {isAuthenticated ? "Return Home" : "Login"}
@@ -86,12 +76,8 @@ export default function VerifyPage() {
         {status === "error" && (
           <>
             <IoIosCloseCircle className="mx-auto text-6xl text-red-500" />
-            <h1 className="text-2xl font-semibold text-red-500">
-              Verification Failed
-            </h1>
-            <p className="text-white/70">
-              The verification link is invalid or has expired.
-            </p>
+            <h1 className="text-2xl font-semibold text-red-500">Verification Failed</h1>
+            <p className="text-white/70">The verification link is invalid or has expired.</p>
             <button
               onClick={() => router.push("/")}
               className="inline-block w-full rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition-colors hover:bg-white/20"

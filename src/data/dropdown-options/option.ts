@@ -29,13 +29,7 @@ const levelsOfStudy = [
   { value: 4, label: "Other" },
 ];
 
-const shirtSizes = [
-  { value: "XS" },
-  { value: "S" },
-  { value: "M" },
-  { value: "L" },
-  { value: "XL" },
-];
+const shirtSizes = [{ value: "XS" }, { value: "S" }, { value: "M" }, { value: "L" }, { value: "XL" }];
 
 const genders = [
   { value: "", label: "Prefer not to say" },

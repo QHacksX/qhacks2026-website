@@ -2,12 +2,7 @@
 
 import * as React from "react";
 import "keen-slider/keen-slider.min.css";
-import {
-  useKeenSlider,
-  type KeenSliderInstance,
-  type KeenSliderOptions,
-  type KeenSliderPlugin,
-} from "keen-slider/react";
+import { useKeenSlider, type KeenSliderInstance, type KeenSliderOptions, type KeenSliderPlugin } from "keen-slider/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -58,14 +53,8 @@ function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
   };
 }
 
-const Carousel = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & CarouselProps
->(
-  (
-    { orientation = "horizontal", opts, setApi, plugins, className, children, ...props },
-    ref,
-  ) => {
+const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & CarouselProps>(
+  ({ orientation = "horizontal", opts, setApi, plugins, className, children, ...props }, ref) => {
     const [slider, setSlider] = React.useState<KeenSliderInstance | null>(null);
     const [canScrollPrev, setCanScrollPrev] = React.useState(true);
     const [canScrollNext, setCanScrollNext] = React.useState(true);
@@ -79,7 +68,7 @@ const Carousel = React.forwardRef<
       const details = slider.track.details;
       if (!details) return;
       const nextPrev = details.rel > 0;
-      const nextNext = details.rel < details.slides.length - details.size;
+      const nextNext = details.rel < details.slides.length - details.length;
       setCanScrollPrev((prev) => (prev === nextPrev ? prev : nextPrev));
       setCanScrollNext((prev) => (prev === nextNext ? prev : nextNext));
     }, []);
@@ -96,7 +85,7 @@ const Carousel = React.forwardRef<
           origin: "center",
           perView: "auto",
           spacing: 16,
-          ...(slides ?? {}),
+          ...((slides as object) ?? {}),
         },
         created(slider) {
           setSlider((prev) => (prev === slider ? prev : slider));
@@ -114,10 +103,7 @@ const Carousel = React.forwardRef<
       };
     }, [opts, orientation, updateCanScroll]);
 
-    const [carouselRef, instanceRef] = useKeenSlider<HTMLDivElement>(
-      mergedOptions,
-      plugins,
-    );
+    const [carouselRef, instanceRef] = useKeenSlider<HTMLDivElement>(mergedOptions, plugins);
     const api = slider ?? instanceRef.current;
 
     React.useEffect(() => {
@@ -183,11 +169,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
       <div className="overflow-hidden">
         <div
           ref={mergedRef}
-          className={cn(
-            "keen-slider",
-            orientation === "vertical" && "keen-slider--vertical",
-            className,
-          )}
+          className={cn("keen-slider", orientation === "vertical" && "keen-slider--vertical", className)}
           {...props}
         />
       </div>
@@ -221,9 +203,7 @@ const CarouselPrevious = React.forwardRef<HTMLButtonElement, React.ComponentProp
         size={size}
         className={cn(
           "absolute h-8 w-8 rounded-full",
-          orientation === "horizontal"
-            ? "-left-12 top-1/2 -translate-y-1/2"
-            : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          orientation === "horizontal" ? "top-1/2 -left-12 -translate-y-1/2" : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
           className,
         )}
         disabled={!canScrollPrev}
@@ -249,7 +229,7 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
         className={cn(
           "absolute h-8 w-8 rounded-full",
           orientation === "horizontal"
-            ? "-right-12 top-1/2 -translate-y-1/2"
+            ? "top-1/2 -right-12 -translate-y-1/2"
             : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
           className,
         )}
@@ -265,11 +245,4 @@ const CarouselNext = React.forwardRef<HTMLButtonElement, React.ComponentProps<ty
 );
 CarouselNext.displayName = "CarouselNext";
 
-export {
-  type CarouselApi,
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-};
+export { type CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext };

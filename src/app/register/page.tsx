@@ -58,11 +58,7 @@ const RegisterForm = () => {
 
     if (!email) {
       newErrors.email = "Email is required";
-    } else if (
-      email.length < 5 ||
-      email.length > 255 ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+    } else if (email.length < 5 || email.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Invalid email address";
     }
 
@@ -130,11 +126,7 @@ const RegisterForm = () => {
             Sign Up
           </h1>
 
-          <form
-            onSubmit={handleForm}
-            className="space-y-4 sm:space-y-6"
-            noValidate
-          >
+          <form onSubmit={handleForm} className="space-y-4 sm:space-y-6" noValidate>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="w-full">
                 <label
@@ -148,20 +140,14 @@ const RegisterForm = () => {
                   id="givenName"
                   type="text"
                   className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                    errors.givenName
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-[#C8B476] focus:border-[#E3C676]"
+                    errors.givenName ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                   } rounded-lg p-3 transition-colors`}
                   autoComplete="given-name"
                   required
                   value={givenName}
                   maxLength={100}
                 />
-                {errors.givenName && (
-                  <p className="mt-1 text-sm text-red-500">
-                    {errors.givenName}
-                  </p>
-                )}
+                {errors.givenName && <p className="mt-1 text-sm text-red-500">{errors.givenName}</p>}
               </div>
               <div className="w-full">
                 <label
@@ -175,18 +161,14 @@ const RegisterForm = () => {
                   id="surname"
                   type="text"
                   className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                    errors.surname
-                      ? "border-red-500 focus:border-red-500"
-                      : "border-[#C8B476] focus:border-[#E3C676]"
+                    errors.surname ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                   } rounded-lg p-3 transition-colors`}
                   autoComplete="family-name"
                   required
                   value={surname}
                   maxLength={100}
                 />
-                {errors.surname && (
-                  <p className="mt-1 text-sm text-red-500">{errors.surname}</p>
-                )}
+                {errors.surname && <p className="mt-1 text-sm text-red-500">{errors.surname}</p>}
               </div>
             </div>
 
@@ -202,17 +184,13 @@ const RegisterForm = () => {
                 id="email"
                 type="email"
                 className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.email
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-[#C8B476] focus:border-[#E3C676]"
+                  errors.email ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                 } rounded-lg p-3 transition-colors`}
                 autoComplete="email"
                 required
                 value={email}
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
             </div>
 
             <div className="w-full">
@@ -227,26 +205,20 @@ const RegisterForm = () => {
                 id="password"
                 type="password"
                 className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.password
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-[#C8B476] focus:border-[#E3C676]"
+                  errors.password ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                 } rounded-lg p-3 transition-colors`}
                 autoComplete="new-password"
                 required
                 value={password}
                 maxLength={128}
               />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-              )}
+              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
             </div>
 
             {generalError && (
               <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
                 <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                <p className="text-left text-sm font-medium text-red-500">
-                  {generalError}
-                </p>
+                <p className="text-left text-sm font-medium text-red-500">{generalError}</p>
               </div>
             )}
 
@@ -288,10 +260,7 @@ const RegisterForm = () => {
           <div className="mt-6 text-center sm:mt-8">
             <p className="text-base text-white sm:text-lg">
               Already have an account?{" "}
-              <Link
-                href="/login"
-                className="underline underline-offset-4 transition-colors hover:text-[#E3C676]"
-              >
+              <Link href="/login" className="underline underline-offset-4 transition-colors hover:text-[#E3C676]">
                 Login!
               </Link>
             </p>

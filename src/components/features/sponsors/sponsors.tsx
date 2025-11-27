@@ -1,27 +1,21 @@
-import Image from 'next/image'
+import Image from "next/image";
 
 const Sponsors = () => {
   return (
-    <section className="relative w-full min-h-screen overflow-hidden block">
-        {/* Background */}
-        <Image 
-          src="/sponsors-assets/sponsors-bg.jpg" 
-          alt="Sponsors Background"
-          fill
-          priority
-          className='object-fill'
-        />
+    <section className="relative block min-h-screen w-full overflow-hidden">
+      {/* Background */}
+      <Image src="/sponsors-assets/sponsors-bg.jpg" alt="Sponsors Background" fill priority className="object-fill" />
 
-        {/* Black tape overlay */}
-        <Image 
-          src="/sponsors-assets/blacktapenew (1).png" 
-          alt="Black tape overlay"
-          fill
-          priority
-          className='object-fill z-10'
-        />
-        
-        {/* Top black tape - angled
+      {/* Black tape overlay */}
+      <Image
+        src="/sponsors-assets/blacktapenew (1).png"
+        alt="Black tape overlay"
+        fill
+        priority
+        className="z-10 object-fill"
+      />
+
+      {/* Top black tape - angled
         <div className="absolute top-[5%] left-0 w-full -rotate-2 transform">
           <Image 
             src="/sponsors-assets/blacktape1.png" 
@@ -33,7 +27,7 @@ const Sponsors = () => {
         </div>
         
         {/* Bottom black tape - angled opposite direction */}
-        {/* <div className="absolute bottom-[-21%] left-[5%] w-full rotate-2 transform">
+      {/* <div className="absolute bottom-[-21%] left-[5%] w-full rotate-2 transform">
           <Image 
             src="/sponsors-assets/blacktape2.png" 
             alt="Film strip decoration"
@@ -44,7 +38,7 @@ const Sponsors = () => {
         </div>
 
         {/* Interested in Partnering card - top right */}
-        {/* <div className="absolute top-[-0.1%] right-[0%] z-10">
+      {/* <div className="absolute top-[-0.1%] right-[0%] z-10">
           <Image 
             src="/sponsors-assets/interested-in-partnering.png" 
             alt="Interested in Partnering?"
@@ -55,7 +49,7 @@ const Sponsors = () => {
         </div>
 
         {/* Honouring our Past Sponsors card - bottom left */}
-        {/* <div className="absolute bottom-[0%] left-[0%] z-10 w-[80%]">
+      {/* <div className="absolute bottom-[0%] left-[0%] z-10 w-[80%]">
           <Image 
             src="/sponsors-assets/honouring-our-past-sponsors.png" 
             alt="Honouring our Past Sponsors"
@@ -65,8 +59,7 @@ const Sponsors = () => {
           />
         </div> */}
     </section>
-  )
-}
+  );
+};
 
-export default Sponsors
-
+export default Sponsors;

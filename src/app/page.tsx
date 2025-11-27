@@ -18,7 +18,7 @@ export default function Home() {
     window.scrollTo(0, 0);
     // Prevent layout shift when scrollbar appears after intro
     document.documentElement.style.scrollbarGutter = "stable both-edges";
-    
+
     // Prevent all scrolling during intro
     const preventScroll = (e: Event) => {
       if (!introComplete) {
@@ -26,55 +26,52 @@ export default function Home() {
       }
     };
     const preventKeys = (e: KeyboardEvent) => {
-      if (
-        !introComplete &&
-        ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", "Home", "End"].includes(e.key)
-      ) {
+      if (!introComplete && ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", "Home", "End"].includes(e.key)) {
         e.preventDefault();
       }
     };
 
     // Lock scroll during intro
     if (!introComplete) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.position = 'fixed';
-      document.body.style.width = '100%';
-      document.body.style.height = '100%';
-      document.body.style.touchAction = 'none';
-      
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.height = "100%";
+      document.body.style.touchAction = "none";
+
       // Prevent wheel, touch, and keyboard scrolling
-      window.addEventListener('wheel', preventScroll, { passive: false });
-      window.addEventListener('touchmove', preventScroll, { passive: false });
-      window.addEventListener('keydown', preventKeys);
+      window.addEventListener("wheel", preventScroll, { passive: false });
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+      window.addEventListener("keydown", preventKeys);
     } else {
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      document.body.style.touchAction = '';
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
     }
 
     // Unlock scroll after intro animation completes (5.5 seconds total)
     const timer = setTimeout(() => {
       setIntroComplete(true);
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      document.body.style.touchAction = '';
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
     }, 5500);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener('wheel', preventScroll);
-      window.removeEventListener('touchmove', preventScroll);
-      window.removeEventListener('keydown', preventKeys);
-      document.body.style.overflow = '';
-      document.body.style.position = '';
-      document.body.style.width = '';
-      document.body.style.height = '';
-      document.body.style.touchAction = '';
-      document.documentElement.style.scrollbarGutter = '';
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventKeys);
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
+      document.documentElement.style.scrollbarGutter = "";
     };
   }, [introComplete]);
 
@@ -82,12 +79,12 @@ export default function Home() {
     <main className="relative w-full bg-black">
       {/* Noise texture overlay */}
       {/* <Intro /> */}
-      
+
       {/* Top Horizontal Navbar */}
       <NavbarMenu />
-      
+
       <NowPresenting />
-      
+
       {/* Horizontal scroll transition from Landing -> Stats */}
       {/* <LandingToStats 
         enabled={introComplete}

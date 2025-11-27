@@ -26,12 +26,7 @@ import { DropdownTypes, dropdownOptions } from "@/data/dropdown-options/option";
 
 const ApplicationPage = () => {
   const router = useRouter();
-  const {
-    isAuthenticated,
-    _hasHydrated,
-    user,
-    update: updateUser,
-  } = useAuthStore();
+  const { isAuthenticated, _hasHydrated, user, update: updateUser } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [schools, setSchools] = useState<string[]>([]);
@@ -39,8 +34,7 @@ const ApplicationPage = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Application State
-  const [existingApplication, setExistingApplication] =
-    useState<Application | null>(null);
+  const [existingApplication, setExistingApplication] = useState<Application | null>(null);
   const [isResendingEmail, setIsResendingEmail] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -96,10 +90,7 @@ const ApplicationPage = () => {
   ];
 
   const schoolOptions = useMemo(
-    () => [
-      { value: "", label: "Not Listed" },
-      ...schools.map((s) => ({ value: s })),
-    ],
+    () => [{ value: "", label: "Not Listed" }, ...schools.map((s) => ({ value: s }))],
     [schools],
   );
 
@@ -109,9 +100,7 @@ const ApplicationPage = () => {
     customOptions?: OptionType[],
   ): OptionType | null => {
     if (value === undefined || value === null) return null;
-    const options =
-      customOptions ||
-      (type !== undefined ? dropdownOptions.get(type)?.options : []);
+    const options = customOptions || (type !== undefined ? dropdownOptions.get(type)?.options : []);
 
     const foundOption = options?.find((o) => o.value === value);
     if (foundOption) return foundOption;
@@ -132,10 +121,7 @@ const ApplicationPage = () => {
   };
 
   // @eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const validateField = (
-    name: string,
-    value: string | number | undefined | null,
-  ): string => {
+  const validateField = (name: string, value: string | number | undefined | null): string => {
     switch (name) {
       case "age":
         if (value !== undefined) {
@@ -144,16 +130,13 @@ const ApplicationPage = () => {
         }
         break;
       case "phone":
-        if (typeof value === "string" && value && !isValidPhoneNumber(value))
-          return "Invalid phone number";
+        if (typeof value === "string" && value && !isValidPhoneNumber(value)) return "Invalid phone number";
         break;
       case "schoolEmail":
         if (typeof value === "string" && value) {
           if (value.length < 5) return "Email must be at least 5 characters";
-          if (value.length > 255)
-            return "Email must be less than 255 characters";
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
-            return "Invalid email address";
+          if (value.length > 255) return "Email must be less than 255 characters";
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) return "Invalid email address";
         }
         break;
       case "githubUrl":
@@ -162,23 +145,19 @@ const ApplicationPage = () => {
         if (typeof value === "string" && value) {
           if (value.length < 5) return "URL must be at least 5 characters";
           if (value.length > 255) return "URL must be less than 255 characters";
-          if (!/^https?:\/\//.test(value))
-            return "URL must start with http:// or https://";
+          if (!/^https?:\/\//.test(value)) return "URL must start with http:// or https://";
         }
         break;
       case "major":
       case "sexualIdentity":
-        if (typeof value === "string" && value && value.length > 64)
-          return "Must be less than 64 characters";
+        if (typeof value === "string" && value && value.length > 64) return "Must be less than 64 characters";
         break;
       case "pronouns":
-        if (typeof value === "string" && value && value.length > 16)
-          return "Must be less than 16 characters";
+        if (typeof value === "string" && value && value.length > 16) return "Must be less than 16 characters";
         break;
       case "dietaryRestrictions":
       case "ethnicity":
-        if (typeof value === "string" && value && value.length > 255)
-          return "Must be less than 255 characters";
+        if (typeof value === "string" && value && value.length > 255) return "Must be less than 255 characters";
         break;
       case "whyJoin":
       case "projectIdea":
@@ -221,9 +200,7 @@ const ApplicationPage = () => {
         if (!resume) return false;
         if (
           formData.githubUrl &&
-          (formData.githubUrl.length < 5 ||
-            formData.githubUrl.length > 255 ||
-            !/^https?:\/\//.test(formData.githubUrl))
+          (formData.githubUrl.length < 5 || formData.githubUrl.length > 255 || !/^https?:\/\//.test(formData.githubUrl))
         )
           return false;
         if (
@@ -250,22 +227,16 @@ const ApplicationPage = () => {
           formData.questions.projectIdea.length >= 10 &&
           formData.questions.projectIdea.length <= 3000 &&
           (!formData.questions?.experience ||
-            (formData.questions.experience.length >= 10 &&
-              formData.questions.experience.length <= 3000))
+            (formData.questions.experience.length >= 10 && formData.questions.experience.length <= 3000))
         );
       case 4: // Logistics
         if (!formData.shirtSize) return false;
-        if (
-          formData.dietaryRestrictions &&
-          formData.dietaryRestrictions.length > 255
-        )
-          return false;
+        if (formData.dietaryRestrictions && formData.dietaryRestrictions.length > 255) return false;
         return true;
       case 5: // Demographics
         if (formData.pronouns && formData.pronouns.length > 16) return false;
         if (formData.ethnicity && formData.ethnicity.length > 255) return false;
-        if (formData.sexualIdentity && formData.sexualIdentity.length > 64)
-          return false;
+        if (formData.sexualIdentity && formData.sexualIdentity.length > 64) return false;
         return true;
       case 6: // Teammates
         return true;
@@ -317,11 +288,7 @@ const ApplicationPage = () => {
     }
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     const error = validateField(name, value);
@@ -346,10 +313,7 @@ const ApplicationPage = () => {
     ) {
       setFormData((prev) => ({
         ...prev,
-        potentialTeammates: [
-          ...(prev.potentialTeammates || []),
-          teammateInput.trim(),
-        ],
+        potentialTeammates: [...(prev.potentialTeammates || []), teammateInput.trim()],
       }));
       setTeammateInput("");
     }
@@ -358,9 +322,7 @@ const ApplicationPage = () => {
   const handleTeammateRemove = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      potentialTeammates: prev.potentialTeammates?.filter(
-        (_, i) => i !== index,
-      ),
+      potentialTeammates: prev.potentialTeammates?.filter((_, i) => i !== index),
     }));
   };
 
@@ -384,10 +346,7 @@ const ApplicationPage = () => {
       delete payload.mlhCodeOfConduct;
       delete payload.mlhPrivacyPolicy;
 
-      const app = await applicationApi.create(
-        payload as ApplicationCreatePayload,
-        resume,
-      );
+      const app = await applicationApi.create(payload as ApplicationCreatePayload, resume);
       setExistingApplication(app);
       setIsSubmitted(true);
       toast.success("Application submitted successfully!");
@@ -399,9 +358,7 @@ const ApplicationPage = () => {
             newErrors[err.field] = err.message;
           });
           setErrors(newErrors);
-          setGeneralError(
-            "Errors have been found in your responses. Please review and try again.",
-          );
+          setGeneralError("Errors have been found in your responses. Please review and try again.");
         } else {
           setGeneralError(error.message);
         }
@@ -428,9 +385,7 @@ const ApplicationPage = () => {
 
       <div className="relative z-10 container mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
         <h1 className="mb-8 text-center text-3xl font-semibold tracking-tight text-[#E3C676] sm:text-4xl lg:text-5xl">
-          {existingApplication || isSubmitted
-            ? "Application Status"
-            : "Apply Now"}
+          {existingApplication || isSubmitted ? "Application Status" : "Apply Now"}
         </h1>
 
         {isPageLoading ? (
@@ -442,12 +397,9 @@ const ApplicationPage = () => {
             <div className="flex justify-center">
               <IoIosWarning className="text-6xl text-[#E3C676]" />
             </div>
-            <h2 className="text-2xl font-semibold">
-              Email Verification Required
-            </h2>
+            <h2 className="text-2xl font-semibold">Email Verification Required</h2>
             <p className="mx-auto max-w-md text-white/70">
-              Please verify your email address before applying. Check your inbox
-              for the verification link.
+              Please verify your email address before applying. Check your inbox for the verification link.
             </p>
             <button
               onClick={handleResendEmail}
@@ -464,43 +416,31 @@ const ApplicationPage = () => {
                 <div className="mb-4 flex justify-center">
                   <IoIosCheckmarkCircle className="text-5xl text-green-500" />
                 </div>
-                <h2 className="text-2xl font-bold text-green-500">
-                  Thank You for Applying!
-                </h2>
-                <p className="text-white/80">
-                  Your application has been received. We will review it shortly.
-                </p>
+                <h2 className="text-2xl font-bold text-green-500">Thank You for Applying!</h2>
+                <p className="text-white/80">Your application has been received. We will review it shortly.</p>
               </div>
             )}
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <p className="mb-1 text-sm text-white/50">Application Status</p>
-                <p className="text-xl font-semibold capitalize">
-                  {ApplicationStatus[existingApplication.status]}
-                </p>
+                <p className="text-xl font-semibold capitalize">{ApplicationStatus[existingApplication.status]}</p>
               </div>
               <div className="rounded-xl border border-white/10 bg-black/20 p-4">
                 <p className="mb-1 text-sm text-white/50">Submitted On</p>
                 <p className="text-xl font-semibold">
-                  {new Date(existingApplication.createdAt).toLocaleDateString(
-                    undefined,
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    },
-                  )}
+                  {new Date(existingApplication.createdAt).toLocaleDateString(undefined, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </p>
               </div>
             </div>
 
             {existingApplication.status === ApplicationStatus.Accepted && (
               <div className="flex justify-center pt-4">
-                <Link
-                  href="https://dashboard.qhacks.io"
-                  className="font-medium text-[#E3C676] hover:underline"
-                >
+                <Link href="https://dashboard.qhacks.io" className="font-medium text-[#E3C676] hover:underline">
                   Go to Dashboard
                 </Link>
               </div>
@@ -514,9 +454,7 @@ const ApplicationPage = () => {
             {/* Personal Information */}
             {currentStep === 0 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Personal Information
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Personal Information</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -528,11 +466,7 @@ const ApplicationPage = () => {
                       value={getOption(DropdownTypes.country, formData.country)}
                       onChange={(opt) => handleDropdownChange("country", opt)}
                     />
-                    {errors.country && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.country}
-                      </p>
-                    )}
+                    {errors.country && <p className="mt-1 text-xs text-red-500">{errors.country}</p>}
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -553,11 +487,7 @@ const ApplicationPage = () => {
                       placeholder="(000) 000-0000"
                       smartCaret
                     />
-                    {errors.phone && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.phone}
-                      </p>
-                    )}
+                    {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -574,9 +504,7 @@ const ApplicationPage = () => {
                       min={13}
                       max={120}
                     />
-                    {errors.age && (
-                      <p className="mt-1 text-xs text-red-500">{errors.age}</p>
-                    )}
+                    {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age}</p>}
                   </div>
                 </div>
               </section>
@@ -585,9 +513,7 @@ const ApplicationPage = () => {
             {/* Education */}
             {currentStep === 1 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Education
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Education</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -596,39 +522,22 @@ const ApplicationPage = () => {
                     <DropDownInput
                       title="Select level of study"
                       type={DropdownTypes.levelsOfStudy}
-                      value={getOption(
-                        DropdownTypes.levelsOfStudy,
-                        formData.levelOfStudy,
-                      )}
-                      onChange={(opt) =>
-                        handleDropdownChange("levelOfStudy", opt)
-                      }
+                      value={getOption(DropdownTypes.levelsOfStudy, formData.levelOfStudy)}
+                      onChange={(opt) => handleDropdownChange("levelOfStudy", opt)}
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      School
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">School</label>
                     <DropDownInput
                       title="Select your school"
                       options={schoolOptions}
-                      value={getOption(
-                        undefined,
-                        formData.school,
-                        schoolOptions,
-                      )}
+                      value={getOption(undefined, formData.school, schoolOptions)}
                       onChange={(opt) => handleDropdownChange("school", opt)}
                     />
-                    {errors.school && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.school}
-                      </p>
-                    )}
+                    {errors.school && <p className="mt-1 text-xs text-red-500">{errors.school}</p>}
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Major
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Major</label>
                     <input
                       name="major"
                       value={formData.major}
@@ -637,18 +546,11 @@ const ApplicationPage = () => {
                       maxLength={64}
                       placeholder="Enter your major"
                     />
-                    {errors.major && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.major}
-                      </p>
-                    )}
+                    {errors.major && <p className="mt-1 text-xs text-red-500">{errors.major}</p>}
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
-                      School Email{" "}
-                      {formData.school && (
-                        <span className="text-red-500">*</span>
-                      )}
+                      School Email {formData.school && <span className="text-red-500">*</span>}
                     </label>
                     <input
                       name="schoolEmail"
@@ -660,11 +562,7 @@ const ApplicationPage = () => {
                       required={!!formData.school}
                       placeholder="Enter your school email"
                     />
-                    {errors.schoolEmail && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.schoolEmail}
-                      </p>
-                    )}
+                    {errors.schoolEmail && <p className="mt-1 text-xs text-red-500">{errors.schoolEmail}</p>}
                   </div>
                 </div>
               </section>
@@ -673,14 +571,10 @@ const ApplicationPage = () => {
             {/* Hacker Profile */}
             {currentStep === 2 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Hacker Profile
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Hacker Profile</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      GitHub URL
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">GitHub URL</label>
                     <input
                       name="githubUrl"
                       value={formData.githubUrl}
@@ -689,16 +583,10 @@ const ApplicationPage = () => {
                       maxLength={255}
                       placeholder="https://github.com/..."
                     />
-                    {errors.githubUrl && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.githubUrl}
-                      </p>
-                    )}
+                    {errors.githubUrl && <p className="mt-1 text-xs text-red-500">{errors.githubUrl}</p>}
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      LinkedIn URL
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">LinkedIn URL</label>
                     <input
                       name="linkedinUrl"
                       value={formData.linkedinUrl}
@@ -707,16 +595,10 @@ const ApplicationPage = () => {
                       maxLength={255}
                       placeholder="https://linkedin.com/in/..."
                     />
-                    {errors.linkedinUrl && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.linkedinUrl}
-                      </p>
-                    )}
+                    {errors.linkedinUrl && <p className="mt-1 text-xs text-red-500">{errors.linkedinUrl}</p>}
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Personal Website
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Personal Website</label>
                     <input
                       name="personalUrl"
                       value={formData.personalUrl}
@@ -725,11 +607,7 @@ const ApplicationPage = () => {
                       maxLength={255}
                       placeholder="https://..."
                     />
-                    {errors.personalUrl && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.personalUrl}
-                      </p>
-                    )}
+                    {errors.personalUrl && <p className="mt-1 text-xs text-red-500">{errors.personalUrl}</p>}
                   </div>
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -750,13 +628,10 @@ const ApplicationPage = () => {
             {/* Questions */}
             {currentStep === 3 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Questions
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Questions</h2>
                 <div>
                   <label className="mb-1 block text-sm font-medium">
-                    Why do you want to join QHacks?{" "}
-                    <span className="text-red-500">*</span>
+                    Why do you want to join QHacks? <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     name="whyJoin"
@@ -768,16 +643,11 @@ const ApplicationPage = () => {
                     minLength={10}
                     maxLength={3000}
                   />
-                  {errors["questions.whyJoin"] && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors["questions.whyJoin"]}
-                    </p>
-                  )}
+                  {errors["questions.whyJoin"] && <p className="mt-1 text-xs text-red-500">{errors["questions.whyJoin"]}</p>}
                 </div>
                 <div>
                   <label className="mb-1 block text-sm font-medium">
-                    What project idea do you have?{" "}
-                    <span className="text-red-500">*</span>
+                    What project idea do you have? <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     name="projectIdea"
@@ -790,15 +660,11 @@ const ApplicationPage = () => {
                     maxLength={3000}
                   />
                   {errors["questions.projectIdea"] && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors["questions.projectIdea"]}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errors["questions.projectIdea"]}</p>
                   )}
                 </div>
                 <div>
-                  <label className="mb-1 block text-sm font-medium">
-                    Tell us about your hacker experience
-                  </label>
+                  <label className="mb-1 block text-sm font-medium">Tell us about your hacker experience</label>
                   <textarea
                     name="experience"
                     value={formData.questions?.experience}
@@ -809,9 +675,7 @@ const ApplicationPage = () => {
                     maxLength={3000}
                   />
                   {errors["questions.experience"] && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors["questions.experience"]}
-                    </p>
+                    <p className="mt-1 text-xs text-red-500">{errors["questions.experience"]}</p>
                   )}
                 </div>
               </section>
@@ -820,9 +684,7 @@ const ApplicationPage = () => {
             {/* Logistics */}
             {currentStep === 4 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Logistics
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Logistics</h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="mb-1 block text-sm font-medium">
@@ -831,17 +693,12 @@ const ApplicationPage = () => {
                     <DropDownInput
                       title="Select shirt size"
                       type={DropdownTypes.shirtSize}
-                      value={getOption(
-                        DropdownTypes.shirtSize,
-                        formData.shirtSize,
-                      )}
+                      value={getOption(DropdownTypes.shirtSize, formData.shirtSize)}
                       onChange={(opt) => handleDropdownChange("shirtSize", opt)}
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Dietary Restrictions
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Dietary Restrictions</label>
                     <input
                       name="dietaryRestrictions"
                       value={formData.dietaryRestrictions}
@@ -849,11 +706,7 @@ const ApplicationPage = () => {
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
                       maxLength={255}
                     />
-                    {errors.dietaryRestrictions && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.dietaryRestrictions}
-                      </p>
-                    )}
+                    {errors.dietaryRestrictions && <p className="mt-1 text-xs text-red-500">{errors.dietaryRestrictions}</p>}
                   </div>
                   <div className="flex items-center gap-2">
                     <input
@@ -868,9 +721,7 @@ const ApplicationPage = () => {
                       }
                       className="h-4 w-4 accent-[#E3C676]"
                     />
-                    <label className="text-sm font-medium">
-                      Are you travelling from outside of Queen's University?
-                    </label>
+                    <label className="text-sm font-medium">Are you travelling from outside of Queen's University?</label>
                   </div>
                 </div>
               </section>
@@ -884,9 +735,7 @@ const ApplicationPage = () => {
                 </h2>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Gender
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Gender</label>
                     <DropDownInput
                       title="Select gender"
                       type={DropdownTypes.gender}
@@ -895,9 +744,7 @@ const ApplicationPage = () => {
                     />
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Pronouns
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Pronouns</label>
                     <input
                       name="pronouns"
                       value={formData.pronouns}
@@ -905,51 +752,27 @@ const ApplicationPage = () => {
                       className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
                       maxLength={16}
                     />
-                    {errors.pronouns && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.pronouns}
-                      </p>
-                    )}
+                    {errors.pronouns && <p className="mt-1 text-xs text-red-500">{errors.pronouns}</p>}
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Ethnicity
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Ethnicity</label>
                     <DropDownInput
                       title="Select ethnicity"
                       type={DropdownTypes.ethnicity}
-                      value={getOption(
-                        DropdownTypes.ethnicity,
-                        formData.ethnicity,
-                      )}
+                      value={getOption(DropdownTypes.ethnicity, formData.ethnicity)}
                       onChange={(opt) => handleDropdownChange("ethnicity", opt)}
                     />
-                    {errors.ethnicity && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.ethnicity}
-                      </p>
-                    )}
+                    {errors.ethnicity && <p className="mt-1 text-xs text-red-500">{errors.ethnicity}</p>}
                   </div>
                   <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Sexual Identity
-                    </label>
+                    <label className="mb-1 block text-sm font-medium">Sexual Identity</label>
                     <DropDownInput
                       title="Select sexual identity"
                       type={DropdownTypes.sexualIdentity}
-                      value={getOption(
-                        DropdownTypes.sexualIdentity,
-                        formData.sexualIdentity,
-                      )}
-                      onChange={(opt) =>
-                        handleDropdownChange("sexualIdentity", opt)
-                      }
+                      value={getOption(DropdownTypes.sexualIdentity, formData.sexualIdentity)}
+                      onChange={(opt) => handleDropdownChange("sexualIdentity", opt)}
                     />
-                    {errors.sexualIdentity && (
-                      <p className="mt-1 text-xs text-red-500">
-                        {errors.sexualIdentity}
-                      </p>
-                    )}
+                    {errors.sexualIdentity && <p className="mt-1 text-xs text-red-500">{errors.sexualIdentity}</p>}
                   </div>
                   <div className="flex items-center gap-2 sm:col-span-2">
                     <input
@@ -965,8 +788,7 @@ const ApplicationPage = () => {
                       className="h-4 w-4 accent-[#E3C676]"
                     />
                     <label className="text-sm font-medium">
-                      Do you identify as part of an underrepresented group in
-                      tech?
+                      Do you identify as part of an underrepresented group in tech?
                     </label>
                   </div>
                 </div>
@@ -975,9 +797,7 @@ const ApplicationPage = () => {
             {/* Teammates */}
             {currentStep === 6 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Potential Teammates
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Potential Teammates</h2>
                 <div className="space-y-2">
                   <div className="flex gap-2">
                     <input
@@ -999,10 +819,7 @@ const ApplicationPage = () => {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {formData.potentialTeammates?.map((teammate, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1"
-                      >
+                      <div key={index} className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
                         <span>{teammate}</span>
                         <button
                           type="button"
@@ -1014,11 +831,7 @@ const ApplicationPage = () => {
                       </div>
                     ))}
                   </div>
-                  {errors.potentialTeammates && (
-                    <p className="mt-1 text-xs text-red-500">
-                      {errors.potentialTeammates}
-                    </p>
-                  )}
+                  {errors.potentialTeammates && <p className="mt-1 text-xs text-red-500">{errors.potentialTeammates}</p>}
                 </div>
               </section>
             )}
@@ -1026,9 +839,7 @@ const ApplicationPage = () => {
             {/* MLH Policies */}
             {currentStep === 7 && (
               <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  MLH Policies
-                </h2>
+                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">MLH Policies</h2>
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
                     <input
@@ -1043,10 +854,7 @@ const ApplicationPage = () => {
                       }
                       className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
                     />
-                    <label
-                      htmlFor="mlhCodeOfConduct"
-                      className="text-sm text-white/80"
-                    >
+                    <label htmlFor="mlhCodeOfConduct" className="text-sm text-white/80">
                       I have read and agree to the{" "}
                       <a
                         href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
@@ -1073,14 +881,9 @@ const ApplicationPage = () => {
                       }
                       className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
                     />
-                    <label
-                      htmlFor="mlhPrivacyPolicy"
-                      className="text-sm text-white/80"
-                    >
-                      I authorize you to share my application/registration
-                      information with Major League Hacking for event
-                      administration, ranking, and MLH administration in-line
-                      with the{" "}
+                    <label htmlFor="mlhPrivacyPolicy" className="text-sm text-white/80">
+                      I authorize you to share my application/registration information with Major League Hacking for event
+                      administration, ranking, and MLH administration in-line with the{" "}
                       <a
                         href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
                         target="_blank"
@@ -1124,12 +927,8 @@ const ApplicationPage = () => {
                       }
                       className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
                     />
-                    <label
-                      htmlFor="mlhEmails"
-                      className="text-sm text-white/80"
-                    >
-                      I authorize MLH to send me occasional emails about
-                      relevant events, career opportunities, and community
+                    <label htmlFor="mlhEmails" className="text-sm text-white/80">
+                      I authorize MLH to send me occasional emails about relevant events, career opportunities, and community
                       announcements.
                     </label>
                   </div>
@@ -1140,9 +939,7 @@ const ApplicationPage = () => {
             {generalError && (
               <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
                 <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                <p className="text-sm font-medium text-red-500">
-                  {generalError}
-                </p>
+                <p className="text-sm font-medium text-red-500">{generalError}</p>
               </div>
             )}
 
