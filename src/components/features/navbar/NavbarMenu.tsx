@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Instagram, Linkedin, Twitter, Menu, X } from "lucide-react";
+import { Instagram, Linkedin, Menu, X } from "lucide-react";
 import { FaTiktok } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -26,10 +26,9 @@ const NavbarMenu = () => {
   ];
 
   const socialLinks = [
-    { icon: Instagram, href: "https://instagram.com/qhacks", label: "Instagram" },
-    { icon: Twitter, href: "https://twitter.com/qhacks", label: "Twitter" },
+    { icon: Instagram, href: "https://instagram.com/qhacksx", label: "Instagram" },
     { icon: Linkedin, href: "https://linkedin.com/company/qhacks", label: "LinkedIn" },
-    { icon: FaTiktok, href: "https://tiktok.com/@qhacks", label: "TikTok" },
+    { icon: FaTiktok, href: "https://tiktok.com/@qhacksx", label: "TikTok" },
   ];
 
   useEffect(() => {
