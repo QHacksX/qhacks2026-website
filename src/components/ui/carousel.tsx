@@ -1,27 +1,32 @@
 "use client";
 
 import * as React from "react";
-import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react";
+import "keen-slider/keen-slider.min.css";
+import {
+  useKeenSlider,
+  type KeenSliderInstance,
+  type KeenSliderOptions,
+  type KeenSliderPlugin,
+} from "keen-slider/react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-type CarouselApi = UseEmblaCarouselType[1];
-type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
-type CarouselOptions = UseCarouselParameters[0];
-type CarouselPlugin = UseCarouselParameters[1];
+type CarouselApi = KeenSliderInstance | null;
+type CarouselOptions = KeenSliderOptions;
+type CarouselPlugin = KeenSliderPlugin;
 
 type CarouselProps = {
   opts?: CarouselOptions;
-  plugins?: CarouselPlugin;
+  plugins?: CarouselPlugin[];
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
 };
 
 type CarouselContextProps = {
-  carouselRef: ReturnType<typeof useEmblaCarousel>[0];
-  api: ReturnType<typeof useEmblaCarousel>[1];
+  carouselRef: (node: HTMLDivElement | null) => void;
+  api: CarouselApi;
   scrollPrev: () => void;
   scrollNext: () => void;
   canScrollPrev: boolean;
@@ -40,6 +45,19 @@ function useCarousel() {
   return context;
 }
 
+function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]) {
+  return (node: T) => {
+    refs.forEach((ref) => {
+      if (!ref) return;
+      if (typeof ref === "function") {
+        ref(node);
+      } else {
+        (ref as React.MutableRefObject<T | null>).current = node;
+      }
+    });
+  };
+}
+
 const Carousel = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & CarouselProps
@@ -48,28 +66,71 @@ const Carousel = React.forwardRef<
     { orientation = "horizontal", opts, setApi, plugins, className, children, ...props },
     ref,
   ) => {
-    const [carouselRef, api] = useEmblaCarousel(
-      {
-        ...opts,
-        axis: orientation === "horizontal" ? "x" : "y",
-      },
-      plugins,
-    );
-    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-    const [canScrollNext, setCanScrollNext] = React.useState(false);
+    const [slider, setSlider] = React.useState<KeenSliderInstance | null>(null);
+    const [canScrollPrev, setCanScrollPrev] = React.useState(true);
+    const [canScrollNext, setCanScrollNext] = React.useState(true);
 
-    const onSelect = React.useCallback((emblaApi: CarouselApi) => {
-      if (!emblaApi) return;
-      setCanScrollPrev(emblaApi.canScrollPrev());
-      setCanScrollNext(emblaApi.canScrollNext());
+    const updateCanScroll = React.useCallback((slider: KeenSliderInstance) => {
+      if (slider.options.loop) {
+        setCanScrollPrev(true);
+        setCanScrollNext(true);
+        return;
+      }
+      const details = slider.track.details;
+      if (!details) return;
+      const nextPrev = details.rel > 0;
+      const nextNext = details.rel < details.slides.length - details.size;
+      setCanScrollPrev((prev) => (prev === nextPrev ? prev : nextPrev));
+      setCanScrollNext((prev) => (prev === nextNext ? prev : nextNext));
     }, []);
 
+    const mergedOptions = React.useMemo<CarouselOptions>(() => {
+      const { slides, created, slideChanged, updated, ...restOpts } = opts ?? {};
+
+      return {
+        loop: true,
+        rubberband: false,
+        vertical: orientation === "vertical",
+        ...restOpts,
+        slides: {
+          origin: "center",
+          perView: "auto",
+          spacing: 16,
+          ...(slides ?? {}),
+        },
+        created(slider) {
+          setSlider((prev) => (prev === slider ? prev : slider));
+          updateCanScroll(slider);
+          created?.(slider);
+        },
+        slideChanged(slider) {
+          updateCanScroll(slider);
+          slideChanged?.(slider);
+        },
+        updated(slider) {
+          updateCanScroll(slider);
+          updated?.(slider);
+        },
+      };
+    }, [opts, orientation, updateCanScroll]);
+
+    const [carouselRef, instanceRef] = useKeenSlider<HTMLDivElement>(
+      mergedOptions,
+      plugins,
+    );
+    const api = slider ?? instanceRef.current;
+
+    React.useEffect(() => {
+      if (!setApi || !api) return;
+      setApi(api);
+    }, [api, setApi]);
+
     const scrollPrev = React.useCallback(() => {
-      api?.scrollPrev();
+      api?.prev();
     }, [api]);
 
     const scrollNext = React.useCallback(() => {
-      api?.scrollNext();
+      api?.next();
     }, [api]);
 
     const handleKeyDown = React.useCallback(
@@ -85,28 +146,13 @@ const Carousel = React.forwardRef<
       [scrollPrev, scrollNext],
     );
 
-    React.useEffect(() => {
-      if (!api || !setApi) return;
-      setApi(api);
-    }, [api, setApi]);
-
-    React.useEffect(() => {
-      if (!api) return;
-      onSelect(api);
-      api.on("reInit", onSelect);
-      api.on("select", onSelect);
-      return () => {
-        api?.off("select", onSelect);
-      };
-    }, [api, onSelect]);
-
     return (
       <CarouselContext.Provider
         value={{
           carouselRef,
           api,
-          opts,
-          orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+          opts: mergedOptions,
+          orientation,
           scrollPrev,
           scrollNext,
           canScrollPrev,
@@ -132,13 +178,14 @@ Carousel.displayName = "Carousel";
 const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel();
+    const mergedRef = React.useMemo(() => mergeRefs(ref, carouselRef), [ref, carouselRef]);
     return (
-      <div ref={carouselRef} className="overflow-hidden">
+      <div className="overflow-hidden">
         <div
-          ref={ref}
+          ref={mergedRef}
           className={cn(
-            "flex",
-            orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+            "keen-slider",
+            orientation === "vertical" && "keen-slider--vertical",
             className,
           )}
           {...props}
@@ -151,17 +198,12 @@ CarouselContent.displayName = "CarouselContent";
 
 const CarouselItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => {
-    const { orientation } = useCarousel();
     return (
       <div
         ref={ref}
         role="group"
         aria-roledescription="slide"
-        className={cn(
-          "min-w-0 shrink-0 grow-0 basis-full",
-          orientation === "horizontal" ? "pl-4" : "pt-4",
-          className,
-        )}
+        className={cn("keen-slider__slide min-w-0", className)}
         {...props}
       />
     );
