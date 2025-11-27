@@ -34,7 +34,7 @@ jobs:
       - name: Export Environment Variables
         uses: infovista-opensource/vars-to-env-action@2.0.0
         with:
-            secrets: ${{ toJSON(secrets) }}
+            secrets: ${{ toJSON(vars) }}
 
       - name: Install and Build Artifacts
         run: |
