@@ -33,8 +33,8 @@ const Landing = () => {
             width={1200}
             height={1200}
             className="w-[85vw] lg:w-[65vw] max-w-[640px] object-contain opacity-90"
-
-            priority
+            quality={88}
+            sizes="(min-width: 1024px) 65vw, 85vw"
           />
         </div>
 
@@ -47,6 +47,8 @@ const Landing = () => {
             height={500}
             className="w-[320px] sm:w-[420px] md:w-[480px] lg:w-[520px] pointer-events-none mix-blend-screen -translate-y-3 sm:-translate-y-4 opacity-70"
             priority
+            quality={90}
+            sizes="(min-width: 1024px) 520px, (min-width: 768px) 480px, (min-width: 640px) 420px, 320px"
           />
         </div>
 
@@ -112,8 +114,8 @@ const Landing = () => {
             width={2000}
             height={13}
             className="h-full w-auto object-contain mix-blend-lighten drop-shadow-2xl pointer-events-none select-none opacity-80 brightness-[0.85]"
-
-            priority
+            quality={82}
+            sizes="(min-width: 1024px) 30vw, 60vw"
           />
         </div>
       </div>
