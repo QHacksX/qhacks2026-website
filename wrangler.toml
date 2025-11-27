@@ -2,3 +2,8 @@ name = "qhacks-2026"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
+
+[vars]
+NEXT_PUBLIC_GITHUB_CLIENT_ID="Iv23li0M2WefPQVgQmwI"
+NEXT_PUBLIC_GOOGLE_CLIENT_ID="402393197236-075gi4gmarpv5h13dfbdn8mgp60h7ho4.apps.googleusercontent.com"
+NEXT_PUBLIC_API_BASE_URL="https://qsvc.qhacks.io/api"
