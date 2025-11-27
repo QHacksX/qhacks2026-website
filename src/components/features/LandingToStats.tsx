@@ -5,7 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 // Register ScrollTrigger plugin
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
@@ -41,38 +41,30 @@ const LandingToStats = ({ landingComponent, statsComponent, enabled = true }: La
           snapTo: 1, // Snap to full sections only
           duration: 0.8, // Longer, more natural snap duration
           delay: 0.1, // Small delay before snapping
-          ease: "power1.inOut" // Gentler easing
+          ease: "power1.inOut", // Gentler easing
         },
         // Smoother scroll behavior
         fastScrollEnd: false, // Disable for smoother end
         preventOverlaps: true,
-      }
+      },
     });
 
     return () => {
       scrollTween.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [enabled]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative w-full will-change-transform"
-      style={{ touchAction: 'pan-y', transform: 'translateZ(0)' }}
+      style={{ touchAction: "pan-y", transform: "translateZ(0)" }}
     >
       <div className="h-screen w-full overflow-hidden">
-        <div
-          ref={scrollerRef}
-          className="flex h-full w-fit will-change-transform"
-          style={{ transform: 'translateZ(0)' }}
-        >
-          <div className="w-screen h-screen flex-shrink-0">
-            {landingComponent}
-          </div>
-          <div className="w-screen h-screen flex-shrink-0">
-            {statsComponent}
-          </div>
+        <div ref={scrollerRef} className="flex h-full w-fit will-change-transform" style={{ transform: "translateZ(0)" }}>
+          <div className="h-screen w-screen flex-shrink-0">{landingComponent}</div>
+          <div className="h-screen w-screen flex-shrink-0">{statsComponent}</div>
         </div>
       </div>
     </div>

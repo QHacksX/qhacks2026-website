@@ -22,7 +22,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     }
     refreshUser();
-
   }, [isAuthenticated, update, logout]);
 
   return <>{children}</>;

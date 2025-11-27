@@ -88,12 +88,8 @@ export default function ResetPasswordPage() {
           <AnimatedStars />
         </div>
         <div className="relative z-10 w-full max-w-md rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
-          <h1 className="mb-4 text-2xl font-semibold text-red-500">
-            Invalid Link
-          </h1>
-          <p className="mb-6 text-white/70">
-            This password reset link is invalid or missing.
-          </p>
+          <h1 className="mb-4 text-2xl font-semibold text-red-500">Invalid Link</h1>
+          <p className="mb-6 text-white/70">This password reset link is invalid or missing.</p>
           <Link href="/" className="text-[#E3C676] hover:underline">
             Return Home
           </Link>
@@ -112,11 +108,7 @@ export default function ResetPasswordPage() {
             Reset Password
           </h1>
 
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4 sm:space-y-6"
-            noValidate
-          >
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" noValidate>
             <div className="w-full">
               <label className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg">
                 New Password
@@ -126,17 +118,11 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={`w-full rounded-lg border bg-transparent p-3 text-base font-medium text-white placeholder-white/80 transition-colors outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.newPassword
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-[#C8B476] focus:border-[#E3C676]"
+                  errors.newPassword ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                 }`}
                 maxLength={128}
               />
-              {errors.newPassword && (
-                <p className="mt-1 text-sm font-medium text-red-500">
-                  {errors.newPassword}
-                </p>
-              )}
+              {errors.newPassword && <p className="mt-1 text-sm font-medium text-red-500">{errors.newPassword}</p>}
             </div>
 
             {generalError && (

@@ -2,8 +2,7 @@ import { useAuthStore } from "@/stores/auth";
 import { useCaptchaStore } from "@/stores/captcha";
 import { snakeToCamelCase, camelToSnakeCase } from "./utils";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
 
 export class HTTPError extends Error {
   constructor(
@@ -50,10 +49,7 @@ export class CaptchaCancelledError extends Error {
 }
 
 // Generic fetch function with error handling
-export async function fetchApi<T>(
-  endpoint: string,
-  options: RequestInit = {},
-): Promise<T> {
+export async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
   const url = `${BASE_URL}${endpoint}`;
   const { token } = useAuthStore.getState();
 
@@ -68,7 +64,7 @@ export async function fetchApi<T>(
   }
 
   const headers: HeadersInit = {
-    Authorization: token ?? "",
+    "Authorization": token ?? "",
     "X-Client-Type": "website", // Differentiate from dashboard
     ...options.headers,
   };
@@ -94,9 +90,7 @@ export async function fetchApi<T>(
       // Open captcha modal and wait for token
       try {
         const token = await new Promise<string>((resolve, reject) => {
-          useCaptchaStore
-            .getState()
-            .open(errorData.captcha_sitekey, resolve, reject);
+          useCaptchaStore.getState().open(errorData.captcha_sitekey, resolve, reject);
         });
 
         // Retry request with captcha token
@@ -263,8 +257,7 @@ export const authApi = {
       method: "POST",
       body: JSON.stringify(data),
     }),
-  resendVerification: () =>
-    fetchApi<void>("/auth/verify/resend-email", { method: "POST" }),
+  resendVerification: () => fetchApi<void>("/auth/verify/resend-email", { method: "POST" }),
   forgotPassword: (data: ForgotPasswordRequest) =>
     fetchApi<void>("/auth/forgot", {
       method: "POST",

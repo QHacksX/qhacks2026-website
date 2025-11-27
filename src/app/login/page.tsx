@@ -47,11 +47,7 @@ const LoginForm = () => {
     const newErrors: Record<string, string> = {};
     if (!email) {
       newErrors.email = "Email is required";
-    } else if (
-      email.length < 5 ||
-      email.length > 255 ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+    } else if (email.length < 5 || email.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       newErrors.email = "Invalid email address";
     }
 
@@ -102,11 +98,7 @@ const LoginForm = () => {
     if (!email) {
       setErrors({ email: "Email is required" });
       return;
-    } else if (
-      email.length < 5 ||
-      email.length > 255 ||
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    ) {
+    } else if (email.length < 5 || email.length > 255 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setErrors({ email: "Invalid email address" });
       return;
     }
@@ -152,11 +144,7 @@ const LoginForm = () => {
           <h1 className="mb-6 text-center text-4xl font-semibold tracking-tight text-[#E3C676] sm:mb-8 sm:text-5xl">
             Sign In
           </h1>
-          <form
-            onSubmit={handleForm}
-            className="space-y-4 sm:space-y-6"
-            noValidate
-          >
+          <form onSubmit={handleForm} className="space-y-4 sm:space-y-6" noValidate>
             <div className="w-full">
               <label
                 htmlFor="email"
@@ -170,17 +158,13 @@ const LoginForm = () => {
                 id="email"
                 type="email"
                 className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.email
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-[#C8B476] focus:border-[#E3C676]"
+                  errors.email ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                 } rounded-lg p-3 transition-colors`}
                 autoComplete="email"
                 required
                 value={email}
               />
-              {errors.email && (
-                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-              )}
+              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
             </div>
             <div>
               <label
@@ -194,26 +178,20 @@ const LoginForm = () => {
                 id="password"
                 type="password"
                 className={`w-full border bg-transparent text-lg font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent ${
-                  errors.password
-                    ? "border-red-500 focus:border-red-500"
-                    : "border-[#C8B476] focus:border-[#E3C676]"
+                  errors.password ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
                 } rounded-lg p-3 transition-colors`}
                 autoComplete="current-password"
                 required
                 value={password}
                 maxLength={128}
               />
-              {errors.password && (
-                <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-              )}
+              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
             </div>
 
             {generalError && (
               <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
                 <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                <p className="text-left text-sm font-medium text-red-500">
-                  {generalError}
-                </p>
+                <p className="text-left text-sm font-medium text-red-500">{generalError}</p>
               </div>
             )}
 
@@ -261,10 +239,7 @@ const LoginForm = () => {
           <div className="mt-6 text-center">
             <p className="text-lg text-white">
               Don&apos;t have an account?{" "}
-              <Link
-                href="/register"
-                className="underline underline-offset-4 transition-colors hover:text-[#E3C676]"
-              >
+              <Link href="/register" className="underline underline-offset-4 transition-colors hover:text-[#E3C676]">
                 Register!
               </Link>
             </p>

@@ -4,7 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Ensure full height scrolling */
-html, body {
+html,
+body {
   height: 100%;
   width: 100%;
   margin: 0;
@@ -219,19 +220,16 @@ img {
 }
 
 .input-base {
-  @apply w-full bg-transparent text-white text-base sm:text-lg font-medium 
-         placeholder-white/80 focus:placeholder-transparent 
-         outline-none border-b border-[#C8B476] focus:border-[#E3C676] 
-         pb-2 sm:pb-3 transition-colors;
+  @apply w-full border-b border-[#C8B476] bg-transparent pb-2 text-base font-medium text-white placeholder-white/80 transition-colors outline-none focus:border-[#E3C676] focus:placeholder-transparent sm:pb-3 sm:text-lg;
 }
 
 /* Phone Input Styles */
 .phone-input-container .PhoneInputInput {
-  @apply w-full bg-transparent border-none outline-none text-white placeholder-white/50;
+  @apply w-full border-none bg-transparent text-white placeholder-white/50 outline-none;
 }
 
 .phone-input-container {
-  @apply w-full bg-black/20 border border-white/20 rounded-lg p-2 focus-within:border-[#E3C676] transition-colors flex items-center gap-2;
+  @apply flex w-full items-center gap-2 rounded-lg border border-white/20 bg-black/20 p-2 transition-colors focus-within:border-[#E3C676];
 }
 
 .phone-input-container .PhoneInputCountry {
@@ -239,13 +237,13 @@ img {
 }
 
 .phone-input-container .PhoneInputCountrySelect {
-  @apply bg-black text-white opacity-0 absolute inset-0 w-full h-full cursor-pointer;
+  @apply absolute inset-0 h-full w-full cursor-pointer bg-black text-white opacity-0;
 }
 
 .phone-input-container .PhoneInputCountryIcon {
-  @apply block w-6 h-4;
+  @apply block h-4 w-6;
 }
 
 .phone-input-container .PhoneInputCountryIconImg {
-  @apply block w-full h-full object-cover;
+  @apply block h-full w-full object-cover;
 }
