@@ -31,6 +31,11 @@ jobs:
           node-version: 23
           cache: pnpm
 
+      - name: Export Environment Variables
+        uses: infovista-opensource/vars-to-env-action@v2
+        with:
+            secrets: ${{ toJSON(secrets) }}
+
       - name: Install and Build Artifacts
         run: |
           # Prevent supply chain attack by installing packages before pulling PR
