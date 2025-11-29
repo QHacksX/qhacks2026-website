@@ -22,8 +22,7 @@ export const PopcornGroup = ({
   layoutMode = false,
   groupId = "",
 }: PopcornGroupProps) => {
-  const [memberPositions, setMemberPositions] =
-    useState<MemberPosition[]>(positions);
+  const [memberPositions, setMemberPositions] = useState<MemberPosition[]>(positions);
 
   const handlePositionChange = (index: number, newPosition: MemberPosition) => {
     const updatedPositions = [...memberPositions];
@@ -32,18 +31,14 @@ export const PopcornGroup = ({
 
     // Log updated positions for easy copy-paste
     if (layoutMode) {
-      console.log(`Updated positions for ${title} (${groupId}):`, 
-        JSON.stringify(updatedPositions, null, 2)
-      );
+      console.log(`Updated positions for ${title} (${groupId}):`, JSON.stringify(updatedPositions, null, 2));
     }
   };
 
   return (
     <div className="flex flex-col items-center gap-4">
       {/* Group Title */}
-      <h3 className="text-center text-lg font-semibold text-white sm:text-xl md:text-2xl">
-        {title}
-      </h3>
+      <h3 className="text-center text-lg font-semibold text-white sm:text-xl md:text-2xl">{title}</h3>
 
       {/* Popcorn Container */}
       <div className="relative h-64 w-64 sm:h-80 sm:w-80 md:h-96 md:w-96">

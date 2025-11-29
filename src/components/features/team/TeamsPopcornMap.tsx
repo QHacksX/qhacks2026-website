@@ -16,14 +16,9 @@ interface TeamsPopcornMapProps {
   popcornImage?: string;
 }
 
-export const TeamsPopcornMap = ({
-  members,
-  popcornImage = "/popcorn.svg",
-}: TeamsPopcornMapProps) => {
+export const TeamsPopcornMap = ({ members, popcornImage = "/popcorn.svg" }: TeamsPopcornMapProps) => {
   const [layoutMode, setLayoutMode] = useState(false);
-  const [memberPositions, setMemberPositions] = useState<MemberPosition[]>(
-    members.map((m) => m.position)
-  );
+  const [memberPositions, setMemberPositions] = useState<MemberPosition[]>(members.map((m) => m.position));
 
   // Sync positions when members prop changes (for hot reload)
   useEffect(() => {
@@ -74,11 +69,9 @@ export const TeamsPopcornMap = ({
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-lg border border-yellow-400 bg-yellow-400/20 px-4 py-2 backdrop-blur-xl"
+          className="fixed top-4 left-1/2 z-50 -translate-x-1/2 rounded-lg border border-yellow-400 bg-yellow-400/20 px-4 py-2 backdrop-blur-xl"
         >
-          <p className="text-sm font-semibold text-yellow-400">
-            🎯 Layout Mode Active - Drag dots to reposition
-          </p>
+          <p className="text-sm font-semibold text-yellow-400">🎯 Layout Mode Active - Drag dots to reposition</p>
         </motion.div>
       )}
 
@@ -92,14 +85,7 @@ export const TeamsPopcornMap = ({
       >
         {/* Popcorn Background Image - Full Screen */}
         <div className="relative h-full w-full">
-          <Image
-            src={popcornImage}
-            alt="QHacks Team Popcorn"
-            fill
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
+          <Image src={popcornImage} alt="QHacks Team Popcorn" fill className="object-cover" sizes="100vw" priority />
 
           {/* All Member Bubbles Positioned on Single Popcorn */}
           {members.map((member, index) => (
@@ -115,7 +101,7 @@ export const TeamsPopcornMap = ({
           ))}
 
           {/* Instructions for Layout Mode - Overlaid at Bottom */}
-          <div className="absolute bottom-4 left-0 right-0 z-20 text-center text-xs text-gray-500">
+          <div className="absolute right-0 bottom-4 left-0 z-20 text-center text-xs text-gray-500">
             <p>Press Ctrl/Cmd + Shift + L to toggle layout mode</p>
           </div>
         </div>

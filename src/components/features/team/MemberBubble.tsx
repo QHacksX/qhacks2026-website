@@ -15,14 +15,7 @@ interface MemberBubbleProps {
   onPositionChange?: (position: { top: string; left: string }) => void;
 }
 
-export const MemberBubble = ({
-  name,
-  role,
-  image,
-  position,
-  layoutMode = false,
-  onPositionChange,
-}: MemberBubbleProps) => {
+export const MemberBubble = ({ name, role, image, position, layoutMode = false, onPositionChange }: MemberBubbleProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -34,29 +27,32 @@ export const MemberBubble = ({
     e.preventDefault();
   };
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !layoutMode) return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging || !layoutMode) return;
 
-    const parent = (e.target as HTMLElement).offsetParent as HTMLElement;
-    if (!parent) return;
+      const parent = (e.target as HTMLElement).offsetParent as HTMLElement;
+      if (!parent) return;
 
-    const parentRect = parent.getBoundingClientRect();
-    const deltaX = e.clientX - dragStart.x;
-    const deltaY = e.clientY - dragStart.y;
+      const parentRect = parent.getBoundingClientRect();
+      const deltaX = e.clientX - dragStart.x;
+      const deltaY = e.clientY - dragStart.y;
 
-    const currentTop = parseFloat(position.top);
-    const currentLeft = parseFloat(position.left);
+      const currentTop = parseFloat(position.top);
+      const currentLeft = parseFloat(position.left);
 
-    const newTop = currentTop + (deltaY / parentRect.height) * 100;
-    const newLeft = currentLeft + (deltaX / parentRect.width) * 100;
+      const newTop = currentTop + (deltaY / parentRect.height) * 100;
+      const newLeft = currentLeft + (deltaX / parentRect.width) * 100;
 
-    onPositionChange?.({
-      top: `${Math.max(0, Math.min(100, newTop))}%`,
-      left: `${Math.max(0, Math.min(100, newLeft))}%`,
-    });
+      onPositionChange?.({
+        top: `${Math.max(0, Math.min(100, newTop))}%`,
+        left: `${Math.max(0, Math.min(100, newLeft))}%`,
+      });
 
-    setDragStart({ x: e.clientX, y: e.clientY });
-  }, [isDragging, layoutMode, dragStart, position, onPositionChange]);
+      setDragStart({ x: e.clientX, y: e.clientY });
+    },
+    [isDragging, layoutMode, dragStart, position, onPositionChange],
+  );
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -79,10 +75,7 @@ export const MemberBubble = ({
     <Popover.Root open={isHovered && !layoutMode}>
       <Popover.Trigger asChild>
         <motion.div
-          className={clsx(
-            "absolute z-10 cursor-pointer",
-            layoutMode && "cursor-move"
-          )}
+          className={clsx("absolute z-10 cursor-pointer", layoutMode && "cursor-move")}
           style={{ top: position.top, left: position.left }}
           onMouseEnter={() => !layoutMode && setIsHovered(true)}
           onMouseLeave={() => !layoutMode && setIsHovered(false)}
@@ -94,20 +87,10 @@ export const MemberBubble = ({
           <div
             className={clsx(
               "relative overflow-hidden rounded-full border-2 bg-[#2b2b2b]",
-              layoutMode
-                ? "h-4 w-4 border-yellow-400"
-                : "h-20 w-20 border-white/20 sm:h-24 sm:w-24 md:h-28 md:w-28"
+              layoutMode ? "h-4 w-4 border-yellow-400" : "h-20 w-20 border-white/20 sm:h-24 sm:w-24 md:h-28 md:w-28",
             )}
           >
-            {!layoutMode && (
-              <Image
-                src={image}
-                alt={name}
-                fill
-                className="object-cover"
-                sizes="80px"
-              />
-            )}
+            {!layoutMode && <Image src={image} alt={name} fill className="object-cover" sizes="80px" />}
           </div>
         </motion.div>
       </Popover.Trigger>
@@ -115,12 +98,7 @@ export const MemberBubble = ({
       <AnimatePresence>
         {isHovered && !layoutMode && (
           <Popover.Portal forceMount>
-            <Popover.Content
-              side="top"
-              align="center"
-              sideOffset={10}
-              className="z-50"
-            >
+            <Popover.Content side="top" align="center" sideOffset={10} className="z-50">
               <motion.div
                 initial={{ opacity: 0, y: 10, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -133,9 +111,7 @@ export const MemberBubble = ({
                 }}
               >
                 <div className="flex flex-col items-center gap-1.5">
-                  <p className="text-sm font-semibold text-white sm:text-base">
-                    {name}
-                  </p>
+                  <p className="text-sm font-semibold text-white sm:text-base">{name}</p>
                   <p className="text-xs text-gray-400 sm:text-sm">{role}</p>
                 </div>
               </motion.div>
