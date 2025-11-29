@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
@@ -25,7 +25,11 @@ const Gallery4 = ({ items }: Gallery4Props) => {
     // Render a few copies so the loop feels seamless while images load.
     const copies = 3;
     return Array.from({ length: copies }, (_, copyIndex) =>
-      items.map((item) => ({ ...item, _key: `${copyIndex}-${item.id}`, _copy: copyIndex })),
+      items.map((item) => ({
+        ...item,
+        _key: `${copyIndex}-${item.id}`,
+        _copy: copyIndex,
+      })),
     ).flat();
   }, [items]);
 
