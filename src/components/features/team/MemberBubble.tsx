@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import * as Popover from "@radix-ui/react-popover";
 import clsx from "clsx";
@@ -63,15 +63,17 @@ export const MemberBubble = ({
   };
 
   // Add global mouse event listeners for dragging
-  if (typeof window !== "undefined" && layoutMode) {
-    if (isDragging) {
+  useEffect(() => {
+    if (layoutMode && isDragging) {
       document.addEventListener("mousemove", handleMouseMove as any);
       document.addEventListener("mouseup", handleMouseUp);
-    } else {
-      document.removeEventListener("mousemove", handleMouseMove as any);
-      document.removeEventListener("mouseup", handleMouseUp);
+
+      return () => {
+        document.removeEventListener("mousemove", handleMouseMove as any);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
     }
-  }
+  }, [layoutMode, isDragging]);
 
   return (
     <Popover.Root open={isHovered && !layoutMode}>

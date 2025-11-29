@@ -32,20 +32,8 @@ export const TeamsPopcornMap = ({
     }
   }, [members, layoutMode]);
 
-  const handlePositionChange = (index: number, newPosition: MemberPosition) => {
-    const updatedPositions = [...memberPositions];
-    updatedPositions[index] = newPosition;
-    setMemberPositions(updatedPositions);
-
-    // Log updated positions for easy copy-paste
-    if (layoutMode) {
-      console.log(`Updated positions (member ${index}):`, newPosition);
-      console.log(`All positions:`, JSON.stringify(updatedPositions, null, 2));
-    }
-  };
-
   // Hidden keyboard shortcut to toggle layout mode: Ctrl/Cmd + Shift + L
-  if (typeof window !== "undefined") {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "L") {
         e.preventDefault();
@@ -62,7 +50,22 @@ export const TeamsPopcornMap = ({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-  }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  const handlePositionChange = (index: number, newPosition: MemberPosition) => {
+    const updatedPositions = [...memberPositions];
+    updatedPositions[index] = newPosition;
+    setMemberPositions(updatedPositions);
+
+    // Log updated positions for easy copy-paste
+    if (layoutMode) {
+      console.log(`Updated positions (member ${index}):`, newPosition);
+      console.log(`All positions:`, JSON.stringify(updatedPositions, null, 2));
+    }
+  };
 
   return (
     <div className="relative flex h-full w-full items-center justify-center">
