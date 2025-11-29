@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FaTiktok } from "react-icons/fa";
 
-
 const NavbarMenu = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -139,17 +138,16 @@ const NavbarMenu = () => {
   };
 
   const navTransition: Transition = hasPlayedIntro
-  ? {
-      duration: 0.25,
-      delay: 0,
-      ease: [0.16, 1, 0.3, 1], // matches easeOut
-    }
-  : {
-      duration: 0.6,
-      delay: 0.8,
-      ease: [0.42, 0, 0.58, 1], // matches easeInOut
-    };
-
+    ? {
+        duration: 0.25,
+        delay: 0,
+        ease: [0.16, 1, 0.3, 1], // matches easeOut
+      }
+    : {
+        duration: 0.6,
+        delay: 0.8,
+        ease: [0.42, 0, 0.58, 1], // matches easeInOut
+      };
 
   return (
     <motion.nav
