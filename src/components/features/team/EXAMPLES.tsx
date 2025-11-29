@@ -6,44 +6,33 @@
  */
 
 import { TeamsPopcornMap } from "@/components/features/team/TeamsPopcornMap";
-import type { PopcornTeamData } from "@/types/team";
+import type { TeamMemberWithPosition } from "@/components/features/team/TeamsPopcornMap";
 
 // Example 1: Minimal team with 2 members
-const minimalExample: PopcornTeamData[] = [
+const minimalExample: TeamMemberWithPosition[] = [
   {
-    id: "example-team",
-    title: "Example Team",
-    members: [
-      { name: "Alice", role: "Lead", image: "/team/alice.jpg" },
-      { name: "Bob", role: "Member", image: "/team/bob.jpg" },
-    ],
-    positions: [
-      { top: "25%", left: "35%" },
-      { top: "50%", left: "45%" },
-    ],
+    name: "Alice",
+    role: "Lead",
+    image: "/team/alice.jpg",
+    teamLabel: "Example Team",
+    position: { top: "25%", left: "35%" },
+  },
+  {
+    name: "Bob",
+    role: "Member",
+    image: "/team/bob.jpg",
+    teamLabel: "Example Team",
+    position: { top: "50%", left: "45%" },
   },
 ];
 
 // Example 2: Full team with custom positioning
-const fullExample: PopcornTeamData[] = [
-  {
-    id: "engineering",
-    title: "Engineering",
-    members: [
-      { name: "Charlie", role: "Tech Lead", image: "/team/charlie.jpg" },
-      { name: "Dana", role: "Frontend Dev", image: "/team/dana.jpg" },
-      { name: "Eve", role: "Backend Dev", image: "/team/eve.jpg" },
-      { name: "Frank", role: "DevOps", image: "/team/frank.jpg" },
-      { name: "Grace", role: "QA Engineer", image: "/team/grace.jpg" },
-    ],
-    positions: [
-      { top: "15%", left: "40%" },  // Charlie (center top)
-      { top: "30%", left: "25%" },  // Dana (left)
-      { top: "32%", left: "60%" },  // Eve (right)
-      { top: "55%", left: "35%" },  // Frank (bottom left)
-      { top: "58%", left: "52%" },  // Grace (bottom right)
-    ],
-  },
+const fullExample: TeamMemberWithPosition[] = [
+  { name: "Charlie", role: "Tech Lead", image: "/team/charlie.jpg", teamLabel: "Engineering", position: { top: "15%", left: "40%" } },
+  { name: "Dana", role: "Frontend Dev", image: "/team/dana.jpg", teamLabel: "Engineering", position: { top: "30%", left: "25%" } },
+  { name: "Eve", role: "Backend Dev", image: "/team/eve.jpg", teamLabel: "Engineering", position: { top: "32%", left: "60%" } },
+  { name: "Frank", role: "DevOps", image: "/team/frank.jpg", teamLabel: "Engineering", position: { top: "55%", left: "35%" } },
+  { name: "Grace", role: "QA Engineer", image: "/team/grace.jpg", teamLabel: "Engineering", position: { top: "58%", left: "52%" } },
 ];
 
 // Example 3: Using the component
@@ -53,11 +42,11 @@ export function ExampleTeamPage() {
       <h1 className="mb-8 text-4xl font-bold text-white">Our Team</h1>
       
       {/* Basic usage */}
-      <TeamsPopcornMap teams={minimalExample} />
+      <TeamsPopcornMap members={minimalExample} />
       
       {/* With custom popcorn image */}
       <TeamsPopcornMap 
-        teams={fullExample} 
+        members={fullExample} 
         popcornImage="/custom-popcorn.svg"
       />
     </div>
@@ -93,7 +82,7 @@ export function calculateCirclePositions(
 }
 
 // Usage:
-const circlePositions = calculateCirclePositions(5); // 5 members in a circle
+// const circlePositions = calculateCirclePositions(5); // 5 members in a circle
 // Result:
 // [
 //   { top: "20%", left: "50%" },  // Top
@@ -108,41 +97,37 @@ export function generateTeamData(
   teamName: string,
   memberNames: string[],
   memberRole = "Team Member"
-): PopcornTeamData {
-  return {
-    id: teamName.toLowerCase().replace(/\s+/g, "-"),
-    title: teamName,
-    members: memberNames.map((name) => ({
-      name,
-      role: memberRole,
-      image: `/team/${name.toLowerCase().replace(/\s+/g, "-")}.jpg`,
-    })),
-    positions: calculateCirclePositions(memberNames.length),
-  };
+): TeamMemberWithPosition[] {
+  const positions = calculateCirclePositions(memberNames.length);
+  return memberNames.map((name, i) => ({
+    name,
+    role: memberRole,
+    image: `/team/${name.toLowerCase().replace(/\s+/g, "-")}.jpg`,
+    teamLabel: teamName,
+    position: positions[i],
+  }));
 }
 
 // Usage:
-const autoTeam = generateTeamData(
-  "Design Team",
-  ["Alice Johnson", "Bob Smith", "Carol White"]
-);
+// const autoTeam = generateTeamData(
+//   "Design Team",
+//   ["Alice Johnson", "Bob Smith", "Carol White"]
+// );
 
 // Example 6: Responsive positioning (different per breakpoint)
 // Note: Current implementation uses single positions
 // To add responsive positions, modify PopcornGroup.tsx
 
-export const responsiveExample = {
-  id: "responsive-team",
-  title: "Responsive Team",
-  members: [
-    { name: "Alex", role: "Lead", image: "/team/alex.jpg" },
-  ],
-  // Desktop positions
-  positions: [
-    { top: "25%", left: "40%" },
-  ],
-  // Could add: mobilePositions, tabletPositions, etc.
-};
+export const responsiveExample: TeamMemberWithPosition[] = [
+  {
+    name: "Alex",
+    role: "Lead",
+    image: "/team/alex.jpg",
+    teamLabel: "Responsive Team",
+    position: { top: "25%", left: "40%" },
+    // Could add: mobilePositions, tabletPositions, etc.
+  },
+];
 
 // Example 7: Animation variants for custom effects
 // Use with Framer Motion in MemberBubble or PopcornGroup
@@ -159,37 +144,38 @@ export const hoverVariants = {
 // Apply in component:
 // <motion.div variants={hoverVariants} initial="initial" whileHover="hover">
 
-// Example 8: Team filtering/searching
-export function filterTeams(
-  teams: PopcornTeamData[],
+// Example 8: Team member filtering/searching
+export function filterMembers(
+  members: TeamMemberWithPosition[],
   searchTerm: string
-): PopcornTeamData[] {
+): TeamMemberWithPosition[] {
   const term = searchTerm.toLowerCase();
   
-  return teams
-    .map((team) => ({
-      ...team,
-      members: team.members.filter(
-        (m) =>
-          m.name.toLowerCase().includes(term) ||
-          m.role.toLowerCase().includes(term)
-      ),
-    }))
-    .filter((team) => team.members.length > 0);
+  return members.filter(
+    (m) =>
+      m.name.toLowerCase().includes(term) ||
+      m.role.toLowerCase().includes(term) ||
+      m.teamLabel?.toLowerCase().includes(term)
+  );
 }
 
 // Usage:
-// const filtered = filterTeams(popcornTeamsData, "lead");
-// <TeamsPopcornMap teams={filtered} />
+// const filtered = filterMembers(allTeamMembers, "lead");
+// <TeamsPopcornMap members={filtered} />
 
 // Example 9: Export team to CSV (for admins)
-export function exportTeamToCSV(teams: PopcornTeamData[]): string {
-  const rows = [["Team", "Name", "Role", "Image"]];
+export function exportTeamToCSV(members: TeamMemberWithPosition[]): string {
+  const rows = [["Team", "Name", "Role", "Image", "Top", "Left"]];
   
-  teams.forEach((team) => {
-    team.members.forEach((member) => {
-      rows.push([team.title, member.name, member.role, member.image]);
-    });
+  members.forEach((member) => {
+    rows.push([
+      member.teamLabel || "N/A",
+      member.name,
+      member.role,
+      member.image,
+      member.position.top,
+      member.position.left,
+    ]);
   });
   
   return rows.map((row) => row.join(",")).join("\n");
