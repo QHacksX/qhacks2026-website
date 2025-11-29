@@ -109,35 +109,6 @@ export default function Home() {
       <Theatre />
       <Sponsors2 />
       <FAQ />
-
-      {/* About section placeholder - vertical scroll continues */}
-      {/* <section id="about" className="min-h-screen">
-        Add About content here later
-      </section> */}
-
-      {/* Projects section placeholder */}
-      {/* <section id="projects" className="min-h-screen">
-        Add Projects & Stories content here later
-      </section> */}
-
-      {/* What's New section placeholder */}
-      {/* <section id="news" className="min-h-screen">
-        Add What's New content here later
-      </section> */}
-
-      {/* Sponsors section */}
-      {/* <section id="sponsors">
-        <Blank />
-      </section> */}
-
-      {/* FAQ section placeholder */}
-      {/* <section id="faq" className="min-h-screen">
-        Add FAQ content here later
-      </section> */}
-
-      {/* 2024 section placeholder */}
-      {/* <section id="2024" className="min-h-screen">
-      </section> */}
     </main>
   );
 }
