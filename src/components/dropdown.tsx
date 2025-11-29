@@ -75,7 +75,6 @@ export default function DropDownInput({
             onChange={(e) => setFilterText(e.target.value)}
             placeholder="Type here to search..."
             className="w-full bg-transparent px-2 py-1 text-white placeholder-gray-400 focus:outline-none"
-            className="w-full bg-transparent px-2 py-1 text-white placeholder-gray-400 focus:outline-none"
             onKeyDown={(e) => e.stopPropagation()}
           />
         </div>
@@ -84,7 +83,6 @@ export default function DropDownInput({
           {filteredOptions.slice(0, renderedCount).map((opt, idx) => (
             <DropdownMenuItem
               key={`${String(opt.value)}-${idx}`}
-              className="cursor-pointer px-3 py-2 hover:bg-[#2A2A2A]"
               className="cursor-pointer px-3 py-2 hover:bg-[#2A2A2A]"
               onSelect={() => onChange(opt)}
             >
