@@ -87,43 +87,42 @@ const Carousel = React.forwardRef<
       const details = slider.track.details;
       if (!details) return;
       const nextPrev = details.rel > 0;
-      const nextNext = details.rel < details.slides.length - 1
+      const nextNext = details.rel < details.slides.length - 1;
       setCanScrollPrev((prev) => (prev === nextPrev ? prev : nextPrev));
       setCanScrollNext((prev) => (prev === nextNext ? prev : nextNext));
     }, []);
 
     const mergedOptions = React.useMemo<CarouselOptions>(() => {
-  const safeOpts = (opts ?? {}) as CarouselOptions;
-  const { slides, created, slideChanged, updated, ...restOpts } = safeOpts;
+      const safeOpts = (opts ?? {}) as CarouselOptions;
+      const { slides, created, slideChanged, updated, ...restOpts } = safeOpts;
 
-  return {
-    loop: true,
-    rubberband: false,
-    vertical: orientation === "vertical",
-    ...restOpts,
-    slides: {
-      origin: "center",
-      perView: "auto",
-      spacing: 16,
-      // ✅ only spread if slides is an object config
-      ...(typeof slides === "object" && slides !== null ? slides : {}),
-    },
-    created(slider) {
-      setSlider((prev) => (prev === slider ? prev : slider));
-      updateCanScroll(slider);
-      created?.(slider);
-    },
-    slideChanged(slider) {
-      updateCanScroll(slider);
-      slideChanged?.(slider);
-    },
-    updated(slider) {
-      updateCanScroll(slider);
-      updated?.(slider);
-    },
-  };
-}, [opts, orientation, updateCanScroll]);
-
+      return {
+        loop: true,
+        rubberband: false,
+        vertical: orientation === "vertical",
+        ...restOpts,
+        slides: {
+          origin: "center",
+          perView: "auto",
+          spacing: 16,
+          // ✅ only spread if slides is an object config
+          ...(typeof slides === "object" && slides !== null ? slides : {}),
+        },
+        created(slider) {
+          setSlider((prev) => (prev === slider ? prev : slider));
+          updateCanScroll(slider);
+          created?.(slider);
+        },
+        slideChanged(slider) {
+          updateCanScroll(slider);
+          slideChanged?.(slider);
+        },
+        updated(slider) {
+          updateCanScroll(slider);
+          updated?.(slider);
+        },
+      };
+    }, [opts, orientation, updateCanScroll]);
 
     const [carouselRef, instanceRef] = useKeenSlider<HTMLDivElement>(
       mergedOptions,
@@ -286,6 +285,8 @@ CarouselNext.displayName = "CarouselNext";
 export {
   Carousel,
   CarouselContent,
-  CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
 };
-
