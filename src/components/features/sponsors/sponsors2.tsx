@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 // Placeholder sponsors data
 const SPONSORS = [
@@ -83,9 +82,7 @@ const Sponsors2 = () => {
           <p className="relative z-10 mb-2 font-mono text-xs text-neutral-700">
             Contact us at:
             <br />
-            <span className="bg-[#E3C676]/20 px-1 font-bold">
-              partnerships@qhacks.io
-            </span>
+            <span className="bg-[#E3C676]/20 px-1 font-bold">partnerships@qhacks.io</span>
           </p>
         </div>
       </div>
@@ -180,10 +177,8 @@ const Sponsors2 = () => {
             Honouring our <span className="text-[#d4b255]">Past Sponsors</span>
           </h3>
           <p className="relative z-10 font-mono text-xs leading-relaxed text-neutral-700">
-            By partnering with{" "}
-            <span className="font-bold text-[#b39646]">QHacks</span>, you will
-            not only empower the next generation of leaders but also contribute
-            to creating an inclusive and equitable future for the industry.
+            By partnering with <span className="font-bold text-[#b39646]">QHacks</span>, you will not only empower the next
+            generation of leaders but also contribute to creating an inclusive and equitable future for the industry.
           </p>
         </div>
       </div>

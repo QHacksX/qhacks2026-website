@@ -1,14 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 
 export interface Gallery4Item {
   id: string;
@@ -48,8 +43,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
 
     updateSelection(carouselApi);
 
-    const handleChange = (slider: NonNullable<CarouselApi>) =>
-      updateSelection(slider);
+    const handleChange = (slider: NonNullable<CarouselApi>) => updateSelection(slider);
 
     carouselApi.on("slideChanged", handleChange);
     carouselApi.on("created", handleChange);
@@ -70,11 +64,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
     // Pick the nearest clone of the requested slide to keep motion short.
     let closestIdx = slideIndex;
     let closestDistance = Math.abs(details.rel - slideIndex);
-    for (
-      let idx = slideIndex + baseLength;
-      idx < renderedItems.length;
-      idx += baseLength
-    ) {
+    for (let idx = slideIndex + baseLength; idx < renderedItems.length; idx += baseLength) {
       const distance = Math.abs(details.rel - idx);
       if (distance < closestDistance) {
         closestDistance = distance;
@@ -138,10 +128,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
           >
             <CarouselContent className="ml-0 px-2 will-change-transform sm:px-4 lg:px-6">
               {renderedItems.map((item, idx) => (
-                <CarouselItem
-                  key={item._key}
-                  className="flex basis-auto snap-center justify-center"
-                >
+                <CarouselItem key={item._key} className="flex basis-auto snap-center justify-center">
                   <a
                     href={item.href}
                     className="group block overflow-hidden rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.28)]"
@@ -156,11 +143,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
                         fill
                         sizes="(min-width: 1280px) 420px, (min-width: 1024px) 380px, (min-width: 768px) 60vw, 80vw"
                         className="h-full w-full object-contain object-center transition-transform duration-150 ease-out will-change-transform group-hover:scale-[1.015]"
-                        loading={
-                          item._copy === 0 && idx < items.length
-                            ? "eager"
-                            : "lazy"
-                        }
+                        loading={item._copy === 0 && idx < items.length ? "eager" : "lazy"}
                         priority={item._copy === 0 && idx < items.length}
                       />
                     </div>

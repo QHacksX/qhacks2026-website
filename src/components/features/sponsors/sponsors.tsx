@@ -4,13 +4,7 @@ const Sponsors = () => {
   return (
     <section className="relative block min-h-screen w-full overflow-hidden">
       {/* Background */}
-      <Image
-        src="/sponsors-assets/sponsors-bg.jpg"
-        alt="Sponsors Background"
-        fill
-        priority
-        className="object-fill"
-      />
+      <Image src="/sponsors-assets/sponsors-bg.jpg" alt="Sponsors Background" fill priority className="object-fill" />
 
       {/* Black tape overlay */}
       <Image

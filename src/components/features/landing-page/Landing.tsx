@@ -56,17 +56,13 @@ const Landing = () => {
           <div className="flex flex-col items-center gap-1">
             <h1
               className="text-[44px] leading-tight font-bold tracking-tight text-[#e7dfcf] sm:text-[56px] md:text-[68px] lg:text-[76px]"
-              style={{
-                fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif",
-              }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif" }}
             >
               QHacks
             </h1>
             <p
               className="text-[30px] leading-tight font-semibold tracking-tight text-[#c3a046] sm:text-[40px] md:text-[50px] lg:text-[58px]"
-              style={{
-                fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif",
-              }}
+              style={{ fontFamily: "'Space Grotesk', 'Inter', system-ui, sans-serif" }}
             >
               2026
             </p>
@@ -90,13 +86,8 @@ const Landing = () => {
               </div>
             ) : (
               <div className="space-y-1 text-center">
-                <p className="text-sm font-medium text-white sm:text-base">
-                  Already have an account?
-                </p>
-                <Link
-                  href="/login"
-                  className="text-base font-semibold text-[#c3a046] hover:underline"
-                >
+                <p className="text-sm font-medium text-white sm:text-base">Already have an account?</p>
+                <Link href="/login" className="text-base font-semibold text-[#c3a046] hover:underline">
                   Login
                 </Link>
               </div>

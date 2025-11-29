@@ -1,8 +1,7 @@
 "use client";
 
-import type { Transition } from "framer-motion";
 import { AnimatePresence, motion } from "framer-motion";
-import { Instagram, Linkedin, Menu, Twitter, X } from "lucide-react";
+import { Instagram, Linkedin, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -27,18 +26,9 @@ const NavbarMenu = () => {
   ];
 
   const socialLinks = [
-    {
-      icon: Instagram,
-      href: "https://instagram.com/qhacks",
-      label: "Instagram",
-    },
-    { icon: Twitter, href: "https://twitter.com/qhacks", label: "Twitter" },
-    {
-      icon: Linkedin,
-      href: "https://linkedin.com/company/qhacks",
-      label: "LinkedIn",
-    },
-    { icon: FaTiktok, href: "https://tiktok.com/@qhacks", label: "TikTok" },
+    { icon: Instagram, href: "https://instagram.com/qhacksx", label: "Instagram" },
+    { icon: Linkedin, href: "https://linkedin.com/company/qhacks", label: "LinkedIn" },
+    { icon: FaTiktok, href: "https://tiktok.com/@qhacksx", label: "TikTok" },
   ];
 
   useEffect(() => {
@@ -118,10 +108,7 @@ const NavbarMenu = () => {
     return () => observer.disconnect();
   }, []);
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string,
-  ) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith("#")) {
       e.preventDefault();
       const targetId = href.replace("#", "");
@@ -137,17 +124,11 @@ const NavbarMenu = () => {
     setMobileOpen(false);
   };
 
-  const navTransition: Transition = hasPlayedIntro
-    ? {
-        duration: 0.25,
-        delay: 0,
-        ease: [0.16, 1, 0.3, 1], // matches easeOut
-      }
-    : {
-        duration: 0.6,
-        delay: 0.8,
-        ease: [0.42, 0, 0.58, 1], // matches easeInOut
-      };
+  const navTransition = {
+    duration: hasPlayedIntro ? 0.25 : 0.6,
+    delay: hasPlayedIntro ? 0 : 0.8,
+    ease: hasPlayedIntro ? ("easeOut" as const) : ("easeInOut" as const),
+  };
 
   return (
     <motion.nav
@@ -157,19 +138,15 @@ const NavbarMenu = () => {
         opacity: hasRevealed && isVisible ? 1 : 0,
       }}
       transition={navTransition}
-      className="fixed top-0 right-0 left-0 z-[120] will-change-transform"
+      className="fixed top-0 right-0 left-0 z-120 will-change-transform"
     >
       {/* Black gradient at the very top */}
-      <div className="pointer-events-none absolute top-0 right-0 left-0 h-8 bg-gradient-to-b from-black/30 via-black/15 to-transparent" />
+      <div className="pointer-events-none absolute top-0 right-0 left-0 h-8 bg-linear-to-b from-black/30 via-black/15 to-transparent" />
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="flex h-12 items-center justify-between sm:h-14 lg:h-20 xl:h-24">
           <div className="flex items-center gap-4 lg:gap-8">
             {/* Logo */}
-            <a
-              href="#home"
-              onClick={(e) => handleNavClick(e, "#home")}
-              className="flex-shrink-0 touch-manipulation"
-            >
+            <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="shrink-0 touch-manipulation">
               <Image
                 src="/static/logo.png"
                 alt="QHacks Logo"
@@ -261,9 +238,7 @@ const NavbarMenu = () => {
                           className="h-9 w-9"
                           quality={90}
                         />
-                        <span className="text-lg font-semibold tracking-tight text-white/90">
-                          QHacks
-                        </span>
+                        <span className="text-lg font-semibold tracking-tight text-white/90">QHacks</span>
                       </div>
                       <button
                         className="rounded-full bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white focus:ring-2 focus:ring-white/30 focus:outline-none"

@@ -8,16 +8,14 @@ const joinItems: Gallery4Item[] = [
   {
     id: "placeholder",
     title: "See the full flow",
-    description:
-      "Check-in, kickoff, hacking, demos, prizes, and the late-night stories.",
+    description: "Check-in, kickoff, hacking, demos, prizes, and the late-night stories.",
     href: "#joinus",
     image: "/join-placeholder.svg",
   },
   {
     id: "projects",
     title: "Projects you're proud of",
-    description:
-      "Build bold ideas with teammates who love shipping fast and clean.",
+    description: "Build bold ideas with teammates who love shipping fast and clean.",
     href: "#joinus",
     image: "/join-projects.svg",
   },
@@ -31,16 +29,14 @@ const joinItems: Gallery4Item[] = [
   {
     id: "mentors",
     title: "Mentors on speed dial",
-    description:
-      "PMs, designers, and engineers ready to unblock you in minutes, not hours.",
+    description: "PMs, designers, and engineers ready to unblock you in minutes, not hours.",
     href: "#joinus",
     image: "/join-mentors.svg",
   },
   {
     id: "applicant",
     title: "Newcomer-friendly",
-    description:
-      "First hackathon? You're in good company with structured support.",
+    description: "First hackathon? You're in good company with structured support.",
     href: "#joinus",
     image: "/join-applicants.svg",
   },

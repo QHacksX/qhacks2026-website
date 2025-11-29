@@ -10,7 +10,7 @@ import { CgSpinner } from "react-icons/cg";
 import { IoIosCheckmarkCircle, IoIosCloseCircle } from "react-icons/io";
 import AnimatedStars from "@/components/ui/3d-models/Star";
 
-export default function VerifyPage() {
+export default function TrustIpPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuthStore();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -18,25 +18,23 @@ export default function VerifyPage() {
   useEffect(() => {
     const verifyToken = async () => {
       // Parse token from hash: #token=...
-      // We use window.location.hash directly because Next.js router doesn't expose hash params easily in server components or initial render
       const hash = window.location.hash;
       const params = new URLSearchParams(hash.substring(1)); // remove #
       const token = params.get("token");
 
       if (!token) {
         setStatus("error");
-        // Only show toast if we're done loading to avoid flash
         return;
       }
 
       try {
-        await authApi.verify({ token });
+        await authApi.trustIp({ token });
         setStatus("success");
-        toast.success("Email verified successfully!");
+        toast.success("Location verified successfully!");
       } catch (error) {
         console.error(error);
         setStatus("error");
-        toast.error("Failed to verify email. The link may be expired.");
+        toast.error("Failed to verify location. The link may be expired.");
       }
     };
 
@@ -54,16 +52,16 @@ export default function VerifyPage() {
         {status === "loading" && (
           <>
             <CgSpinner className="mx-auto animate-spin text-6xl text-[#E3C676]" />
-            <h1 className="text-2xl font-semibold">Verifying Email...</h1>
-            <p className="text-white/70">Please wait while we verify your email address.</p>
+            <h1 className="text-2xl font-semibold">Verifying Location...</h1>
+            <p className="text-white/70">Please wait while we verify your login location.</p>
           </>
         )}
 
         {status === "success" && (
           <>
             <IoIosCheckmarkCircle className="mx-auto text-6xl text-green-500" />
-            <h1 className="text-2xl font-semibold text-green-500">Email Verified!</h1>
-            <p className="text-white/70">Your email has been successfully verified.</p>
+            <h1 className="text-2xl font-semibold text-green-500">Location Verified!</h1>
+            <p className="text-white/70">Your location has been successfully verified. You can now log in.</p>
             <button
               onClick={() => router.push((isAuthenticated ? "/" : "/login") as Route)}
               className="inline-block w-full rounded-xl bg-[#E3C676] px-6 py-3 font-bold text-black transition-transform hover:scale-[1.02]"

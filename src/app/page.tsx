@@ -27,18 +27,7 @@ export default function Home() {
       }
     };
     const preventKeys = (e: KeyboardEvent) => {
-      if (
-        !introComplete &&
-        [
-          "ArrowUp",
-          "ArrowDown",
-          "Space",
-          "PageUp",
-          "PageDown",
-          "Home",
-          "End",
-        ].includes(e.key)
-      ) {
+      if (!introComplete && ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", "Home", "End"].includes(e.key)) {
         e.preventDefault();
       }
     };
@@ -51,11 +40,25 @@ export default function Home() {
       document.body.style.height = "100%";
       document.body.style.touchAction = "none";
 
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.height = "100%";
+      document.body.style.touchAction = "none";
+
       // Prevent wheel, touch, and keyboard scrolling
       window.addEventListener("wheel", preventScroll, { passive: false });
       window.addEventListener("touchmove", preventScroll, { passive: false });
       window.addEventListener("keydown", preventKeys);
+      window.addEventListener("wheel", preventScroll, { passive: false });
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+      window.addEventListener("keydown", preventKeys);
     } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
@@ -71,10 +74,24 @@ export default function Home() {
       document.body.style.width = "";
       document.body.style.height = "";
       document.body.style.touchAction = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
     }, 5500);
 
     return () => {
       clearTimeout(timer);
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventKeys);
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
+      document.documentElement.style.scrollbarGutter = "";
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
       window.removeEventListener("keydown", preventKeys);

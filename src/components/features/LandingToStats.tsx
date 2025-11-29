@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef } from "react";
 
 // Register ScrollTrigger plugin
 if (typeof window !== "undefined") {
@@ -15,11 +15,7 @@ interface LandingToStatsProps {
   enabled?: boolean;
 }
 
-const LandingToStats = ({
-  landingComponent,
-  statsComponent,
-  enabled = true,
-}: LandingToStatsProps) => {
+const LandingToStats = ({ landingComponent, statsComponent, enabled = true }: LandingToStatsProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
@@ -66,17 +62,9 @@ const LandingToStats = ({
       style={{ touchAction: "pan-y", transform: "translateZ(0)" }}
     >
       <div className="h-screen w-full overflow-hidden">
-        <div
-          ref={scrollerRef}
-          className="flex h-full w-fit will-change-transform"
-          style={{ transform: "translateZ(0)" }}
-        >
-          <div className="h-screen w-screen flex-shrink-0">
-            {landingComponent}
-          </div>
-          <div className="h-screen w-screen flex-shrink-0">
-            {statsComponent}
-          </div>
+        <div ref={scrollerRef} className="flex h-full w-fit will-change-transform" style={{ transform: "translateZ(0)" }}>
+          <div className="h-screen w-screen flex-shrink-0">{landingComponent}</div>
+          <div className="h-screen w-screen flex-shrink-0">{statsComponent}</div>
         </div>
       </div>
     </div>
