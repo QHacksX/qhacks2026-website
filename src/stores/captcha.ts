@@ -22,5 +22,6 @@ export const useCaptchaStore = create<CaptchaState>((set) => ({
   open: (siteKey, resolve, reject) =>
     set({ isOpen: true, siteKey, resolve, reject }),
   close: () => set({ isOpen: false }),
-  reset: () => set({ isOpen: false, siteKey: null, resolve: null, reject: null }),
+  reset: () =>
+    set({ isOpen: false, siteKey: null, resolve: null, reject: null }),
 }));

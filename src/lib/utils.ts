@@ -22,12 +22,15 @@ export function camelToSnakeCase<T>(obj: T): T {
     return obj.map(camelToSnakeCase) as T;
   }
 
-  return Object.keys(obj).reduce((acc, key) => {
-    const snakeKey = toSnakeCase(key);
-    const value = (obj as Record<string, unknown>)[key];
-    acc[snakeKey] = camelToSnakeCase(value);
-    return acc;
-  }, {} as Record<string, unknown>) as unknown as T;
+  return Object.keys(obj).reduce(
+    (acc, key) => {
+      const snakeKey = toSnakeCase(key);
+      const value = (obj as Record<string, unknown>)[key];
+      acc[snakeKey] = camelToSnakeCase(value);
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  ) as unknown as T;
 }
 
 export function snakeToCamelCase<T>(obj: T): T {
@@ -39,10 +42,13 @@ export function snakeToCamelCase<T>(obj: T): T {
     return obj.map(snakeToCamelCase) as T;
   }
 
-  return Object.keys(obj).reduce((acc, key) => {
-    const camelKey = toCamelCase(key);
-    const value = (obj as Record<string, unknown>)[key];
-    acc[camelKey] = snakeToCamelCase(value);
-    return acc;
-  }, {} as Record<string, unknown>) as unknown as T;
+  return Object.keys(obj).reduce(
+    (acc, key) => {
+      const camelKey = toCamelCase(key);
+      const value = (obj as Record<string, unknown>)[key];
+      acc[camelKey] = snakeToCamelCase(value);
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  ) as unknown as T;
 }

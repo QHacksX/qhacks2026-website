@@ -3,11 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const SLIDES = [
-  "/growNetwork.svg",
-  "/bring.svg",
-  "/showcase.svg",
-];
+const SLIDES = ["/growNetwork.svg", "/bring.svg", "/showcase.svg"];
 
 const TRANSITION_DURATION = 500; // 1.5 seconds fade (slower)
 const SECTION_MULTIPLIER = 0.9; // makes each slide need more scrolling
@@ -62,8 +58,8 @@ const Theatre = () => {
         height: `${SLIDES.length * SECTION_MULTIPLIER * 100}vh`,
       }}
     >
-      <div className="sticky top-0 w-full h-screen overflow-hidden">
-        <div className="relative w-full h-full">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
+        <div className="relative h-full w-full">
           {SLIDES.map((src, i) => {
             // calculate opacity using smooth fade
             const opacity = 1 - Math.min(1, Math.abs(slidePosition - i));
@@ -74,7 +70,7 @@ const Theatre = () => {
                 src={src}
                 alt={`Slide ${i}`}
                 fill
-                className="object-cover absolute inset-0 transition-opacity"
+                className="absolute inset-0 object-cover transition-opacity"
                 style={{
                   opacity,
                   transitionDuration: `${TRANSITION_DURATION}ms`,

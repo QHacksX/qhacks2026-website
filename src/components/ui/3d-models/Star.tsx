@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 const StaticStarfield = () => (
   <div
-    className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_25%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.06),transparent_22%),radial-gradient(circle_at_50%_60%,rgba(255,255,255,0.05),transparent_28%)]"
+    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_25%),radial-gradient(circle_at_80%_10%,rgba(255,255,255,0.06),transparent_22%),radial-gradient(circle_at_50%_60%,rgba(255,255,255,0.05),transparent_28%)]"
     aria-hidden="true"
     style={{
       maskImage:
@@ -28,9 +28,7 @@ export default function AnimatedStars() {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       const allowMotion = !mediaQuery.matches;
-      setShouldRender(
-        allowMotion && document.visibilityState === "visible",
-      );
+      setShouldRender(allowMotion && document.visibilityState === "visible");
     };
 
     update();
