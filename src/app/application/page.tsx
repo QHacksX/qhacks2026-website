@@ -1,28 +1,28 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import DropDownInput, { OptionType } from "@/components/dropdown";
+import AnimatedStars from "@/components/ui/3d-models/Star";
+import { DropdownTypes, dropdownOptions } from "@/data/dropdown-options/option";
 import {
-  applicationApi,
-  ApplicationCreatePayload,
-  LevelOfStudy,
-  HTTPError,
-  UserFlags,
-  authApi,
   Application,
+  ApplicationCreatePayload,
   ApplicationStatus,
+  HTTPError,
+  LevelOfStudy,
+  UserFlags,
+  applicationApi,
+  authApi,
   hasFlag,
 } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
-import AnimatedStars from "@/components/ui/3d-models/Star";
-import { IoIosClose, IoIosWarning, IoIosCheckmarkCircle } from "react-icons/io";
-import { CgSpinner } from "react-icons/cg";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { CgSpinner } from "react-icons/cg";
+import { IoIosCheckmarkCircle, IoIosClose, IoIosWarning } from "react-icons/io";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import DropDownInput, { OptionType } from "@/components/dropdown";
-import { DropdownTypes, dropdownOptions } from "@/data/dropdown-options/option";
+import { toast } from "sonner";
 
 const ApplicationPage = () => {
   const router = useRouter();
