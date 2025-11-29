@@ -30,7 +30,11 @@ const Gallery4 = ({ items }: Gallery4Props) => {
     // Render a few copies so the loop feels seamless while images load.
     const copies = 3;
     return Array.from({ length: copies }, (_, copyIndex) =>
-      items.map((item) => ({ ...item, _key: `${copyIndex}-${item.id}`, _copy: copyIndex })),
+      items.map((item) => ({
+        ...item,
+        _key: `${copyIndex}-${item.id}`,
+        _copy: copyIndex,
+      })),
     ).flat();
   }, [items]);
 
@@ -44,7 +48,8 @@ const Gallery4 = ({ items }: Gallery4Props) => {
 
     updateSelection(carouselApi);
 
-    const handleChange = (slider: NonNullable<CarouselApi>) => updateSelection(slider);
+    const handleChange = (slider: NonNullable<CarouselApi>) =>
+      updateSelection(slider);
 
     carouselApi.on("slideChanged", handleChange);
     carouselApi.on("created", handleChange);
@@ -65,7 +70,11 @@ const Gallery4 = ({ items }: Gallery4Props) => {
     // Pick the nearest clone of the requested slide to keep motion short.
     let closestIdx = slideIndex;
     let closestDistance = Math.abs(details.rel - slideIndex);
-    for (let idx = slideIndex + baseLength; idx < renderedItems.length; idx += baseLength) {
+    for (
+      let idx = slideIndex + baseLength;
+      idx < renderedItems.length;
+      idx += baseLength
+    ) {
       const distance = Math.abs(details.rel - idx);
       if (distance < closestDistance) {
         closestDistance = distance;
@@ -78,10 +87,10 @@ const Gallery4 = ({ items }: Gallery4Props) => {
 
   return (
     <section className="py-8 sm:py-12 md:py-16">
-      <div className="w-full flex justify-center">
+      <div className="flex w-full justify-center">
         <div className="relative w-[98vw] sm:w-[92vw] lg:w-[84vw] xl:w-[78vw]">
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 sm:w-12 bg-gradient-to-r from-black via-black/40 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 sm:w-12 bg-gradient-to-l from-black via-black/40 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black via-black/40 to-transparent sm:w-12" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black via-black/40 to-transparent sm:w-12" />
           <Carousel
             setApi={setCarouselApi}
             opts={useMemo(
@@ -127,18 +136,18 @@ const Gallery4 = ({ items }: Gallery4Props) => {
               [],
             )}
           >
-            <CarouselContent className="ml-0 px-2 sm:px-4 lg:px-6 will-change-transform">
+            <CarouselContent className="ml-0 px-2 will-change-transform sm:px-4 lg:px-6">
               {renderedItems.map((item, idx) => (
                 <CarouselItem
                   key={item._key}
-                  className="flex justify-center basis-auto snap-center"
+                  className="flex basis-auto snap-center justify-center"
                 >
                   <a
                     href={item.href}
-                    className="group block rounded-2xl overflow-hidden shadow-[0_12px_36px_rgba(0,0,0,0.28)]"
+                    className="group block overflow-hidden rounded-2xl shadow-[0_12px_36px_rgba(0,0,0,0.28)]"
                   >
                     <div
-                      className="relative bg-black transform-gpu w-[68vw] sm:w-[56vw] md:w-[48vw] lg:w-[360px] max-w-[360px]"
+                      className="relative w-[68vw] max-w-[360px] transform-gpu bg-black sm:w-[56vw] md:w-[48vw] lg:w-[360px]"
                       style={{ aspectRatio: "418 / 645" }}
                     >
                       <Image
@@ -146,8 +155,12 @@ const Gallery4 = ({ items }: Gallery4Props) => {
                         alt={item.title}
                         fill
                         sizes="(min-width: 1280px) 420px, (min-width: 1024px) 380px, (min-width: 768px) 60vw, 80vw"
-                        className="object-contain object-center w-full h-full transition-transform duration-150 ease-out group-hover:scale-[1.015] will-change-transform"
-                        loading={item._copy === 0 && idx < items.length ? "eager" : "lazy"}
+                        className="h-full w-full object-contain object-center transition-transform duration-150 ease-out will-change-transform group-hover:scale-[1.015]"
+                        loading={
+                          item._copy === 0 && idx < items.length
+                            ? "eager"
+                            : "lazy"
+                        }
                         priority={item._copy === 0 && idx < items.length}
                       />
                     </div>
@@ -156,7 +169,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
               ))}
             </CarouselContent>
           </Carousel>
-          <div className="mt-6 sm:mt-8 flex justify-center gap-2">
+          <div className="mt-6 flex justify-center gap-2 sm:mt-8">
             {items.map((_, slideIndex) => (
               <button
                 key={slideIndex}

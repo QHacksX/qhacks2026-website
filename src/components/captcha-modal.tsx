@@ -38,10 +38,10 @@ export function CaptchaModal() {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[425px] bg-[#1a1a1a] border-[#333] text-white duration-0">
+      <DialogContent className="border-[#333] bg-[#1a1a1a] text-white duration-0 sm:max-w-[425px]">
         <DialogHeader className="flex flex-col items-center gap-4">
-          <FaRobot className="text-[#E3C676] text-6xl" />
-          <DialogTitle className="text-[#E3C676] text-xl">
+          <FaRobot className="text-6xl text-[#E3C676]" />
+          <DialogTitle className="text-xl text-[#E3C676]">
             Are you human?
           </DialogTitle>
         </DialogHeader>

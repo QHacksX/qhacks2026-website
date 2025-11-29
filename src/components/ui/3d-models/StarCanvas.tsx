@@ -5,7 +5,7 @@ import { Canvas } from "@react-three/fiber";
 
 const StarCanvas = () => (
   <div
-    className="absolute inset-0 pointer-events-none"
+    className="pointer-events-none absolute inset-0"
     style={{
       maskImage:
         "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.3) 5%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 100%)",

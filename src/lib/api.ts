@@ -146,7 +146,10 @@ export enum UserFlags {
   Accepted = 1 << 4,
 }
 
-export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {
+export function hasFlag(
+  user: User | null | undefined,
+  flag: UserFlags,
+): boolean {
   if (!user) return false;
   return (user.flags & flag) === flag;
 }

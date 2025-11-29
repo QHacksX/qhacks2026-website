@@ -15,26 +15,26 @@ const NowPresenting = () => {
   if (!show) return null;
 
   return (
-    <section className="fixed inset-0 w-full h-screen z-50 pointer-events-none">
+    <section className="pointer-events-none fixed inset-0 z-50 h-screen w-full">
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
-        transition={{ 
-          duration: 1, 
+        transition={{
+          duration: 1,
           delay: 2.5,
-          ease: "easeOut"
+          ease: "easeOut",
         }}
-        className="w-full h-full relative bg-black will-change-opacity"
-        style={{ transform: 'translateZ(0)' }}
+        className="will-change-opacity relative h-full w-full bg-black"
+        style={{ transform: "translateZ(0)" }}
       >
         {/* Noise texture overlay - reduced opacity on mobile */}
         <div
-          className="absolute inset-0 bg-[url('/static/noise.png')] bg-cover bg-center opacity-30 md:opacity-50 pointer-events-none"
+          className="pointer-events-none absolute inset-0 bg-[url('/static/noise.png')] bg-cover bg-center opacity-30 md:opacity-50"
           aria-hidden="true"
         />
-        
+
         {/* Billboard positioned on the right side - fills height properly */}
-        <div className="absolute right-0 top-0 bottom-0 w-auto h-full flex items-center justify-end">
+        <div className="absolute top-0 right-0 bottom-0 flex h-full w-auto items-center justify-end">
           <Image
             src="/board.png"
             alt="now presenting board"

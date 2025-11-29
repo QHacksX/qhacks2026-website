@@ -6,16 +6,16 @@ export default function Intro() {
   const [revealLogo, setRevealLogo] = useState(false);
 
   return (
-    <main className="relative w-full h-screen bg-black overflow-hidden">
+    <main className="relative h-screen w-full overflow-hidden bg-black">
       {/* Noise texture overlay */}
       <div
-        className="absolute inset-0 bg-[url('/static/noise.png')] bg-cover bg-center opacity-50 pointer-events-none"
+        className="pointer-events-none absolute inset-0 bg-[url('/static/noise.png')] bg-cover bg-center opacity-50"
         aria-hidden="true"
       />
 
       {/* Blank first frame that fades away */}
       <motion.div
-        className="absolute inset-0 bg-black z-10"
+        className="absolute inset-0 z-10 bg-black"
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ duration: 1.8, ease: "easeInOut", delay: 0.2 }}
