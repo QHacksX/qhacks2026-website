@@ -87,10 +87,12 @@ export const MemberBubble = ({ name, role, image, position, layoutMode = false, 
           <div
             className={clsx(
               "relative overflow-hidden rounded-full border-2 bg-[#2b2b2b]",
-              layoutMode ? "h-4 w-4 border-yellow-400" : "h-20 w-20 border-white/20 sm:h-24 sm:w-24 md:h-28 md:w-28",
+              layoutMode ? "h-4 w-4 border-yellow-400" : "h-24 w-24 border-white/20",
             )}
           >
-            {!layoutMode && <Image src={image} alt={name} fill className="object-cover" sizes="80px" />}
+            {!layoutMode && (
+              <Image src={image} alt={name} fill className="object-cover" sizes="96px" loading="lazy" quality={80} />
+            )}
           </div>
         </motion.div>
       </Popover.Trigger>

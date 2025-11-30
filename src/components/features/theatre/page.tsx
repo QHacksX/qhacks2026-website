@@ -1,51 +1,58 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 
 const SLIDES = ["/growNetwork.svg", "/bring.svg", "/showcase.svg"];
 
-const TRANSITION_DURATION = 500; // 1.5 seconds fade (slower)
-const SECTION_MULTIPLIER = 0.9; // makes each slide need more scrolling
+const TRANSITION_DURATION = 400; // Faster transitions
+const SECTION_MULTIPLIER = 0.9;
 
 const Theatre = () => {
   const [progress, setProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const rafRef = useRef<number | null>(null);
 
   const totalSlides = SLIDES.length;
   const slideRange = totalSlides - 1;
 
+  const handleScroll = useCallback(() => {
+    if (!containerRef.current) return;
+
+    const section = containerRef.current;
+    const { top, height } = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    if (top > 0) {
+      setProgress(0);
+      return;
+    }
+
+    const lockHeight = height - viewportHeight;
+    const scrolledInside = Math.min(lockHeight, Math.abs(top));
+    const newProgress = scrolledInside / lockHeight;
+
+    setProgress(newProgress);
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-
-      const section = containerRef.current;
-      const { top, height } = section.getBoundingClientRect();
-
-      // Visible when hero top <= window height
-      const viewportHeight = window.innerHeight;
-
-      // If we haven't reached the section yet → do nothing
-      if (top > 0) {
-        setProgress(0);
-        return;
+    const onScroll = () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
       }
-
-      // Lock scrolling inside the section until slides finish
-      const lockHeight = height - viewportHeight;
-      const scrolledInside = Math.min(lockHeight, Math.abs(top));
-
-      // Convert to 0 → 1 range
-      const newProgress = scrolledInside / lockHeight;
-
-      setProgress(newProgress);
+      rafRef.current = requestAnimationFrame(handleScroll);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // initial
+    window.addEventListener("scroll", onScroll, { passive: true });
+    handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [handleScroll]);
 
   // Which slide we’re on (0–1 range for crossfade)
   const slidePosition = progress * slideRange;
@@ -61,22 +68,32 @@ const Theatre = () => {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="relative h-full w-full">
           {SLIDES.map((src, i) => {
-            // calculate opacity using smooth fade
             const opacity = 1 - Math.min(1, Math.abs(slidePosition - i));
 
             return (
-              <Image
+              <div
                 key={src}
-                src={src}
-                alt={`Slide ${i}`}
-                fill
-                className="absolute inset-0 object-cover transition-opacity"
+                className="absolute inset-0"
                 style={{
                   opacity,
-                  transitionDuration: `${TRANSITION_DURATION}ms`,
+                  transition: `opacity ${TRANSITION_DURATION}ms ease-out`,
+                  willChange: "opacity",
                 }}
-                priority={i === 0}
-              />
+              >
+                <Image
+                  src={src}
+                  alt={`Slide ${i}`}
+                  fill
+                  className="object-cover"
+                  style={{ pointerEvents: "none" }}
+                  priority={i === 0}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  quality={85}
+                  sizes="100vw"
+                  placeholder="blur"
+                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IGZpbGw9IiMwYTBhMGEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48L3N2Zz4="
+                />
+              </div>
             );
           })}
         </div>

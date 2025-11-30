@@ -83,9 +83,19 @@ export const TeamsPopcornMap = ({ members, popcornImage = "/popcorn.svg" }: Team
         transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative h-full w-full"
       >
-        {/* Popcorn Background Image - Full Screen */}
+        {/* Popcorn Background Image - Fill Screen */}
         <div className="relative h-full w-full">
-          <Image src={popcornImage} alt="QHacks Team Popcorn" fill className="object-cover" sizes="100vw" priority />
+          <Image
+            src={popcornImage}
+            alt="QHacks Team Popcorn"
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority
+            quality={85}
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IGZpbGw9IiMwYTBhMGEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48L3N2Zz4="
+          />
 
           {/* All Member Bubbles Positioned on Single Popcorn */}
           {members.map((member, index) => (
@@ -101,8 +111,10 @@ export const TeamsPopcornMap = ({ members, popcornImage = "/popcorn.svg" }: Team
           ))}
 
           {/* Instructions for Layout Mode - Overlaid at Bottom */}
-          <div className="absolute right-0 bottom-4 left-0 z-20 text-center text-xs text-gray-500">
-            <p>Press Ctrl/Cmd + Shift + L to toggle layout mode</p>
+          <div className="absolute right-0 bottom-4 left-0 z-20 text-center">
+            <p className="inline-block rounded-md bg-black/60 px-3 py-1.5 text-xs text-gray-300 backdrop-blur-sm">
+              Press Ctrl/Cmd + Shift + L to toggle layout mode
+            </p>
           </div>
         </div>
       </motion.div>
