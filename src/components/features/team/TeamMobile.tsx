@@ -23,7 +23,7 @@ const TeamMobile = () => {
     <section className="relative min-h-screen w-full bg-black px-6 py-12 lg:hidden">
       {/* Noise texture */}
       <div
-        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"
+        className="pointer-events-none absolute inset-0 bg-center bg-repeat opacity-50"
         style={{ backgroundImage: `url('/static/noise.png')` }}
         aria-hidden="true"
       />
