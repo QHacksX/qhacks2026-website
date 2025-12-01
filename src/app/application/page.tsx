@@ -1,26 +1,26 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
-import { FaCircle } from "react-icons/fa";
+// import AnimatedStars from "@/components/AnimatedStars";
+import DropDownInput, { OptionType } from "@/components/dropdown";
+import { dropdownOptions, DropdownTypes } from "@/data/dropdown-options/option";
 import {
   Application,
+  applicationApi,
   ApplicationCreatePayload,
   ApplicationStatus,
+  authApi,
+  hasFlag,
   HTTPError,
   LevelOfStudy,
   UserFlags,
-  applicationApi,
-  authApi,
-  hasFlag,
 } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { FaCircle } from "react-icons/fa";
 import { IoIosCheckmarkCircle, IoIosClose, IoIosWarning } from "react-icons/io";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -419,7 +419,7 @@ const ApplicationPage = () => {
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#020202] to-[#000000]"></div>
-        <AnimatedStars />
+        {/* <AnimatedStars /> */}
         <NoiseOverlay />
         {/* Vintage Vignette */}
         <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
