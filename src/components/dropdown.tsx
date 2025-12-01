@@ -1,6 +1,6 @@
 import { DropdownConfig, dropdownOptions, DropdownTypes } from "@/data/dropdown-options/option";
 import { cn } from "@/lib/utils";
-import { useMemo, useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 export type OptionType = { value: string | number; label?: string };
@@ -59,9 +59,11 @@ export default function DropDownInput({
       <DropdownMenuTrigger
         className={cn(
           "w-full rounded-md border border-[#E3C676] px-4 py-2 text-left",
+          "w-full rounded-md border border-[#E3C676] px-4 py-2 text-left",
           "bg-[#1A1A1A] text-white hover:bg-[#2A2A2A] focus:outline-none",
         )}
       >
+        {value ? value.label || value.value : title}
         {value ? value.label || value.value : title}
       </DropdownMenuTrigger>
 

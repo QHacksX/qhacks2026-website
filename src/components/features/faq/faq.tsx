@@ -15,12 +15,36 @@ export default function FAQ() {
 
   const getBunchedStyle = (index: number) => {
     const positions = [
-      { x: { mobile: -40, desktop: -80 }, y: { mobile: -40, desktop: -60 }, rotate: -30 },
-      { x: { mobile: 40, desktop: 80 }, y: { mobile: -30, desktop: -50 }, rotate: 20 },
-      { x: { mobile: -50, desktop: -90 }, y: { mobile: 0, desktop: -10 }, rotate: 30 },
-      { x: { mobile: 50, desktop: 90 }, y: { mobile: 10, desktop: 0 }, rotate: -30 },
-      { x: { mobile: -60, desktop: -80 }, y: { mobile: 60, desktop: 60 }, rotate: -10 },
-      { x: { mobile: 60, desktop: 80 }, y: { mobile: 70, desktop: 70 }, rotate: 20 },
+      {
+        x: { mobile: -40, desktop: -80 },
+        y: { mobile: -40, desktop: -60 },
+        rotate: -30,
+      },
+      {
+        x: { mobile: 40, desktop: 80 },
+        y: { mobile: -30, desktop: -50 },
+        rotate: 20,
+      },
+      {
+        x: { mobile: -50, desktop: -90 },
+        y: { mobile: 0, desktop: -10 },
+        rotate: 30,
+      },
+      {
+        x: { mobile: 50, desktop: 90 },
+        y: { mobile: 10, desktop: 0 },
+        rotate: -30,
+      },
+      {
+        x: { mobile: -60, desktop: -80 },
+        y: { mobile: 60, desktop: 60 },
+        rotate: -10,
+      },
+      {
+        x: { mobile: 60, desktop: 80 },
+        y: { mobile: 70, desktop: 70 },
+        rotate: 20,
+      },
     ];
 
     const pos = positions[index];

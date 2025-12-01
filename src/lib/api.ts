@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/stores/auth";
 import { useCaptchaStore } from "@/stores/captcha";
-import { snakeToCamelCase, camelToSnakeCase } from "./utils";
+import { camelToSnakeCase, snakeToCamelCase } from "./utils";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
 

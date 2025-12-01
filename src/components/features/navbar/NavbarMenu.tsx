@@ -1,11 +1,11 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
 import { Instagram, Linkedin, Menu, X } from "lucide-react";
-import { FaTiktok } from "react-icons/fa";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { FaTiktok } from "react-icons/fa";
 
 const NavbarMenu = () => {
   const [isVisible, setIsVisible] = useState(true);
