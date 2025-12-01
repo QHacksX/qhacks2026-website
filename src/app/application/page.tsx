@@ -1,24 +1,26 @@
 "use client";
 
+// import AnimatedStars from "@/components/AnimatedStars";
 import DropDownInput, { OptionType } from "@/components/dropdown";
-import AnimatedStars from "@/components/ui/3d-models/Star";
-import { DropdownTypes, dropdownOptions } from "@/data/dropdown-options/option";
+import { dropdownOptions, DropdownTypes } from "@/data/dropdown-options/option";
 import {
   Application,
+  applicationApi,
   ApplicationCreatePayload,
   ApplicationStatus,
+  authApi,
+  hasFlag,
   HTTPError,
   LevelOfStudy,
   UserFlags,
-  applicationApi,
-  authApi,
-  hasFlag,
 } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { CgSpinner } from "react-icons/cg";
+import { FaCircle } from "react-icons/fa";
 import { IoIosCheckmarkCircle, IoIosClose, IoIosWarning } from "react-icons/io";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import "react-phone-number-input/style.css";
@@ -250,10 +252,10 @@ const ApplicationPage = () => {
   useEffect(() => {
     if (!_hasHydrated) return;
 
-    if (!isAuthenticated || !user) {
-      router.replace("/login?redirect_to=/application");
-      return;
-    }
+    // if (!isAuthenticated || !user) {
+    //   router.replace("/login?redirect_to=/application");
+    //   return;
+    // }
 
     const loadData = async () => {
       try {
@@ -272,8 +274,6 @@ const ApplicationPage = () => {
 
     loadData();
   }, [isAuthenticated, _hasHydrated, router, updateUser, user]);
-
-  if (!_hasHydrated) return null;
 
   const handleResendEmail = async () => {
     setIsResendingEmail(true);
@@ -370,65 +370,135 @@ const ApplicationPage = () => {
     }
   };
 
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 20 : -20,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 20 : -20,
+      opacity: 0,
+    }),
+  };
+
+  const [direction, setDirection] = useState(0);
+
+  const paginate = (newDirection: number) => {
+    setDirection(newDirection);
+    setCurrentStep((prev) => prev + newDirection);
+  };
+
+  // Noise overlay component
+  const NoiseOverlay = () => (
+    <div
+      className="pointer-events-none absolute inset-0 z-[1] opacity-[0.07] mix-blend-overlay"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        filter: "grayscale(100%)",
+      }}
+    />
+  );
+
+  if (!_hasHydrated) return null;
+
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#020202] text-white">
+    <div className="relative min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-[#E3C676] selection:text-black">
       <Link
         href="/"
-        className="absolute top-4 left-4 z-10 text-white transition-colors hover:text-[#E3C676] sm:top-6 sm:left-6"
+        className="absolute top-6 left-6 z-50 text-white/70 transition-all hover:scale-110 hover:text-[#E3C676]"
       >
-        <IoIosClose size={40} className="sm:h-12 sm:w-12" />
+        <IoIosClose size={40} className="drop-shadow-lg sm:h-12 sm:w-12" />
       </Link>
 
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#020202] to-[#2B2929]">
-        <AnimatedStars />
+      {/* Background Elements */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#020202] to-[#000000]"></div>
+        {/* <AnimatedStars /> */}
+        <NoiseOverlay />
+        {/* Vintage Vignette */}
+        <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
+        {/* Film Scratch Overlay (Subtle) */}
+        <div className="absolute inset-0 z-[2] animate-pulse bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03]"></div>
       </div>
 
-      <div className="relative z-10 container mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <h1 className="mb-8 text-center text-3xl font-semibold tracking-tight text-[#E3C676] sm:text-4xl lg:text-5xl">
+      {/* REC Indicator - Top Right */}
+      <motion.div
+        className="fixed top-8 right-8 z-50 flex items-center gap-3"
+        animate={{ opacity: [1, 0.3, 1] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <FaCircle className="text-red-600 drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]" size={14} />
+        <span className="font-mono text-xl font-bold tracking-[0.2em] text-white/90 drop-shadow-md">REC</span>
+      </motion.div>
+
+      <div className="relative z-10 container mx-auto flex min-h-screen max-w-4xl flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8 text-center font-mono text-3xl font-bold tracking-tight text-[#E3C676] sm:text-4xl lg:text-5xl"
+          style={{ textShadow: "0 0 20px rgba(227, 198, 118, 0.3)" }}
+        >
           {existingApplication || isSubmitted ? "Application Status" : "Apply Now"}
-        </h1>
+        </motion.h1>
 
         {isPageLoading ? (
           <div className="flex items-center justify-center py-20">
             <CgSpinner className="animate-spin text-6xl text-[#E3C676]" />
           </div>
         ) : !hasFlag(user, UserFlags.VerifiedEmail) ? (
-          <div className="space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="space-y-6 rounded-2xl border border-[#E3C676]/20 bg-black/40 p-8 text-center shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-md"
+          >
             <div className="flex justify-center">
-              <IoIosWarning className="text-6xl text-[#E3C676]" />
+              <IoIosWarning className="text-6xl text-[#E3C676] drop-shadow-lg" />
             </div>
-            <h2 className="text-2xl font-semibold">Email Verification Required</h2>
+            <h2 className="text-2xl font-semibold tracking-wide">Email Verification Required</h2>
             <p className="mx-auto max-w-md text-white/70">
               Please verify your email address before applying. Check your inbox for the verification link.
             </p>
             <button
               onClick={handleResendEmail}
               disabled={isResendingEmail}
-              className="rounded-xl bg-[#E3C676] px-8 py-3 font-bold text-black shadow-lg transition-transform hover:scale-[1.02] disabled:opacity-50"
+              className="rounded-xl bg-[#E3C676] px-8 py-3 font-bold text-black shadow-[0_0_15px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_25px_rgba(227,198,118,0.5)] disabled:opacity-50"
             >
               {isResendingEmail ? "Sending..." : "Resend Verification Email"}
             </button>
-          </div>
+          </motion.div>
         ) : existingApplication ? (
-          <div className="space-y-8 rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="space-y-8 rounded-2xl border border-[#E3C676]/20 bg-black/40 p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-md"
+          >
             {isSubmitted && (
-              <div className="space-y-2 rounded-xl border border-green-500/50 bg-green-500/10 p-6 text-center">
+              <div className="space-y-2 rounded-xl border border-green-500/30 bg-green-900/10 p-6 text-center shadow-[0_0_20px_rgba(34,197,94,0.1)]">
                 <div className="mb-4 flex justify-center">
-                  <IoIosCheckmarkCircle className="text-5xl text-green-500" />
+                  <IoIosCheckmarkCircle className="text-5xl text-green-500 drop-shadow-md" />
                 </div>
-                <h2 className="text-2xl font-bold text-green-500">Thank You for Applying!</h2>
+                <h2 className="text-2xl font-bold tracking-wide text-green-400">Thank You for Applying!</h2>
                 <p className="text-white/80">Your application has been received. We will review it shortly.</p>
               </div>
             )}
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-                <p className="mb-1 text-sm text-white/50">Application Status</p>
-                <p className="text-xl font-semibold capitalize">{ApplicationStatus[existingApplication.status]}</p>
+              <div className="rounded-xl border border-white/10 bg-black/40 p-6 transition-all hover:border-[#E3C676]/50 hover:bg-black/60">
+                <p className="mb-2 font-mono text-xs tracking-widest text-[#E3C676]/70 uppercase">Application Status</p>
+                <p className="text-2xl font-bold text-white capitalize drop-shadow-md">
+                  {ApplicationStatus[existingApplication.status]}
+                </p>
               </div>
-              <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-                <p className="mb-1 text-sm text-white/50">Submitted On</p>
-                <p className="text-xl font-semibold">
+              <div className="rounded-xl border border-white/10 bg-black/40 p-6 transition-all hover:border-[#E3C676]/50 hover:bg-black/60">
+                <p className="mb-2 font-mono text-xs tracking-widest text-[#E3C676]/70 uppercase">Submitted On</p>
+                <p className="text-2xl font-bold text-white drop-shadow-md">
                   {new Date(existingApplication.createdAt).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "long",
@@ -440,556 +510,706 @@ const ApplicationPage = () => {
 
             {existingApplication.status === ApplicationStatus.Accepted && (
               <div className="flex justify-center pt-4">
-                <Link href="https://dashboard.qhacks.io" className="font-medium text-[#E3C676] hover:underline">
-                  Go to Dashboard
+                <Link
+                  href="https://dashboard.qhacks.io"
+                  className="group flex items-center gap-2 font-mono font-bold text-[#E3C676] transition-all hover:text-[#d4b86a]"
+                >
+                  <span className="border-b-2 border-transparent transition-all group-hover:border-[#d4b86a]">
+                    Go to Dashboard
+                  </span>
+                  <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
                 </Link>
               </div>
             )}
-          </div>
+          </motion.div>
         ) : (
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm sm:p-8"
-          >
-            {/* Personal Information */}
-            {currentStep === 0 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Personal Information</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Country <span className="text-red-500">*</span>
-                    </label>
-                    <DropDownInput
-                      title="Select a country"
-                      type={DropdownTypes.country}
-                      value={getOption(DropdownTypes.country, formData.country)}
-                      onChange={(opt) => handleDropdownChange("country", opt)}
-                    />
-                    {errors.country && <p className="mt-1 text-xs text-red-500">{errors.country}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Phone <span className="text-red-500">*</span>
-                    </label>
-                    <PhoneInput
-                      value={formData.phone}
-                      onChange={(value) => {
-                        setFormData((prev) => ({
-                          ...prev,
-                          phone: value || "",
-                        }));
-                        const error = validateField("phone", value);
-                        setErrors((prev) => ({ ...prev, phone: error }));
-                      }}
-                      defaultCountry="CA"
-                      className="phone-input-container"
-                      placeholder="(000) 000-0000"
-                      smartCaret
-                    />
-                    {errors.phone && <p className="mt-1 text-xs text-red-500">{errors.phone}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Age <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      name="age"
-                      type="number"
-                      placeholder="Enter your age"
-                      value={formData.age || ""}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      required
-                      min={13}
-                      max={120}
-                    />
-                    {errors.age && <p className="mt-1 text-xs text-red-500">{errors.age}</p>}
-                  </div>
-                </div>
-              </section>
-            )}
+          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
+            {/* Movie Theater Screen Container */}
+            <div className="relative rounded-3xl bg-[#080808] p-4 shadow-[0_0_100px_rgba(0,0,0,0.8),0_0_30px_rgba(227,198,118,0.05)] ring-1 ring-white/5">
+              {/* Inner Bezel */}
+              <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-black shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
+                {/* Screen Reflection/Gloss */}
+                <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent opacity-50"></div>
 
-            {/* Education */}
-            {currentStep === 1 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Education</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Level of Study <span className="text-red-500">*</span>
-                    </label>
-                    <DropDownInput
-                      title="Select level of study"
-                      type={DropdownTypes.levelsOfStudy}
-                      value={getOption(DropdownTypes.levelsOfStudy, formData.levelOfStudy)}
-                      onChange={(opt) => handleDropdownChange("levelOfStudy", opt)}
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">School</label>
-                    <DropDownInput
-                      title="Select your school"
-                      options={schoolOptions}
-                      value={getOption(undefined, formData.school, schoolOptions)}
-                      onChange={(opt) => handleDropdownChange("school", opt)}
-                    />
-                    {errors.school && <p className="mt-1 text-xs text-red-500">{errors.school}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Major</label>
-                    <input
-                      name="major"
-                      value={formData.major}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={64}
-                      placeholder="Enter your major"
-                    />
-                    {errors.major && <p className="mt-1 text-xs text-red-500">{errors.major}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      School Email {formData.school && <span className="text-red-500">*</span>}
-                    </label>
-                    <input
-                      name="schoolEmail"
-                      type="email"
-                      value={formData.schoolEmail || ""}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={255}
-                      required={!!formData.school}
-                      placeholder="Enter your school email"
-                    />
-                    {errors.schoolEmail && <p className="mt-1 text-xs text-red-500">{errors.schoolEmail}</p>}
-                  </div>
-                </div>
-              </section>
-            )}
+                <form
+                  onSubmit={handleSubmit}
+                  className="relative space-y-8 overflow-hidden rounded-xl border-none bg-transparent p-6 sm:p-10"
+                >
+                  {/* Viewfinder Corners */}
+                  <div className="pointer-events-none absolute top-6 left-6 h-8 w-8 border-t-2 border-l-2 border-[#E3C676]/60"></div>
+                  <div className="pointer-events-none absolute top-6 right-6 h-8 w-8 border-t-2 border-r-2 border-[#E3C676]/60"></div>
+                  <div className="pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#E3C676]/60"></div>
+                  <div className="pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-[#E3C676]/60"></div>
 
-            {/* Hacker Profile */}
-            {currentStep === 2 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Hacker Profile</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">GitHub URL</label>
-                    <input
-                      name="githubUrl"
-                      value={formData.githubUrl}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={255}
-                      placeholder="https://github.com/..."
-                    />
-                    {errors.githubUrl && <p className="mt-1 text-xs text-red-500">{errors.githubUrl}</p>}
+                  {/* Crosshair Center */}
+                  <div className="pointer-events-none absolute top-1/2 left-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 transform opacity-30">
+                    <div className="absolute top-1/2 left-0 h-[1px] w-full bg-[#E3C676]"></div>
+                    <div className="absolute top-0 left-1/2 h-full w-[1px] bg-[#E3C676]"></div>
                   </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">LinkedIn URL</label>
-                    <input
-                      name="linkedinUrl"
-                      value={formData.linkedinUrl}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={255}
-                      placeholder="https://linkedin.com/in/..."
-                    />
-                    {errors.linkedinUrl && <p className="mt-1 text-xs text-red-500">{errors.linkedinUrl}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Personal Website</label>
-                    <input
-                      name="personalUrl"
-                      value={formData.personalUrl}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={255}
-                      placeholder="https://..."
-                    />
-                    {errors.personalUrl && <p className="mt-1 text-xs text-red-500">{errors.personalUrl}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Resume (max 10 MB) <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="file"
-                      accept=".pdf"
-                      onChange={(e) => setResume(e.target.files?.[0] || null)}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-1.5 outline-none file:mr-4 file:rounded-full file:border-0 file:bg-[#E3C676] file:px-4 file:py-1 file:text-sm file:font-semibold file:text-black hover:file:bg-[#d4b86a] focus:border-[#E3C676]"
-                      required
-                    />
-                  </div>
-                </div>
-              </section>
-            )}
 
-            {/* Questions */}
-            {currentStep === 3 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Questions</h2>
-                <div>
-                  <label className="mb-1 block text-sm font-medium">
-                    Why do you want to join QHacks? <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    name="whyJoin"
-                    value={formData.questions?.whyJoin}
-                    onChange={handleQuestionChange}
-                    rows={4}
-                    className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                    required
-                    minLength={10}
-                    maxLength={3000}
-                  />
-                  {errors["questions.whyJoin"] && <p className="mt-1 text-xs text-red-500">{errors["questions.whyJoin"]}</p>}
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium">
-                    What project idea do you have? <span className="text-red-500">*</span>
-                  </label>
-                  <textarea
-                    name="projectIdea"
-                    value={formData.questions?.projectIdea}
-                    onChange={handleQuestionChange}
-                    rows={4}
-                    className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                    required
-                    minLength={10}
-                    maxLength={3000}
-                  />
-                  {errors["questions.projectIdea"] && (
-                    <p className="mt-1 text-xs text-red-500">{errors["questions.projectIdea"]}</p>
-                  )}
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium">Tell us about your hacker experience</label>
-                  <textarea
-                    name="experience"
-                    value={formData.questions?.experience}
-                    onChange={handleQuestionChange}
-                    rows={4}
-                    className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                    minLength={10}
-                    maxLength={3000}
-                  />
-                  {errors["questions.experience"] && (
-                    <p className="mt-1 text-xs text-red-500">{errors["questions.experience"]}</p>
-                  )}
-                </div>
-              </section>
-            )}
+                  <div className="relative z-10 min-h-[300px] overflow-hidden">
+                    <AnimatePresence mode="wait" custom={direction}>
+                      <motion.div
+                        key={currentStep}
+                        custom={direction}
+                        variants={variants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={{
+                          x: { type: "spring", stiffness: 300, damping: 30 },
+                          opacity: { duration: 0.2 },
+                        }}
+                        className="w-full"
+                      >
+                        {/* Personal Information */}
+                        {currentStep === 0 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Personal Information
+                            </h2>
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Country <span className="text-red-500">*</span>
+                                </label>
+                                <DropDownInput
+                                  title="Select a country"
+                                  type={DropdownTypes.country}
+                                  value={getOption(DropdownTypes.country, formData.country)}
+                                  onChange={(opt) => handleDropdownChange("country", opt)}
+                                />
+                                {errors.country && <p className="mt-1 font-mono text-xs text-red-500">{errors.country}</p>}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Phone <span className="text-red-500">*</span>
+                                </label>
+                                <PhoneInput
+                                  value={formData.phone}
+                                  onChange={(value) => {
+                                    setFormData((prev) => ({
+                                      ...prev,
+                                      phone: value || "",
+                                    }));
+                                    const error = validateField("phone", value);
+                                    setErrors((prev) => ({ ...prev, phone: error }));
+                                  }}
+                                  defaultCountry="CA"
+                                  className="phone-input-container transition-all focus-within:ring-1 focus-within:ring-[#E3C676]"
+                                  placeholder="(000) 000-0000"
+                                  smartCaret
+                                />
+                                {errors.phone && <p className="mt-1 font-mono text-xs text-red-500">{errors.phone}</p>}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Age <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  name="age"
+                                  type="number"
+                                  placeholder="Enter your age"
+                                  value={formData.age || ""}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  required
+                                  min={13}
+                                  max={120}
+                                />
+                                {errors.age && <p className="mt-1 font-mono text-xs text-red-500">{errors.age}</p>}
+                              </div>
+                            </div>
+                          </section>
+                        )}
 
-            {/* Logistics */}
-            {currentStep === 4 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Logistics</h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">
-                      Shirt Size <span className="text-red-500">*</span>
-                    </label>
-                    <DropDownInput
-                      title="Select shirt size"
-                      type={DropdownTypes.shirtSize}
-                      value={getOption(DropdownTypes.shirtSize, formData.shirtSize)}
-                      onChange={(opt) => handleDropdownChange("shirtSize", opt)}
-                    />
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Dietary Restrictions</label>
-                    <input
-                      name="dietaryRestrictions"
-                      value={formData.dietaryRestrictions}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={255}
-                    />
-                    {errors.dietaryRestrictions && <p className="mt-1 text-xs text-red-500">{errors.dietaryRestrictions}</p>}
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      name="travelRequired"
-                      checked={formData.travelRequired}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          travelRequired: e.target.checked,
-                        }))
-                      }
-                      className="h-4 w-4 accent-[#E3C676]"
-                    />
-                    <label className="text-sm font-medium">Are you travelling from outside of Queen's University?</label>
-                  </div>
-                </div>
-              </section>
-            )}
+                        {/* Education */}
+                        {currentStep === 1 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Education
+                            </h2>
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Level of Study <span className="text-red-500">*</span>
+                                </label>
+                                <DropDownInput
+                                  title="Select level of study"
+                                  type={DropdownTypes.levelsOfStudy}
+                                  value={getOption(DropdownTypes.levelsOfStudy, formData.levelOfStudy)}
+                                  onChange={(opt) => handleDropdownChange("levelOfStudy", opt)}
+                                />
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  School
+                                </label>
+                                <DropDownInput
+                                  title="Select your school"
+                                  options={schoolOptions}
+                                  value={getOption(undefined, formData.school, schoolOptions)}
+                                  onChange={(opt) => handleDropdownChange("school", opt)}
+                                />
+                                {errors.school && <p className="mt-1 font-mono text-xs text-red-500">{errors.school}</p>}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Major
+                                </label>
+                                <input
+                                  name="major"
+                                  value={formData.major}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={64}
+                                  placeholder="Enter your major"
+                                />
+                                {errors.major && <p className="mt-1 font-mono text-xs text-red-500">{errors.major}</p>}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  School Email {formData.school && <span className="text-red-500">*</span>}
+                                </label>
+                                <input
+                                  name="schoolEmail"
+                                  type="email"
+                                  value={formData.schoolEmail || ""}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={255}
+                                  required={!!formData.school}
+                                  placeholder="Enter your school email"
+                                />
+                                {errors.schoolEmail && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.schoolEmail}</p>
+                                )}
+                              </div>
+                            </div>
+                          </section>
+                        )}
 
-            {/* Demographics */}
-            {currentStep === 5 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">
-                  Demographics (Optional)
-                </h2>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Gender</label>
-                    <DropDownInput
-                      title="Select gender"
-                      type={DropdownTypes.gender}
-                      value={getOption(DropdownTypes.gender, formData.gender)}
-                      onChange={(opt) => handleDropdownChange("gender", opt)}
-                    />
+                        {/* Hacker Profile */}
+                        {currentStep === 2 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Hacker Profile
+                            </h2>
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  GitHub URL
+                                </label>
+                                <input
+                                  name="githubUrl"
+                                  value={formData.githubUrl}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={255}
+                                  placeholder="https://github.com/..."
+                                />
+                                {errors.githubUrl && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.githubUrl}</p>
+                                )}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  LinkedIn URL
+                                </label>
+                                <input
+                                  name="linkedinUrl"
+                                  value={formData.linkedinUrl}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={255}
+                                  placeholder="https://linkedin.com/in/..."
+                                />
+                                {errors.linkedinUrl && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.linkedinUrl}</p>
+                                )}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Personal Website
+                                </label>
+                                <input
+                                  name="personalUrl"
+                                  value={formData.personalUrl}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={255}
+                                  placeholder="https://..."
+                                />
+                                {errors.personalUrl && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.personalUrl}</p>
+                                )}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Resume (max 10 MB) <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                  type="file"
+                                  accept=".pdf"
+                                  onChange={(e) => setResume(e.target.files?.[0] || null)}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-2 text-sm text-white outline-none file:mr-4 file:rounded-md file:border-0 file:bg-[#E3C676] file:px-4 file:py-2 file:text-xs file:font-bold file:text-black file:uppercase file:transition-colors hover:file:bg-[#d4b86a] focus:border-[#E3C676]"
+                                  required
+                                />
+                              </div>
+                            </div>
+                          </section>
+                        )}
+
+                        {/* Questions */}
+                        {currentStep === 3 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Questions
+                            </h2>
+                            <div>
+                              <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                Why do you want to join QHacks? <span className="text-red-500">*</span>
+                              </label>
+                              <textarea
+                                name="whyJoin"
+                                value={formData.questions?.whyJoin}
+                                onChange={handleQuestionChange}
+                                rows={4}
+                                className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                required
+                                minLength={10}
+                                maxLength={3000}
+                              />
+                              {errors["questions.whyJoin"] && (
+                                <p className="mt-1 font-mono text-xs text-red-500">{errors["questions.whyJoin"]}</p>
+                              )}
+                            </div>
+                            <div>
+                              <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                What project idea do you have? <span className="text-red-500">*</span>
+                              </label>
+                              <textarea
+                                name="projectIdea"
+                                value={formData.questions?.projectIdea}
+                                onChange={handleQuestionChange}
+                                rows={4}
+                                className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                required
+                                minLength={10}
+                                maxLength={3000}
+                              />
+                              {errors["questions.projectIdea"] && (
+                                <p className="mt-1 font-mono text-xs text-red-500">{errors["questions.projectIdea"]}</p>
+                              )}
+                            </div>
+                            <div>
+                              <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                Tell us about your hacker experience
+                              </label>
+                              <textarea
+                                name="experience"
+                                value={formData.questions?.experience}
+                                onChange={handleQuestionChange}
+                                rows={4}
+                                className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                minLength={10}
+                                maxLength={3000}
+                              />
+                              {errors["questions.experience"] && (
+                                <p className="mt-1 font-mono text-xs text-red-500">{errors["questions.experience"]}</p>
+                              )}
+                            </div>
+                          </section>
+                        )}
+
+                        {/* Logistics */}
+                        {currentStep === 4 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Logistics
+                            </h2>
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Shirt Size <span className="text-red-500">*</span>
+                                </label>
+                                <DropDownInput
+                                  title="Select shirt size"
+                                  type={DropdownTypes.shirtSize}
+                                  value={getOption(DropdownTypes.shirtSize, formData.shirtSize)}
+                                  onChange={(opt) => handleDropdownChange("shirtSize", opt)}
+                                />
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Dietary Restrictions
+                                </label>
+                                <input
+                                  name="dietaryRestrictions"
+                                  value={formData.dietaryRestrictions}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={255}
+                                />
+                                {errors.dietaryRestrictions && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.dietaryRestrictions}</p>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <div className="relative flex items-center">
+                                  <input
+                                    type="checkbox"
+                                    name="travelRequired"
+                                    checked={formData.travelRequired}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        travelRequired: e.target.checked,
+                                      }))
+                                    }
+                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-sm border border-[#E3C676]/50 bg-black/40 transition-all checked:border-[#E3C676] checked:bg-[#E3C676]"
+                                  />
+                                  <IoIosCheckmarkCircle className="pointer-events-none absolute top-0 left-0 h-5 w-5 text-black opacity-0 transition-opacity peer-checked:opacity-100" />
+                                </div>
+                                <label className="text-sm font-medium text-white/80">
+                                  Are you travelling from outside of Queen's University?
+                                </label>
+                              </div>
+                            </div>
+                          </section>
+                        )}
+
+                        {/* Demographics */}
+                        {currentStep === 5 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Demographics (Optional)
+                            </h2>
+                            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Gender
+                                </label>
+                                <DropDownInput
+                                  title="Select gender"
+                                  type={DropdownTypes.gender}
+                                  value={getOption(DropdownTypes.gender, formData.gender)}
+                                  onChange={(opt) => handleDropdownChange("gender", opt)}
+                                />
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Pronouns
+                                </label>
+                                <input
+                                  name="pronouns"
+                                  value={formData.pronouns}
+                                  onChange={handleInputChange}
+                                  className="w-full rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  maxLength={16}
+                                />
+                                {errors.pronouns && <p className="mt-1 font-mono text-xs text-red-500">{errors.pronouns}</p>}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Ethnicity
+                                </label>
+                                <DropDownInput
+                                  title="Select ethnicity"
+                                  type={DropdownTypes.ethnicity}
+                                  value={getOption(DropdownTypes.ethnicity, formData.ethnicity)}
+                                  onChange={(opt) => handleDropdownChange("ethnicity", opt)}
+                                />
+                                {errors.ethnicity && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.ethnicity}</p>
+                                )}
+                              </div>
+                              <div>
+                                <label className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase">
+                                  Sexual Identity
+                                </label>
+                                <DropDownInput
+                                  title="Select sexual identity"
+                                  type={DropdownTypes.sexualIdentity}
+                                  value={getOption(DropdownTypes.sexualIdentity, formData.sexualIdentity)}
+                                  onChange={(opt) => handleDropdownChange("sexualIdentity", opt)}
+                                />
+                                {errors.sexualIdentity && (
+                                  <p className="mt-1 font-mono text-xs text-red-500">{errors.sexualIdentity}</p>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-3 sm:col-span-2">
+                                <div className="relative flex items-center">
+                                  <input
+                                    type="checkbox"
+                                    name="underrepresented"
+                                    checked={formData.underrepresented}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        underrepresented: e.target.checked,
+                                      }))
+                                    }
+                                    className="peer h-5 w-5 cursor-pointer appearance-none rounded-sm border border-[#E3C676]/50 bg-black/40 transition-all checked:border-[#E3C676] checked:bg-[#E3C676]"
+                                  />
+                                  <IoIosCheckmarkCircle className="pointer-events-none absolute top-0 left-0 h-5 w-5 text-black opacity-0 transition-opacity peer-checked:opacity-100" />
+                                </div>
+                                <label className="text-sm font-medium text-white/80">
+                                  Do you identify as part of an underrepresented group in tech?
+                                </label>
+                              </div>
+                            </div>
+                          </section>
+                        )}
+                        {/* Teammates */}
+                        {currentStep === 6 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              Potential Teammates
+                            </h2>
+                            <div className="space-y-4">
+                              <div className="flex gap-4">
+                                <input
+                                  value={teammateInput}
+                                  onChange={(e) => setTeammateInput(e.target.value)}
+                                  placeholder="Enter teammate name"
+                                  className="flex-1 rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
+                                  disabled={(formData.potentialTeammates?.length || 0) >= 3}
+                                  maxLength={100}
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleTeammateAdd}
+                                  disabled={(formData.potentialTeammates?.length || 0) >= 3}
+                                  className="rounded-lg bg-[#E3C676] px-6 py-2 font-bold text-black shadow-[0_0_10px_rgba(227,198,118,0.2)] transition-all hover:scale-105 hover:shadow-[0_0_15px_rgba(227,198,118,0.4)] disabled:opacity-50 disabled:hover:scale-100"
+                                >
+                                  Add
+                                </button>
+                              </div>
+                              <div className="flex flex-wrap gap-2">
+                                {formData.potentialTeammates?.map((teammate, index) => (
+                                  <div
+                                    key={index}
+                                    className="flex items-center gap-2 rounded-full border border-[#E3C676]/30 bg-[#E3C676]/10 px-4 py-1 text-[#E3C676]"
+                                  >
+                                    <span>{teammate}</span>
+                                    <button
+                                      type="button"
+                                      onClick={() => handleTeammateRemove(index)}
+                                      className="ml-1 text-red-400 transition-colors hover:text-red-300"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                              {errors.potentialTeammates && (
+                                <p className="mt-1 font-mono text-xs text-red-500">{errors.potentialTeammates}</p>
+                              )}
+                            </div>
+                          </section>
+                        )}
+
+                        {/* MLH Policies */}
+                        {currentStep === 7 && (
+                          <section className="space-y-6">
+                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                              MLH Policies
+                            </h2>
+                            <div className="space-y-4">
+                              <div className="flex items-start gap-3">
+                                <div className="relative flex items-start pt-1">
+                                  <input
+                                    type="checkbox"
+                                    id="mlhCodeOfConduct"
+                                    checked={formData.mlhCodeOfConduct}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        mlhCodeOfConduct: e.target.checked,
+                                      }))
+                                    }
+                                    className="peer h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-sm border border-[#E3C676]/50 bg-black/40 transition-all checked:border-[#E3C676] checked:bg-[#E3C676]"
+                                  />
+                                  <IoIosCheckmarkCircle className="pointer-events-none absolute top-1 left-0 h-5 w-5 text-black opacity-0 transition-opacity peer-checked:opacity-100" />
+                                </div>
+                                <label htmlFor="mlhCodeOfConduct" className="text-sm leading-relaxed text-white/80">
+                                  I have read and agree to the{" "}
+                                  <a
+                                    href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-bold text-[#E3C676] hover:underline"
+                                  >
+                                    MLH Code of Conduct
+                                  </a>
+                                  . <span className="text-red-500">*</span>
+                                </label>
+                              </div>
+
+                              <div className="flex items-start gap-3">
+                                <div className="relative flex items-start pt-1">
+                                  <input
+                                    type="checkbox"
+                                    id="mlhPrivacyPolicy"
+                                    checked={formData.mlhPrivacyPolicy}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        mlhPrivacyPolicy: e.target.checked,
+                                      }))
+                                    }
+                                    className="peer h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-sm border border-[#E3C676]/50 bg-black/40 transition-all checked:border-[#E3C676] checked:bg-[#E3C676]"
+                                  />
+                                  <IoIosCheckmarkCircle className="pointer-events-none absolute top-1 left-0 h-5 w-5 text-black opacity-0 transition-opacity peer-checked:opacity-100" />
+                                </div>
+                                <label htmlFor="mlhPrivacyPolicy" className="text-sm leading-relaxed text-white/80">
+                                  I authorize you to share my application/registration information with Major League Hacking
+                                  for event administration, ranking, and MLH administration in-line with the{" "}
+                                  <a
+                                    href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-bold text-[#E3C676] hover:underline"
+                                  >
+                                    MLH Privacy Policy
+                                  </a>
+                                  . I further agree to the terms of both the{" "}
+                                  <a
+                                    href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-bold text-[#E3C676] hover:underline"
+                                  >
+                                    MLH Contest Terms and Conditions
+                                  </a>{" "}
+                                  and the{" "}
+                                  <a
+                                    href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-bold text-[#E3C676] hover:underline"
+                                  >
+                                    MLH Privacy Policy
+                                  </a>
+                                  . <span className="text-red-500">*</span>
+                                </label>
+                              </div>
+
+                              <div className="flex items-start gap-3">
+                                <div className="relative flex items-start pt-1">
+                                  <input
+                                    type="checkbox"
+                                    id="mlhEmails"
+                                    checked={formData.mlhEmails}
+                                    onChange={(e) =>
+                                      setFormData((prev) => ({
+                                        ...prev,
+                                        mlhEmails: e.target.checked,
+                                      }))
+                                    }
+                                    className="peer h-5 w-5 shrink-0 cursor-pointer appearance-none rounded-sm border border-[#E3C676]/50 bg-black/40 transition-all checked:border-[#E3C676] checked:bg-[#E3C676]"
+                                  />
+                                  <IoIosCheckmarkCircle className="pointer-events-none absolute top-1 left-0 h-5 w-5 text-black opacity-0 transition-opacity peer-checked:opacity-100" />
+                                </div>
+                                <label htmlFor="mlhEmails" className="text-sm leading-relaxed text-white/80">
+                                  I authorize MLH to send me occasional emails about relevant events, career opportunities,
+                                  and community announcements.
+                                </label>
+                              </div>
+                            </div>
+                          </section>
+                        )}
+                      </motion.div>
+                    </AnimatePresence>
                   </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Pronouns</label>
-                    <input
-                      name="pronouns"
-                      value={formData.pronouns}
-                      onChange={handleInputChange}
-                      className="w-full rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      maxLength={16}
-                    />
-                    {errors.pronouns && <p className="mt-1 text-xs text-red-500">{errors.pronouns}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Ethnicity</label>
-                    <DropDownInput
-                      title="Select ethnicity"
-                      type={DropdownTypes.ethnicity}
-                      value={getOption(DropdownTypes.ethnicity, formData.ethnicity)}
-                      onChange={(opt) => handleDropdownChange("ethnicity", opt)}
-                    />
-                    {errors.ethnicity && <p className="mt-1 text-xs text-red-500">{errors.ethnicity}</p>}
-                  </div>
-                  <div>
-                    <label className="mb-1 block text-sm font-medium">Sexual Identity</label>
-                    <DropDownInput
-                      title="Select sexual identity"
-                      type={DropdownTypes.sexualIdentity}
-                      value={getOption(DropdownTypes.sexualIdentity, formData.sexualIdentity)}
-                      onChange={(opt) => handleDropdownChange("sexualIdentity", opt)}
-                    />
-                    {errors.sexualIdentity && <p className="mt-1 text-xs text-red-500">{errors.sexualIdentity}</p>}
-                  </div>
-                  <div className="flex items-center gap-2 sm:col-span-2">
-                    <input
-                      type="checkbox"
-                      name="underrepresented"
-                      checked={formData.underrepresented}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          underrepresented: e.target.checked,
-                        }))
-                      }
-                      className="h-4 w-4 accent-[#E3C676]"
-                    />
-                    <label className="text-sm font-medium">
-                      Do you identify as part of an underrepresented group in tech?
-                    </label>
-                  </div>
-                </div>
-              </section>
-            )}
-            {/* Teammates */}
-            {currentStep === 6 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">Potential Teammates</h2>
-                <div className="space-y-2">
-                  <div className="flex gap-2">
-                    <input
-                      value={teammateInput}
-                      onChange={(e) => setTeammateInput(e.target.value)}
-                      placeholder="Enter teammate name"
-                      className="flex-1 rounded-lg border border-white/20 bg-black/20 p-2 outline-none focus:border-[#E3C676]"
-                      disabled={(formData.potentialTeammates?.length || 0) >= 3}
-                      maxLength={100}
-                    />
-                    <button
-                      type="button"
-                      onClick={handleTeammateAdd}
-                      disabled={(formData.potentialTeammates?.length || 0) >= 3}
-                      className="rounded-lg bg-[#E3C676] px-4 py-2 font-semibold text-black disabled:opacity-50"
+
+                  {generalError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-3 rounded-lg border border-red-500/50 bg-red-500/10 p-4 backdrop-blur-sm"
                     >
-                      Add
-                    </button>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.potentialTeammates?.map((teammate, index) => (
-                      <div key={index} className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1">
-                        <span>{teammate}</span>
+                      <IoIosWarning className="shrink-0 text-xl text-red-500" />
+                      <p className="font-mono text-sm font-bold tracking-wide text-red-500 uppercase">{generalError}</p>
+                    </motion.div>
+                  )}
+
+                  <div className="flex flex-col gap-6 pt-4">
+                    <div className="flex gap-4">
+                      {currentStep > 0 && (
                         <button
                           type="button"
-                          onClick={() => handleTeammateRemove(index)}
-                          className="text-red-400 hover:text-red-300"
+                          onClick={() => paginate(-1)}
+                          className="flex-1 rounded-xl border border-[#E3C676]/30 bg-black/40 py-4 font-bold tracking-widest text-[#E3C676] uppercase transition-all hover:bg-[#E3C676] hover:text-black hover:shadow-[0_0_15px_rgba(227,198,118,0.4)]"
                         >
-                          ×
+                          Previous
                         </button>
+                      )}
+
+                      {currentStep < steps.length - 1 ? (
+                        <button
+                          type="button"
+                          onClick={() => paginate(1)}
+                          disabled={!isStepValid()}
+                          className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
+                        >
+                          Next
+                        </button>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={handleSubmit}
+                          disabled={isLoading || !isStepValid()}
+                          className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
+                        >
+                          {isLoading ? "Submitting..." : "Submit Application"}
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Progress Bar / Film Strip Timeline */}
+                    <div className="relative mt-6 flex h-8 w-full items-center justify-center">
+                      {/* Film Sprockets Top */}
+                      <div
+                        className="absolute top-0 left-0 h-1 w-full bg-repeat-x opacity-30"
+                        style={{
+                          backgroundImage: "linear-gradient(to right, transparent 50%, #E3C676 50%)",
+                          backgroundSize: "10px 100%",
+                        }}
+                      ></div>
+
+                      {/* Bar */}
+                      <div className="relative h-2 w-full overflow-hidden rounded-full bg-white/10">
+                        <motion.div
+                          className="h-full bg-[#E3C676] shadow-[0_0_10px_#E3C676]"
+                          initial={{ width: 0 }}
+                          animate={{
+                            width: `${((currentStep + 1) / steps.length) * 100}%`,
+                          }}
+                          transition={{ duration: 0.3 }}
+                        ></motion.div>
                       </div>
-                    ))}
-                  </div>
-                  {errors.potentialTeammates && <p className="mt-1 text-xs text-red-500">{errors.potentialTeammates}</p>}
-                </div>
-              </section>
-            )}
 
-            {/* MLH Policies */}
-            {currentStep === 7 && (
-              <section className="space-y-4">
-                <h2 className="border-b border-white/10 pb-2 text-xl font-semibold text-[#E3C676]">MLH Policies</h2>
-                <div className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      id="mlhCodeOfConduct"
-                      checked={formData.mlhCodeOfConduct}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          mlhCodeOfConduct: e.target.checked,
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
-                    />
-                    <label htmlFor="mlhCodeOfConduct" className="text-sm text-white/80">
-                      I have read and agree to the{" "}
-                      <a
-                        href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#E3C676] hover:underline"
-                      >
-                        MLH Code of Conduct
-                      </a>
-                      . <span className="text-red-500">*</span>
-                    </label>
-                  </div>
+                      {/* Film Sprockets Bottom */}
+                      <div
+                        className="absolute bottom-0 left-0 h-1 w-full bg-repeat-x opacity-30"
+                        style={{
+                          backgroundImage: "linear-gradient(to right, transparent 50%, #E3C676 50%)",
+                          backgroundSize: "10px 100%",
+                        }}
+                      ></div>
+                    </div>
 
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      id="mlhPrivacyPolicy"
-                      checked={formData.mlhPrivacyPolicy}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          mlhPrivacyPolicy: e.target.checked,
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
-                    />
-                    <label htmlFor="mlhPrivacyPolicy" className="text-sm text-white/80">
-                      I authorize you to share my application/registration information with Major League Hacking for event
-                      administration, ranking, and MLH administration in-line with the{" "}
-                      <a
-                        href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#E3C676] hover:underline"
-                      >
-                        MLH Privacy Policy
-                      </a>
-                      . I further agree to the terms of both the{" "}
-                      <a
-                        href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#E3C676] hover:underline"
-                      >
-                        MLH Contest Terms and Conditions
-                      </a>{" "}
-                      and the{" "}
-                      <a
-                        href="https://github.com/MLH/mlh-policies/blob/main/privacy-policy.md"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-[#E3C676] hover:underline"
-                      >
-                        MLH Privacy Policy
-                      </a>
-                      . <span className="text-red-500">*</span>
-                    </label>
+                    <p className="mt-2 text-center font-mono text-xs tracking-widest text-white/50 uppercase">
+                      <span className="mr-2 text-[#E3C676]">SCENE {currentStep + 1}</span> / {steps.length}:{" "}
+                      {steps[currentStep]}
+                    </p>
                   </div>
-
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      id="mlhEmails"
-                      checked={formData.mlhEmails}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          mlhEmails: e.target.checked,
-                        }))
-                      }
-                      className="mt-1 h-4 w-4 shrink-0 accent-[#E3C676]"
-                    />
-                    <label htmlFor="mlhEmails" className="text-sm text-white/80">
-                      I authorize MLH to send me occasional emails about relevant events, career opportunities, and community
-                      announcements.
-                    </label>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            {generalError && (
-              <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
-                <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                <p className="text-sm font-medium text-red-500">{generalError}</p>
+                </form>
               </div>
-            )}
-
-            <div className="flex flex-col gap-4 pt-4">
-              <div className="flex gap-4">
-                {currentStep > 0 && (
-                  <button
-                    type="button"
-                    onClick={() => setCurrentStep((prev) => prev - 1)}
-                    className="flex-1 rounded-xl bg-white/10 py-4 font-bold text-white shadow-lg transition-colors hover:bg-white/20"
-                  >
-                    Previous
-                  </button>
-                )}
-
-                {currentStep < steps.length - 1 ? (
-                  <button
-                    type="button"
-                    onClick={() => setCurrentStep((prev) => prev + 1)}
-                    disabled={!isStepValid()}
-                    className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold text-black shadow-lg transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
-                  >
-                    Next
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    disabled={isLoading || !isStepValid()}
-                    className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold text-black shadow-lg transition-transform hover:scale-[1.02] disabled:opacity-50 disabled:hover:scale-100"
-                  >
-                    {isLoading ? "Submitting..." : "Submit Application"}
-                  </button>
-                )}
-              </div>
-
-              {/* Progress Bar */}
-              <div className="mt-2 h-2.5 w-full rounded-full bg-white/10">
-                <div
-                  className="h-2.5 rounded-full bg-[#E3C676] transition-all duration-300 ease-in-out"
-                  style={{
-                    width: `${((currentStep + 1) / steps.length) * 100}%`,
-                  }}
-                ></div>
-              </div>
-              <p className="text-center text-sm text-white/50">
-                Step {currentStep + 1} of {steps.length}: {steps[currentStep]}
-              </p>
             </div>
-          </form>
+          </motion.div>
         )}
       </div>
     </div>
