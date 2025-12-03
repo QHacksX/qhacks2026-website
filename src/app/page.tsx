@@ -7,8 +7,6 @@ import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
-import Team from "@/components/features/team/Team";
-import TeamMobile from "@/components/features/team/TeamMobile";
 import Theatre from "@/components/features/theatre/page";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { useEffect, useState } from "react";
@@ -136,8 +134,7 @@ export default function Home() {
       <Theatre />
       <Sponsors2 />
       <FAQ />
-      <Team />
-      <TeamMobile />
+      {/* <Credits /> */}
     </main>
   );
 }
