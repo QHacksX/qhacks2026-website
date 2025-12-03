@@ -15,7 +15,7 @@ const Landing = () => {
   }, []);
 
   return (
-    <main id="home" className="relative z-10 h-screen w-full bg-black">
+    <main id="home" className="relative z-10 h-screen w-full bg-black select-none">
       {/* Noise texture */}
       <div
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"
