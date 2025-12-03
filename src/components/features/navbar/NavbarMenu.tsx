@@ -145,18 +145,6 @@ const NavbarMenu = () => {
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="flex h-12 items-center justify-between sm:h-14 lg:h-20 xl:h-24">
           <div className="flex items-center gap-4 lg:gap-8">
-            {/* Logo */}
-            <a href="#home" onClick={(e) => handleNavClick(e, "#home")} className="shrink-0 touch-manipulation">
-              <Image
-                src="/static/logo.png"
-                alt="QHacks Logo"
-                width={38}
-                height={38}
-                className="h-9 w-9 sm:h-10 sm:w-10 lg:h-9 lg:w-9 xl:h-10 xl:w-10"
-                quality={90}
-              />
-            </a>
-
             {/* Navigation Links - Hidden on mobile, visible on desktop */}
             <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
               {navLinks.map((link) => (
@@ -183,25 +171,6 @@ const NavbarMenu = () => {
             >
               <Menu className="h-5 w-5" />
             </button>
-
-            {/* Social Icons */}
-            <div className="hidden items-center gap-3 sm:flex lg:gap-5 xl:gap-6">
-              {socialLinks.map((social) => {
-                const Icon = social.icon;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    className="touch-manipulation text-white/70 transition-colors duration-200 hover:text-white active:scale-95"
-                  >
-                    <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4 lg:h-6 lg:w-6 xl:h-7 xl:w-7" />
-                  </a>
-                );
-              })}
-            </div>
           </div>
         </div>
       </div>
@@ -291,6 +260,29 @@ const NavbarMenu = () => {
           </AnimatePresence>,
           document.body,
         )}
+      <a
+        id="mlh-trust-badge"
+        style={{
+          display: "block",
+          maxWidth: "100px",
+          minWidth: "60px",
+          position: "fixed",
+          right: "50px",
+          top: "0",
+          width: "10%",
+          zIndex: 10000,
+          filter: "drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))",
+        }}
+        href="https://mlh.io/na?utm_source=na-hackathon&utm_medium=TrustBadge&utm_campaign=2026-season&utm_content=black"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          src="https://s3.amazonaws.com/logged-assets/trust-badge/2026/mlh-trust-badge-2026-black.svg"
+          alt="Major League Hacking 2026 Hackathon Season"
+          style={{ width: "100%" }}
+        />
+      </a>
     </motion.nav>
   );
 };

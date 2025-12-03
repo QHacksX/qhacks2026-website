@@ -15,7 +15,7 @@ const NowPresenting = () => {
   if (!show) return null;
 
   return (
-    <section className="pointer-events-none fixed inset-0 z-50 h-screen w-full">
+    <section className="pointer-events-none fixed inset-0 z-50 h-screen w-full select-none">
       <motion.div
         initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}

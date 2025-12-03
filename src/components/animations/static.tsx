@@ -1,7 +1,11 @@
 "use client";
 import { useEffect, useRef } from "react";
 
-export default function StaticBackground() {
+interface StaticBackgroundProps {
+  className?: string;
+}
+
+export default function StaticBackground({ className }: StaticBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -12,8 +16,8 @@ export default function StaticBackground() {
     if (!ctx) return; // ✅ TS now knows ctx is not null
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth / 3;
+      canvas.height = window.innerHeight / 3;
     };
 
     resize();
@@ -28,7 +32,7 @@ export default function StaticBackground() {
 
       // subtle film grain
       for (let i = 0; i < buffer.length; i += 4) {
-        const shade = Math.random() * 50; // keep it dark & soft
+        const shade = Math.random() * 255; // keep it dark & soft
         buffer[i] = shade;
         buffer[i + 1] = shade;
         buffer[i + 2] = shade;
@@ -50,7 +54,7 @@ export default function StaticBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[1] h-screen w-screen opacity-25 mix-blend-overlay"
+      className={`pointer-events-none ${className || "fixed inset-0 z-[1] h-screen w-screen opacity-25 mix-blend-overlay"}`}
     />
   );
 }

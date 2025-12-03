@@ -1,6 +1,7 @@
 "use client";
 
 // import Intro from "@/components/features/intro/intro";
+import StaticBackground from "@/components/animations/static";
 import NowPresenting from "@/components/features/NowPresenting";
 import FAQ from "@/components/features/faq/faq";
 import JoinUs from "@/components/features/join-us/JoinUs";
@@ -108,6 +109,7 @@ export default function Home() {
   return (
     <main className="relative w-full bg-black">
       {/* Noise texture overlay */}
+      <StaticBackground className="absolute top-0 left-0 z-[60] h-screen w-full opacity-40 mix-blend-overlay" />
       {/* <Intro /> */}
 
       {/* Top Horizontal Navbar */}
