@@ -59,11 +59,9 @@ export default function DropDownInput({
       <DropdownMenuTrigger
         className={cn(
           "w-full rounded-md border border-[#E3C676] px-4 py-2 text-left",
-          "w-full rounded-md border border-[#E3C676] px-4 py-2 text-left",
           "bg-[#1A1A1A] text-white hover:bg-[#2A2A2A] focus:outline-none",
         )}
       >
-        {value ? value.label || value.value : title}
         {value ? value.label || value.value : title}
       </DropdownMenuTrigger>
 
