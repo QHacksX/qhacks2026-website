@@ -7,6 +7,7 @@ import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
+import Theatre from "@/components/features/theatre/page";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { useEffect, useState } from "react";
 
@@ -39,11 +40,25 @@ export default function Home() {
       document.body.style.height = "100%";
       document.body.style.touchAction = "none";
 
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.height = "100%";
+      document.body.style.touchAction = "none";
+
       // Prevent wheel, touch, and keyboard scrolling
       window.addEventListener("wheel", preventScroll, { passive: false });
       window.addEventListener("touchmove", preventScroll, { passive: false });
       window.addEventListener("keydown", preventKeys);
+      window.addEventListener("wheel", preventScroll, { passive: false });
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+      window.addEventListener("keydown", preventKeys);
     } else {
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
@@ -59,10 +74,24 @@ export default function Home() {
       document.body.style.width = "";
       document.body.style.height = "";
       document.body.style.touchAction = "";
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
     }, 5500);
 
     return () => {
       clearTimeout(timer);
+      window.removeEventListener("wheel", preventScroll);
+      window.removeEventListener("touchmove", preventScroll);
+      window.removeEventListener("keydown", preventKeys);
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.height = "";
+      document.body.style.touchAction = "";
+      document.documentElement.style.scrollbarGutter = "";
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
       window.removeEventListener("keydown", preventKeys);
@@ -102,37 +131,9 @@ export default function Home() {
       <Landing />
       {/* <Stats /> */}
       <JoinUs />
+      <Theatre />
       <Sponsors2 />
       <FAQ />
-
-      {/* About section placeholder - vertical scroll continues */}
-      {/* <section id="about" className="min-h-screen">
-        Add About content here later
-      </section> */}
-
-      {/* Projects section placeholder */}
-      {/* <section id="projects" className="min-h-screen">
-        Add Projects & Stories content here later
-      </section> */}
-
-      {/* What's New section placeholder */}
-      {/* <section id="news" className="min-h-screen">
-        Add What's New content here later
-      </section> */}
-
-      {/* Sponsors section */}
-      {/* <section id="sponsors">
-        <Blank />
-      </section> */}
-
-      {/* FAQ section placeholder */}
-      {/* <section id="faq" className="min-h-screen">
-        Add FAQ content here later
-      </section> */}
-
-      {/* 2024 section placeholder */}
-      {/* <section id="2024" className="min-h-screen">
-      </section> */}
     </main>
   );
 }
