@@ -111,7 +111,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-black px-4">
+    <section className="flex min-h-screen items-center justify-center bg-[url('/wood.svg')] px-4">
       <div
         className="relative h-[680px] w-full max-w-[900px] cursor-pointer overflow-hidden md:h-[780px] lg:h-[880px]"
         onMouseEnter={() => setIsHovered(true)}

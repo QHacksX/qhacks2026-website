@@ -134,6 +134,7 @@ export default function Home() {
       <Theatre />
       <Sponsors2 />
       <FAQ />
+      {/* <Credits /> */}
     </main>
   );
 }
