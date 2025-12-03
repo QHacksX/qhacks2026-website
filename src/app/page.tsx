@@ -9,6 +9,7 @@ import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
 import Theatre from "@/components/features/theatre/page";
 // import LandingToStats from "@/components/features/LandingToStats";
+import Credits from "@/components/features/team/page";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -134,7 +135,7 @@ export default function Home() {
       <Theatre />
       <Sponsors2 />
       <FAQ />
-      {/* <Credits /> */}
+      <Credits />
     </main>
   );
 }
