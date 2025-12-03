@@ -171,44 +171,7 @@ export default function FAQ() {
   }
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-black px-4 py-16">
-      {/* Noise Background */}
-      <div
-        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"
-        style={{ backgroundImage: `url('/static/noise.png')` }}
-        aria-hidden="true"
-      />
-
-      {/* FAQ Header - Similar to Sponsors Style */}
-      <div className="relative z-20 -rotate-1 transform">
-        <div className="relative mx-auto max-w-2xl border-4 border-[#E3C676] bg-[#f5f5f0] p-4 px-8 shadow-2xl md:p-6 md:px-12">
-          {/* Noise Overlay */}
-          <div
-            className="pointer-events-none absolute inset-0 z-20 opacity-[1] mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-              filter: "contrast(140%) brightness(100%)",
-            }}
-          />
-          {/* Paper Texture */}
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper.png')] opacity-30"></div>
-          {/* Washi Tape */}
-          <div className="mask-image-tape absolute -top-3 left-6 h-6 w-20 -rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:-top-4 md:left-12 md:h-8 md:w-32"></div>
-          <div className="mask-image-tape absolute right-6 -bottom-3 h-6 w-20 rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:right-12 md:-bottom-4 md:h-8 md:w-32"></div>
-
-          <h2
-            className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl"
-            style={{ textShadow: "2px 2px 0px rgba(0,0,0,0.1)" }}
-          >
-            Frequently <br />
-            <span className="mt-2 inline-block -skew-x-6 transform bg-black px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
-              Asked Questions
-            </span>
-          </h2>
-        </div>
-      </div>
-
-      {/* FAQ Cards */}
+    <section className="flex min-h-screen items-center justify-center bg-[url('/wood.svg')] px-4">
       <div
         className="relative h-[800px] w-full max-w-[1200px] cursor-pointer overflow-hidden sm:h-[900px] md:h-[1000px] lg:h-[1100px] xl:h-[1200px]"
         onMouseEnter={() => setIsHovered(true)}
