@@ -1,6 +1,5 @@
 "use client";
 
-
 const sections = [
   {
     title: "CO-CHAIRS",
@@ -15,12 +14,7 @@ const sections = [
   },
   {
     title: "FIRST YEAR REPS",
-    rows: [
-      ["MOUCTAR DLALLO"],
-      ["SOMIAYA HASSAN"],
-      ["LISA LI"],
-      ["NISHI SHAH"],
-    ],
+    rows: [["MOUCTAR DLALLO"], ["SOMIAYA HASSAN"], ["LISA LI"], ["NISHI SHAH"]],
   },
   {
     title: "LOGISTICS",
@@ -84,21 +78,14 @@ export default function Credits() {
       <div className="credits-scroll relative z-10 flex flex-col items-center gap-10 text-center">
         {sections.map((section) => (
           <div key={section.title} className="space-y-3">
-            <h2 className="text-sm font-semibold tracking-[0.25em] text-[#facc15] sm:text-base">
-              {section.title}
-            </h2>
+            <h2 className="text-sm font-semibold tracking-[0.25em] text-[#facc15] sm:text-base">{section.title}</h2>
 
             <div className="space-y-1 text-xs sm:text-sm">
               {section.rows.map((row, idx) => (
-                <div
-                  key={idx}
-                  className="flex justify-center gap-2 tracking-[0.12em]"
-                >
+                <div key={idx} className="flex justify-center gap-2 tracking-[0.12em]">
                   {row.length === 2 ? (
                     <>
-                      <span className="font-semibold text-[#fbbf24]">
-                        {row[0]}
-                      </span>
+                      <span className="font-semibold text-[#fbbf24]">{row[0]}</span>
                       <span className="font-medium">{row[1]}</span>
                     </>
                   ) : (
