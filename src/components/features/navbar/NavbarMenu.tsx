@@ -190,14 +190,14 @@ const NavbarMenu = () => {
                   onClick={() => setMobileOpen(false)}
                 />
                 <motion.div
-                  className="fixed inset-0 z-[130] flex h-screen w-screen flex-col justify-center overflow-hidden bg-black"
+                  className="fixed inset-0 z-[130] flex h-screen w-screen flex-col overflow-hidden bg-black"
                   initial={{ x: "100%" }}
                   animate={{ x: 0 }}
                   exit={{ x: "100%" }}
                   transition={{ type: "spring", stiffness: 260, damping: 28 }}
                 >
-                  <div className="mx-auto flex h-full w-full max-w-[520px] flex-col px-4">
-                    <div className="flex items-center justify-between border-b border-white/10 bg-black px-3 py-4">
+                  <div className="flex h-full w-full flex-col">
+                    <div className="flex items-center justify-between border-b border-white/10 bg-black px-8 py-5">
                       <div className="flex items-center gap-3">
                         <Image
                           src="/static/logo.png"
@@ -218,13 +218,13 @@ const NavbarMenu = () => {
                       </button>
                     </div>
 
-                    <div className="flex-1 space-y-3 overflow-y-auto px-3 py-6">
+                    <div className="flex flex-1 flex-col justify-center space-y-3 px-8 py-8">
                       {navLinks.map((link) => (
                         <motion.a
                           key={link.href}
                           href={link.href}
                           onClick={(e) => handleNavClick(e, link.href)}
-                          className="block rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-base font-semibold text-white/90 transition hover:border-white/20 hover:bg-white/8"
+                          className="block rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-base font-semibold text-white/90 transition hover:border-white/20 hover:bg-white/8"
                           whileHover={{ x: 4 }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -233,8 +233,8 @@ const NavbarMenu = () => {
                       ))}
                     </div>
 
-                    <div className="border-t border-white/10 bg-black px-3 pt-4 pb-7">
-                      <p className="mb-3 text-sm text-white/60">Follow us</p>
+                    <div className="border-t border-white/10 bg-black px-8 pt-5 pb-8">
+                      <p className="mb-4 text-sm text-white/60">Follow us</p>
                       <div className="flex flex-wrap items-center gap-3">
                         {socialLinks.map((social) => {
                           const Icon = social.icon;
