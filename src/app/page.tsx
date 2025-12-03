@@ -136,8 +136,7 @@ export default function Home() {
       <Theatre />
       <Sponsors2 />
       <FAQ />
-      <Team />
-      <TeamMobile />
+      {/* <Credits /> */}
     </main>
   );
 }
