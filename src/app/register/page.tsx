@@ -5,11 +5,12 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { IoIosClose, IoIosWarning } from "react-icons/io";
-import { FaGithub, FaGoogle } from "react-icons/fa";
+import { FaGithub, FaGoogle, FaCircle } from "react-icons/fa";
 import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
 import { Route } from "next";
+import { motion } from "framer-motion";
 
 const RegisterForm = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +23,18 @@ const RegisterForm = () => {
   const searchParams = useSearchParams();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const login = useAuthStore((state) => state.login);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Noise overlay component
+  const NoiseOverlay = () => (
+    <div
+      className="pointer-events-none absolute inset-0 z-[1] opacity-[0.07] mix-blend-overlay"
+      style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+        filter: "grayscale(100%)",
+      }}
+    />
+  );
 
   useEffect(() => {
     const redirectTo = searchParams.get("redirect_to");
@@ -44,6 +57,7 @@ const RegisterForm = () => {
     e.preventDefault();
     setErrors({});
     setGeneralError(null);
+    setIsLoading(true);
 
     // Client-side validation
     const newErrors: Record<string, string> = {};
@@ -70,6 +84,7 @@ const RegisterForm = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      setIsLoading(false);
       return;
     }
 
@@ -106,166 +121,219 @@ const RegisterForm = () => {
         setGeneralError("An unexpected error occurred");
         console.error(error);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-[#E3C676] selection:text-black">
       <Link
         href="/"
-        className="absolute top-4 left-4 z-10 text-white transition-colors hover:text-[#E3C676] sm:top-6 sm:left-6"
+        className="absolute top-6 left-6 z-50 text-white/70 transition-all hover:scale-110 hover:text-[#E3C676]"
       >
-        <IoIosClose size={40} className="sm:h-12 sm:w-12" />
+        <IoIosClose size={40} className="drop-shadow-lg sm:h-12 sm:w-12" />
       </Link>
 
-      <div className="absolute inset-0 flex items-center justify-center bg-linear-to-b from-[#020202] to-[#2B2929] px-4 sm:px-6 lg:px-8">
+      {/* Background Elements */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#020202] to-[#000000]"></div>
         <AnimatedStars />
+        <NoiseOverlay />
+        {/* Vintage Vignette */}
+        <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
+        {/* Film Scratch Overlay (Subtle) */}
+        <div className="absolute inset-0 z-[2] animate-pulse bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03]"></div>
+      </div>
 
-        <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-xl">
-          <h1 className="mb-6 text-center text-3xl font-semibold tracking-tight text-[#E3C676] sm:mb-8 sm:text-4xl lg:text-5xl">
-            Sign Up
-          </h1>
+      {/* REC Indicator - Top Right */}
+      <motion.div
+        className="fixed top-8 right-8 z-50 flex items-center gap-3"
+        animate={{ opacity: [1, 0.3, 1] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <FaCircle className="text-red-600 drop-shadow-[0_0_8px_rgba(220,38,38,0.8)]" size={14} />
+        <span className="font-mono text-xl font-bold tracking-[0.2em] text-white/90 drop-shadow-md">REC</span>
+      </motion.div>
 
-          <form onSubmit={handleForm} className="space-y-4 sm:space-y-6" noValidate>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div className="w-full">
-                <label
-                  htmlFor="givenName"
-                  className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
-                >
-                  First Name
-                </label>
-                <input
-                  onChange={(e) => setGivenName(e.target.value)}
-                  id="givenName"
-                  type="text"
-                  className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                    errors.givenName ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
-                  } rounded-lg p-3 transition-colors`}
-                  autoComplete="given-name"
-                  required
-                  value={givenName}
-                  maxLength={100}
-                />
-                {errors.givenName && <p className="mt-1 text-sm text-red-500">{errors.givenName}</p>}
+      <div className="relative z-10 container mx-auto flex min-h-screen max-w-2xl flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="mb-8 text-center font-mono text-3xl font-bold tracking-tight text-[#E3C676] sm:text-4xl lg:text-5xl"
+          style={{ textShadow: "0 0 20px rgba(227, 198, 118, 0.3)" }}
+        >
+          Sign Up
+        </motion.h1>
+
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
+          {/* Movie Theater Screen Container */}
+          <div className="relative rounded-3xl bg-[#080808] p-4 shadow-[0_0_100px_rgba(0,0,0,0.8),0_0_30px_rgba(227,198,118,0.05)] ring-1 ring-white/5">
+            {/* Inner Bezel */}
+            <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-black shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
+              {/* Screen Reflection/Gloss */}
+              <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent opacity-50"></div>
+
+              <div className="relative z-10 p-6 sm:p-10">
+                {/* Viewfinder Corners */}
+                <div className="pointer-events-none absolute top-6 left-6 h-8 w-8 border-t-2 border-l-2 border-[#E3C676]/60"></div>
+                <div className="pointer-events-none absolute top-6 right-6 h-8 w-8 border-t-2 border-r-2 border-[#E3C676]/60"></div>
+                <div className="pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#E3C676]/60"></div>
+                <div className="pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-[#E3C676]/60"></div>
+
+                <form onSubmit={handleForm} className="space-y-6" noValidate>
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div className="w-full">
+                      <label
+                        htmlFor="givenName"
+                        className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                      >
+                        First Name
+                      </label>
+                      <input
+                        onChange={(e) => setGivenName(e.target.value)}
+                        id="givenName"
+                        type="text"
+                        className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                          errors.givenName ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                        }`}
+                        autoComplete="given-name"
+                        required
+                        value={givenName}
+                        maxLength={100}
+                        placeholder="First Name"
+                      />
+                      {errors.givenName && <p className="mt-1 font-mono text-xs text-red-500">{errors.givenName}</p>}
+                    </div>
+                    <div className="w-full">
+                      <label
+                        htmlFor="surname"
+                        className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                      >
+                        Last Name
+                      </label>
+                      <input
+                        onChange={(e) => setSurname(e.target.value)}
+                        id="surname"
+                        type="text"
+                        className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                          errors.surname ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                        }`}
+                        autoComplete="family-name"
+                        required
+                        value={surname}
+                        maxLength={100}
+                        placeholder="Last Name"
+                      />
+                      {errors.surname && <p className="mt-1 font-mono text-xs text-red-500">{errors.surname}</p>}
+                    </div>
+                  </div>
+
+                  <div className="w-full">
+                    <label
+                      htmlFor="email"
+                      className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                    >
+                      Email
+                    </label>
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      id="email"
+                      type="email"
+                      className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                        errors.email ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                      }`}
+                      autoComplete="email"
+                      required
+                      value={email}
+                      placeholder="Enter your email"
+                    />
+                    {errors.email && <p className="mt-1 font-mono text-xs text-red-500">{errors.email}</p>}
+                  </div>
+
+                  <div className="w-full">
+                    <label
+                      htmlFor="password"
+                      className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                    >
+                      Password
+                    </label>
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      id="password"
+                      type="password"
+                      className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                        errors.password ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                      }`}
+                      autoComplete="new-password"
+                      required
+                      value={password}
+                      maxLength={128}
+                      placeholder="Create a password"
+                    />
+                    {errors.password && <p className="mt-1 font-mono text-xs text-red-500">{errors.password}</p>}
+                  </div>
+
+                  {generalError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="flex items-center gap-3 rounded-lg border border-red-500/50 bg-red-500/10 p-4 backdrop-blur-sm"
+                    >
+                      <IoIosWarning className="shrink-0 text-xl text-red-500" />
+                      <p className="font-mono text-sm font-bold tracking-wide text-red-500 uppercase">{generalError}</p>
+                    </motion.div>
+                  )}
+
+                  <div>
+                    <button
+                      type="submit"
+                      disabled={isLoading}
+                      className="w-full rounded-xl bg-[#E3C676] px-8 py-3 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
+                    >
+                      {isLoading ? "Creating Account..." : "Register"}
+                    </button>
+                  </div>
+
+                  <div className="relative flex items-center py-2">
+                    <div className="grow border-t border-white/10"></div>
+                    <span className="mx-4 shrink text-xs tracking-widest text-white/40 uppercase">Or continue with</span>
+                    <div className="grow border-t border-white/10"></div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <button
+                      type="button"
+                      onClick={handleGithubLogin}
+                      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
+                    >
+                      <FaGithub size={20} />
+                      GitHub
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleGoogleLogin}
+                      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
+                    >
+                      <FaGoogle size={20} />
+                      Google
+                    </button>
+                  </div>
+                </form>
+
+                <div className="mt-8 text-center">
+                  <p className="text-sm text-white/60">
+                    Already have an account?{" "}
+                    <Link href="/login" className="font-bold text-[#E3C676] transition-colors hover:text-[#d4b86a]">
+                      Login
+                    </Link>
+                  </p>
+                </div>
               </div>
-              <div className="w-full">
-                <label
-                  htmlFor="surname"
-                  className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
-                >
-                  Last Name
-                </label>
-                <input
-                  onChange={(e) => setSurname(e.target.value)}
-                  id="surname"
-                  type="text"
-                  className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                    errors.surname ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
-                  } rounded-lg p-3 transition-colors`}
-                  autoComplete="family-name"
-                  required
-                  value={surname}
-                  maxLength={100}
-                />
-                {errors.surname && <p className="mt-1 text-sm text-red-500">{errors.surname}</p>}
-              </div>
             </div>
-
-            <div className="w-full">
-              <label
-                htmlFor="email"
-                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
-              >
-                Email
-              </label>
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                id="email"
-                type="email"
-                className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.email ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
-                } rounded-lg p-3 transition-colors`}
-                autoComplete="email"
-                required
-                value={email}
-              />
-              {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
-            </div>
-
-            <div className="w-full">
-              <label
-                htmlFor="password"
-                className="mb-1 block text-base font-semibold tracking-wide text-white sm:mb-2 sm:text-lg"
-              >
-                Password
-              </label>
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                id="password"
-                type="password"
-                className={`w-full border bg-transparent text-base font-medium text-white placeholder-white/80 outline-none focus:placeholder-transparent sm:text-lg ${
-                  errors.password ? "border-red-500 focus:border-red-500" : "border-[#C8B476] focus:border-[#E3C676]"
-                } rounded-lg p-3 transition-colors`}
-                autoComplete="new-password"
-                required
-                value={password}
-                maxLength={128}
-              />
-              {errors.password && <p className="mt-1 text-sm text-red-500">{errors.password}</p>}
-            </div>
-
-            {generalError && (
-              <div className="flex items-center gap-2 rounded-lg border border-red-500/50 bg-red-500/10 p-3">
-                <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                <p className="text-left text-sm font-medium text-red-500">{generalError}</p>
-              </div>
-            )}
-
-            <div>
-              <button
-                type="submit"
-                className="mx-auto inline-flex w-full min-w-[120px] items-center justify-center rounded-xl bg-[#E3C676] px-6 py-3 font-semibold text-white shadow-lg transition-transform hover:scale-105 hover:cursor-pointer sm:mx-0 sm:w-auto"
-              >
-                Register
-              </button>
-            </div>
-
-            <div className="my-6 flex items-center gap-4">
-              <div className="h-px flex-1 bg-white/20" />
-              <span className="text-sm text-white/60">Or continue with</span>
-              <div className="h-px flex-1 bg-white/20" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                type="button"
-                onClick={handleGithubLogin}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
-              >
-                <FaGithub size={20} />
-                GitHub
-              </button>
-              <button
-                type="button"
-                onClick={handleGoogleLogin}
-                className="flex items-center justify-center gap-2 rounded-xl border border-white/20 px-4 py-3 font-medium text-white transition-colors hover:bg-white/10"
-              >
-                <FaGoogle size={20} />
-                Google
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-6 text-center sm:mt-8">
-            <p className="text-base text-white sm:text-lg">
-              Already have an account?{" "}
-              <Link href="/login" className="underline underline-offset-4 transition-colors hover:text-[#E3C676]">
-                Login!
-              </Link>
-            </p>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
