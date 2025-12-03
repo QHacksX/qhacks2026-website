@@ -7,13 +7,26 @@ export default {
     ignoreBuildErrors: true,
   },
   images: {
-    qualities: [65, 75, 80, 82, 85, 88, 90],
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 60,
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+    optimizeCss: true,
+    optimizePackageImports: ["framer-motion", "@radix-ui/react-popover"],
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production",
+  },
+  compress: true,
+  poweredByHeader: false,
   reactStrictMode: true,
   typedRoutes: true,
 };

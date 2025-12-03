@@ -65,6 +65,7 @@ const JoinUs = () => {
             sizes="(min-width: 1280px) 40vw, (min-width: 1024px) 50vw, (min-width: 768px) 60vw, 80vw"
             className="h-auto w-[82vw] max-w-lg object-contain sm:w-[70vw] md:w-[60vw] md:max-w-xl"
             loading="lazy"
+            quality={80}
           />
         </div>
 

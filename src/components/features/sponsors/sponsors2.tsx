@@ -150,7 +150,8 @@ const Sponsors2 = () => {
                         alt={sponsor.name}
                         fill
                         sizes="(max-width: 768px) 160px, 320px"
-                        quality={82}
+                        quality={75}
+                        loading="lazy"
                         className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
                       />
                     </div>
@@ -222,7 +223,8 @@ const Sponsors2 = () => {
                         alt={sponsor.name}
                         fill
                         sizes="(max-width: 768px) 160px, 320px"
-                        quality={82}
+                        quality={75}
+                        loading="lazy"
                         className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
                       />
                     </div>
