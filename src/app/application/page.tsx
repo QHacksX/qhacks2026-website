@@ -480,11 +480,11 @@ const ApplicationPage = () => {
             className="space-y-8 rounded-2xl border border-[#E3C676]/20 bg-black/40 p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-md"
           >
             {isSubmitted && (
-              <div className="space-y-2 rounded-xl border border-green-500/30 bg-green-900/10 p-6 text-center shadow-[0_0_20px_rgba(34,197,94,0.1)]">
+              <div className="space-y-2 rounded-xl border border-[#E3C676]/30 bg-[#E3C676]/10 p-6 text-center shadow-[0_0_20px_rgba(227,198,118,0.1)]">
                 <div className="mb-4 flex justify-center">
-                  <IoIosCheckmarkCircle className="text-5xl text-green-500 drop-shadow-md" />
+                  <IoIosCheckmarkCircle className="text-5xl text-[#E3C676] drop-shadow-md" />
                 </div>
-                <h2 className="text-2xl font-bold tracking-wide text-green-400">Thank You for Applying!</h2>
+                <h2 className="text-2xl font-bold tracking-wide text-[#E3C676]">Thank You for Applying!</h2>
                 <p className="text-white/80">Your application has been received. We will review it shortly.</p>
               </div>
             )}
