@@ -16,34 +16,45 @@ export default function StaticBackground({ className }: StaticBackgroundProps) {
     if (!ctx) return; // ✅ TS now knows ctx is not null
 
     const resize = () => {
-      canvas.width = window.innerWidth / 3;
-      canvas.height = window.innerHeight / 3;
+      // Reduce canvas size for better performance
+      canvas.width = window.innerWidth / 4;
+      canvas.height = window.innerHeight / 4;
     };
 
     resize();
     window.addEventListener("resize", resize);
 
     let animationFrameId: number;
+    let lastFrameTime = 0;
+    const fps = 30; // Limit to 30fps for static effect
+    const frameInterval = 1000 / fps;
 
-    const renderGrain = () => {
-      const { width, height } = canvas;
-      const imageData = ctx.createImageData(width, height);
-      const buffer = imageData.data;
+    const renderGrain = (currentTime: number) => {
+      const deltaTime = currentTime - lastFrameTime;
 
-      // subtle film grain
-      for (let i = 0; i < buffer.length; i += 4) {
-        const shade = Math.random() * 255; // keep it dark & soft
-        buffer[i] = shade;
-        buffer[i + 1] = shade;
-        buffer[i + 2] = shade;
-        buffer[i + 3] = 255;
+      if (deltaTime >= frameInterval) {
+        lastFrameTime = currentTime - (deltaTime % frameInterval);
+
+        const { width, height } = canvas;
+        const imageData = ctx.createImageData(width, height);
+        const buffer = imageData.data;
+
+        // subtle film grain
+        for (let i = 0; i < buffer.length; i += 4) {
+          const shade = Math.random() * 255; // keep it dark & soft
+          buffer[i] = shade;
+          buffer[i + 1] = shade;
+          buffer[i + 2] = shade;
+          buffer[i + 3] = 255;
+        }
+
+        ctx.putImageData(imageData, 0, 0);
       }
 
-      ctx.putImageData(imageData, 0, 0);
       animationFrameId = requestAnimationFrame(renderGrain);
     };
 
-    renderGrain();
+    renderGrain(0);
 
     return () => {
       window.removeEventListener("resize", resize);

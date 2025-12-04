@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function FAQ() {
   const [isHovered, setIsHovered] = useState(false);
@@ -24,108 +24,117 @@ export default function FAQ() {
     return () => window.removeEventListener("resize", updateScreenSize);
   }, []);
 
-  const tickets = [
-    { id: 1, image: "/faq1.png" },
-    { id: 2, image: "/faq2.png" },
-    { id: 3, image: "/faq3.png" },
-    { id: 4, image: "/faq4.png" },
-    { id: 5, image: "/faq5.png" },
-    { id: 6, image: "/faq6.png" },
-  ];
+  const tickets = useMemo(
+    () => [
+      { id: 1, image: "/faq1.png" },
+      { id: 2, image: "/faq2.png" },
+      { id: 3, image: "/faq3.png" },
+      { id: 4, image: "/faq4.png" },
+      { id: 5, image: "/faq5.png" },
+      { id: 6, image: "/faq6.png" },
+    ],
+    [],
+  );
 
-  const getBunchedStyle = (index: number) => {
-    const positions = [
-      {
-        x: { mobile: -50, tablet: -70, desktop: -100 },
-        y: { mobile: -50, tablet: -70, desktop: -80 },
-        rotate: -30,
-      },
-      {
-        x: { mobile: 50, tablet: 70, desktop: 100 },
-        y: { mobile: -40, tablet: -60, desktop: -70 },
-        rotate: 20,
-      },
-      {
-        x: { mobile: -60, tablet: -80, desktop: -110 },
-        y: { mobile: 0, tablet: -10, desktop: -20 },
-        rotate: 30,
-      },
-      {
-        x: { mobile: 60, tablet: 80, desktop: 110 },
-        y: { mobile: 10, tablet: 0, desktop: -10 },
-        rotate: -30,
-      },
-      {
-        x: { mobile: -70, tablet: -90, desktop: -100 },
-        y: { mobile: 70, tablet: 80, desktop: 80 },
-        rotate: -10,
-      },
-      {
-        x: { mobile: 70, tablet: 90, desktop: 100 },
-        y: { mobile: 80, tablet: 90, desktop: 90 },
-        rotate: 20,
-      },
-    ];
+  const getBunchedStyle = useMemo(
+    () => (index: number) => {
+      const positions = [
+        {
+          x: { mobile: -50, tablet: -70, desktop: -100 },
+          y: { mobile: -50, tablet: -70, desktop: -80 },
+          rotate: -30,
+        },
+        {
+          x: { mobile: 50, tablet: 70, desktop: 100 },
+          y: { mobile: -40, tablet: -60, desktop: -70 },
+          rotate: 20,
+        },
+        {
+          x: { mobile: -60, tablet: -80, desktop: -110 },
+          y: { mobile: 0, tablet: -10, desktop: -20 },
+          rotate: 30,
+        },
+        {
+          x: { mobile: 60, tablet: 80, desktop: 110 },
+          y: { mobile: 10, tablet: 0, desktop: -10 },
+          rotate: -30,
+        },
+        {
+          x: { mobile: -70, tablet: -90, desktop: -100 },
+          y: { mobile: 70, tablet: 80, desktop: 80 },
+          rotate: -10,
+        },
+        {
+          x: { mobile: 70, tablet: 90, desktop: 100 },
+          y: { mobile: 80, tablet: 90, desktop: 90 },
+          rotate: 20,
+        },
+      ];
 
-    const pos = positions[index];
-    const x = pos.x[screenSize];
-    const y = pos.y[screenSize];
+      const pos = positions[index];
+      const x = pos.x[screenSize];
+      const y = pos.y[screenSize];
 
-    return {
-      transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
-      zIndex: 6 - index,
-    };
-  };
+      return {
+        transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(${pos.rotate}deg)`,
+        zIndex: 6 - index,
+      };
+    },
+    [screenSize],
+  );
 
-  const getFannedStyle = (index: number) => {
-    const positions = [
-      {
-        // top left
-        x: { mobile: -100, tablet: -180, desktop: -320 },
-        y: { mobile: -160, tablet: -220, desktop: -300 },
-        rotate: 0,
-      },
-      {
-        // top right
-        x: { mobile: 100, tablet: 180, desktop: 320 },
-        y: { mobile: -160, tablet: -220, desktop: -300 },
-        rotate: 0,
-      },
-      {
-        // middle left
-        x: { mobile: -100, tablet: -180, desktop: -320 },
-        y: { mobile: 0, tablet: 0, desktop: 0 },
-        rotate: 0,
-      },
-      {
-        // middle right
-        x: { mobile: 100, tablet: 180, desktop: 320 },
-        y: { mobile: 0, tablet: 0, desktop: 0 },
-        rotate: 0,
-      },
-      {
-        // bottom left
-        x: { mobile: -100, tablet: -180, desktop: -320 },
-        y: { mobile: 160, tablet: 220, desktop: 300 },
-        rotate: 0,
-      },
-      {
-        // bottom right
-        x: { mobile: 100, tablet: 180, desktop: 320 },
-        y: { mobile: 160, tablet: 220, desktop: 300 },
-        rotate: 0,
-      },
-    ];
+  const getFannedStyle = useMemo(
+    () => (index: number) => {
+      const positions = [
+        {
+          // top left
+          x: { mobile: -100, tablet: -180, desktop: -320 },
+          y: { mobile: -160, tablet: -220, desktop: -300 },
+          rotate: 0,
+        },
+        {
+          // top right
+          x: { mobile: 100, tablet: 180, desktop: 320 },
+          y: { mobile: -160, tablet: -220, desktop: -300 },
+          rotate: 0,
+        },
+        {
+          // middle left
+          x: { mobile: -100, tablet: -180, desktop: -320 },
+          y: { mobile: 0, tablet: 0, desktop: 0 },
+          rotate: 0,
+        },
+        {
+          // middle right
+          x: { mobile: 100, tablet: 180, desktop: 320 },
+          y: { mobile: 0, tablet: 0, desktop: 0 },
+          rotate: 0,
+        },
+        {
+          // bottom left
+          x: { mobile: -100, tablet: -180, desktop: -320 },
+          y: { mobile: 160, tablet: 220, desktop: 300 },
+          rotate: 0,
+        },
+        {
+          // bottom right
+          x: { mobile: 100, tablet: 180, desktop: 320 },
+          y: { mobile: 160, tablet: 220, desktop: 300 },
+          rotate: 0,
+        },
+      ];
 
-    const pos = positions[index];
-    const x = pos.x[screenSize];
-    const y = pos.y[screenSize];
+      const pos = positions[index];
+      const x = pos.x[screenSize];
+      const y = pos.y[screenSize];
 
-    return {
-      transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(0deg)`,
-      zIndex: index,
-    };
-  };
+      return {
+        transform: `translate(-50%, -50%) translateX(${x}px) translateY(${y}px) rotate(0deg)`,
+        zIndex: index,
+      };
+    },
+    [screenSize],
+  );
 
   // Prevent hydration mismatch by rendering with desktop defaults initially
   if (!isMounted) {
