@@ -17,12 +17,12 @@ const NavbarMenu = () => {
   const tickingRef = useRef(false);
 
   const navLinks = [
-    { name: "About", href: "#about" },
-    { name: "Projects & Stories", href: "#projects" },
-    { name: "What's New", href: "#news" },
+    { name: "Home", href: "#about" },
+    { name: "Join Us", href: "#projects" },
+    { name: "Network", href: "#news" },
     { name: "Sponsors", href: "#sponsors" },
     { name: "FAQ", href: "#faq" },
-    { name: "2025", href: "https://2025.qhacks.io" },
+    { name: "Team", href: "https://2026.qhacks.io" },
   ];
 
   const socialLinks = [

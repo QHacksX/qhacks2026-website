@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Intro() {
@@ -30,8 +30,8 @@ export default function Intro() {
         transition={{ duration: 1.5, ease: "easeInOut" }}
       >
         <Image
-          src="/static/Qhacks.svg"
-          alt="QHacks 2025 marquee sign - February 6-8"
+          src="/static/Q.svg"
+          alt="QHacks 2026 marquee sign - February 6-8"
           fill
           priority
           className="object-cover mix-blend-lighten drop-shadow-2xl"
