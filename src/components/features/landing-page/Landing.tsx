@@ -76,25 +76,6 @@ const Landing = () => {
             </p>
           </div>
 
-          {/* Social Icons */}
-          <div className="pointer-events-auto flex items-center gap-3 sm:gap-4 lg:gap-5">
-            {socialLinks.map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="text-white/70 transition-colors duration-200 hover:text-white active:scale-95"
-                >
-                  <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-5 lg:w-5 xl:h-6 xl:w-6" />
-                </a>
-              );
-            })}
-          </div>
-
           <div className="pointer-events-auto flex flex-col items-center gap-3">
             <Link
               href={mounted && isAuthenticated ? "/application" : "/register"}
@@ -119,6 +100,24 @@ const Landing = () => {
                 </Link>
               </div>
             )}
+          </div>
+          {/* Social Icons */}
+          <div className="pointer-events-auto flex items-center gap-3 sm:gap-4 lg:gap-5">
+            {socialLinks.map((social) => {
+              const Icon = social.icon;
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  className="text-white/70 transition-colors duration-200 hover:text-white active:scale-95"
+                >
+                  <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-5 lg:w-5 xl:h-6 xl:w-6" />
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
