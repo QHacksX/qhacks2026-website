@@ -3,15 +3,37 @@
 // import Intro from "@/components/features/intro/intro";
 import StaticBackground from "@/components/animations/static";
 import NowPresenting from "@/components/features/NowPresenting";
-import FAQ from "@/components/features/faq/faq";
-import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
-import Sponsors2 from "@/components/features/sponsors/sponsors2";
-import Theatre from "@/components/features/theatre/page";
 // import LandingToStats from "@/components/features/LandingToStats";
-import Credits from "@/components/features/team/page";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+// Lazy load heavy components that aren't immediately visible
+const JoinUs = dynamic(() => import("@/components/features/join-us/JoinUs"), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Theatre = dynamic(() => import("@/components/features/theatre/page"), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Sponsors2 = dynamic(() => import("@/components/features/sponsors/sponsors2"), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const FAQ = dynamic(() => import("@/components/features/faq/faq"), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-black" />,
+});
+
+const Credits = dynamic(() => import("@/components/features/team/page"), {
+  ssr: true,
+  loading: () => <div className="min-h-screen bg-black" />,
+});
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
@@ -42,25 +64,11 @@ export default function Home() {
       document.body.style.height = "100%";
       document.body.style.touchAction = "none";
 
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.height = "100%";
-      document.body.style.touchAction = "none";
-
       // Prevent wheel, touch, and keyboard scrolling
       window.addEventListener("wheel", preventScroll, { passive: false });
       window.addEventListener("touchmove", preventScroll, { passive: false });
       window.addEventListener("keydown", preventKeys);
-      window.addEventListener("wheel", preventScroll, { passive: false });
-      window.addEventListener("touchmove", preventScroll, { passive: false });
-      window.addEventListener("keydown", preventKeys);
     } else {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
       document.body.style.overflow = "";
       document.body.style.position = "";
       document.body.style.width = "";
@@ -76,24 +84,10 @@ export default function Home() {
       document.body.style.width = "";
       document.body.style.height = "";
       document.body.style.touchAction = "";
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
     }, 5500);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener("wheel", preventScroll);
-      window.removeEventListener("touchmove", preventScroll);
-      window.removeEventListener("keydown", preventKeys);
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-      document.documentElement.style.scrollbarGutter = "";
       window.removeEventListener("wheel", preventScroll);
       window.removeEventListener("touchmove", preventScroll);
       window.removeEventListener("keydown", preventKeys);

@@ -1,16 +1,27 @@
 import { Providers } from "@/components/providers";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+
+const oswald = Oswald({
+  variable: "--font-oswald",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -29,15 +40,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.transparenttextures.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
+        suppressHydrationWarning
+      >
         <Providers>{children}</Providers>
       </body>
     </html>

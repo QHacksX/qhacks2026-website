@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 import { Gallery4, type Gallery4Item } from "@/components/ui/gallery4";
 
@@ -10,39 +11,47 @@ const joinItems: Gallery4Item[] = [
     title: "See the full flow",
     description: "Check-in, kickoff, hacking, demos, prizes, and the late-night stories.",
     href: "#joinus",
-    image: "/join-placeholder.svg",
+    image: "/join-placeholder.webp",
   },
   {
     id: "projects",
     title: "Projects you're proud of",
     description: "Build bold ideas with teammates who love shipping fast and clean.",
     href: "#joinus",
-    image: "/join-projects.svg",
+    image: "/join-projects.webp",
   },
   {
     id: "schools",
     title: "Schools everywhere",
     description: "A cross-campus crew—teams form with hackers from all over.",
     href: "#joinus",
-    image: "/join-school.svg",
+    image: "/join-school.webp",
   },
   {
     id: "mentors",
     title: "Mentors on speed dial",
     description: "PMs, designers, and engineers ready to unblock you in minutes, not hours.",
     href: "#joinus",
-    image: "/join-mentors.svg",
+    image: "/join-mentors.webp",
   },
   {
     id: "applicant",
     title: "Newcomer-friendly",
     description: "First hackathon? You're in good company with structured support.",
     href: "#joinus",
-    image: "/join-applicants.svg",
+    image: "/join-applicants.webp",
   },
 ];
 
 const JoinUs = () => {
+  const [isGalleryReady, setIsGalleryReady] = useState(false);
+
+  useEffect(() => {
+    // Defer gallery rendering until component is mounted
+    const timer = setTimeout(() => setIsGalleryReady(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section
       id="joinus"
@@ -70,7 +79,24 @@ const JoinUs = () => {
         </div>
 
         <div className="w-full max-w-6xl">
-          <Gallery4 items={joinItems} />
+          {isGalleryReady ? (
+            <Gallery4 items={joinItems} />
+          ) : (
+            <div className="py-8 sm:py-12 md:py-16">
+              <div className="flex w-full justify-center">
+                <div className="relative w-[98vw] sm:w-[92vw] lg:w-[84vw] xl:w-[78vw]">
+                  <div className="flex gap-4 overflow-hidden px-4">
+                    {[...Array(3)].map((_, i) => (
+                      <div
+                        key={i}
+                        className="h-[420px] w-[68vw] max-w-[360px] animate-pulse rounded-2xl bg-white/10 sm:w-[56vw] md:w-[48vw] lg:w-[360px]"
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

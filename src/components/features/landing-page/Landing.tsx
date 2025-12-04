@@ -40,7 +40,8 @@ const Landing = () => {
             width={1200}
             height={1200}
             className="w-[85vw] max-w-[640px] object-contain opacity-90 lg:w-[65vw]"
-            quality={88}
+            quality={75}
+            priority
             sizes="(min-width: 1024px) 65vw, 85vw"
           />
         </div>
