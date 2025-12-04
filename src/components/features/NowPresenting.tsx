@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const NowPresenting = () => {
@@ -36,7 +36,7 @@ const NowPresenting = () => {
         {/* Billboard positioned on the right side - fills height properly */}
         <div className="absolute top-0 right-0 bottom-0 flex h-full w-auto items-center justify-end">
           <Image
-            src="/board.png"
+            src="/board_1.svg"
             alt="now presenting board"
             width={800}
             height={1000}
