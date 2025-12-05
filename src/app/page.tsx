@@ -16,11 +16,13 @@ const StickySection = ({
   zIndex,
   nextSectionRef, // Ref of the NEXT section that slides over this one
   className = "",
+  offset = "top-0", // Custom sticky offset
 }: {
   children: React.ReactNode;
   zIndex: number;
   nextSectionRef?: React.RefObject<HTMLDivElement>;
   className?: string;
+  offset?: string;
 }) => {
   // Track the progress of the NEXT section sliding into view
   const { scrollYProgress } = useScroll({
@@ -33,7 +35,7 @@ const StickySection = ({
   const overlayOpacity = useTransform(nextSectionRef ? scrollYProgress : { get: () => 0 }, [0, 1], [0, 1]);
 
   return (
-    <div className={`sticky top-0 min-h-screen w-full ${className}`} style={{ zIndex }}>
+    <div className={`sticky min-h-screen w-full ${offset} ${className}`} style={{ zIndex }}>
       {children}
       {/* Dynamic Fade Out Overlay */}
       {nextSectionRef && (
@@ -168,7 +170,7 @@ export default function Home() {
       {/* <Stats /> */}
 
       {/* Join Us: Sticky and fades as Theatre slides in */}
-      <StickySection zIndex={10} nextSectionRef={theatreRef}>
+      <StickySection zIndex={10} nextSectionRef={theatreRef} offset="top-[-20vh]">
         <JoinUs />
       </StickySection>
 
