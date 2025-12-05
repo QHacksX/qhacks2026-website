@@ -55,7 +55,7 @@ const Gallery4 = ({ items }: Gallery4Props) => {
         <div className="relative w-full overflow-hidden px-4 sm:px-6 lg:px-8">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-black via-black/40 to-transparent sm:w-12" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-black via-black/40 to-transparent sm:w-12" />
-          
+
           {isVisible && (
             <motion.div
               className="flex gap-4"
