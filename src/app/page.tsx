@@ -73,6 +73,7 @@ export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
 
   // Refs to track scroll progress of incoming sections
+  const theatreRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   const creditsRef = useRef<HTMLDivElement>(null);
 
@@ -165,8 +166,17 @@ export default function Home() {
       /> */}
       <Landing />
       {/* <Stats /> */}
-      <JoinUs />
-      <Theatre />
+
+      {/* Join Us: Sticky and fades as Theatre slides in */}
+      <StickySection zIndex={10} nextSectionRef={theatreRef}>
+        <JoinUs />
+      </StickySection>
+
+      {/* Theatre: Slides in over Join Us */}
+      <div ref={theatreRef} className="relative z-10">
+        <Theatre />
+      </div>
+
       <div className="relative z-20 -mt-[100vh]">
         {/* Sponsors: Fades out as FAQ slides in */}
         <StickySection zIndex={20} nextSectionRef={faqRef} className="shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
