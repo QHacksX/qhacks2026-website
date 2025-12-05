@@ -41,7 +41,7 @@ const FilmSprockets = () => (
 
 const Sponsors2 = () => {
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] py-10 md:py-16 lg:h-screen">
+    <section id="sponsors" className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[#0a0a0a] py-10 md:py-16 lg:h-screen">
       {/* Cinematic Background with Heavy Noise */}
       <div className="pointer-events-none absolute inset-0 z-0">
         {/* Carousel Background Image */}
