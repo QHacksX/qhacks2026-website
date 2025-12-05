@@ -60,7 +60,7 @@ export default function TeamsCredits() {
         <RoleRow role="DIRECTOR" name="VICTOR VONG" />
         <RoleRow role="OFFICER" name="ABDEL-RAHMAN MOBARAK" />
         <RoleRow role="OFFICER" name="FRANCOIS OLIVER" />
-        <RoleRow role="OFFICER" name="AHMED" />
+        <RoleRow role="OFFICER" name="AHMED EL SAWWAH" />
         <RoleRow role="OFFICER" name="JULIA TUN" />
       </section>
 
