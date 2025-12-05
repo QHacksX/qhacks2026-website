@@ -170,7 +170,7 @@ export default function Home() {
       {/* <Stats /> */}
 
       {/* Join Us: Sticky and fades as Theatre slides in */}
-      <StickySection zIndex={10} nextSectionRef={theatreRef} offset="top-[-20vh]">
+      <StickySection zIndex={10} nextSectionRef={theatreRef} offset="top-[-50vh]">
         <JoinUs />
       </StickySection>
 
