@@ -247,3 +247,18 @@ img {
 .phone-input-container .PhoneInputCountryIconImg {
   @apply block h-full w-full object-cover;
 }
+
+/* FAQ Animations */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(-1deg);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
