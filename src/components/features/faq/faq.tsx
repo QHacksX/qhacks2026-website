@@ -87,10 +87,10 @@ export default function FAQ() {
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className="w-full cursor-pointer transition-all duration-300"
+                className="group w-full cursor-pointer transition-all duration-300"
                 aria-expanded={expandedIndex === index}
               >
-                <div className="relative w-full">
+                <div className="relative w-full transition-all duration-300 group-hover:scale-[1.02]">
                   <Image
                     src={item.image}
                     alt={`FAQ ${item.id}`}
