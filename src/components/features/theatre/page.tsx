@@ -10,6 +10,7 @@ const SECTION_MULTIPLIER = 0.9;
 
 const Theatre = () => {
   const [progress, setProgress] = useState(0);
+  const [fadeOpacity, setFadeOpacity] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
 
@@ -28,11 +29,27 @@ const Theatre = () => {
       return;
     }
 
+      // Lock scrolling inside the section until slides finish
     const lockHeight = height - viewportHeight;
+    
+    // We want the animation to finish 1 screen height BEFORE the end
+    // to allow for the "curtain" effect where the next section slides over
+    const animationDistance = lockHeight - viewportHeight;
+
     const scrolledInside = Math.min(lockHeight, Math.abs(top));
-    const newProgress = scrolledInside / lockHeight;
+
+    // Convert to 0 → 1 range, but cap at 1
+    const newProgress = Math.min(1, scrolledInside / animationDistance);
 
     setProgress(newProgress);
+
+    // Calculate fade out progress in the last viewport height (buffer zone)
+    if (scrolledInside > animationDistance) {
+      const fade = (scrolledInside - animationDistance) / viewportHeight;
+      setFadeOpacity(Math.min(1, fade * 1.5));
+    } else {
+      setFadeOpacity(0);
+    }
   }, []);
 
   useEffect(() => {
@@ -62,7 +79,8 @@ const Theatre = () => {
       ref={containerRef}
       className="relative w-full bg-black"
       style={{
-        height: `${SLIDES.length * SECTION_MULTIPLIER * 100}vh`,
+        // Add extra 100vh for the curtain reveal buffer
+        height: `${(SLIDES.length * SECTION_MULTIPLIER * 100) + 100}vh`,
       }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -96,6 +114,13 @@ const Theatre = () => {
               </div>
             );
           })}
+
+          {/* Black Overlay for fade-out transition */}
+          <div 
+            className="absolute inset-0 bg-black pointer-events-none z-10"
+            style={{ opacity: fadeOpacity }}
+            aria-hidden="true"
+          />
         </div>
       </div>
     </div>
