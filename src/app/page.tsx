@@ -6,9 +6,9 @@ import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 // import LandingToStats from "@/components/features/LandingToStats";
+import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useState, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 // Wrapper for Sticky Stacking with Fade Out Effect
 const StickySection = ({
@@ -20,7 +20,7 @@ const StickySection = ({
 }: {
   children: React.ReactNode;
   zIndex: number;
-  nextSectionRef?: React.RefObject<HTMLDivElement>;
+  nextSectionRef?: React.RefObject<HTMLDivElement | null>;
   className?: string;
   offset?: string;
 }) => {
@@ -32,8 +32,9 @@ const StickySection = ({
 
   // Fade out the current section (opacity of black overlay goes 0 -> 1)
   // Only apply if we have a next section ref
-  const overlayOpacity = useTransform(nextSectionRef ? scrollYProgress : { get: () => 0 }, [0, 1], [0, 1]);
+  const zeroMV = useMotionValue(0);
 
+  const overlayOpacity = useTransform(nextSectionRef ? scrollYProgress : zeroMV, [0, 1], [0, 1]);
   return (
     <div className={`sticky min-h-screen w-full ${offset} ${className}`} style={{ zIndex }}>
       {children}
