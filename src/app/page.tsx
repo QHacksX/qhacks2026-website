@@ -2,11 +2,10 @@
 
 // import Intro from "@/components/features/intro/intro";
 import NowPresenting from "@/components/features/NowPresenting";
-import FAQ from "@/components/features/faq/faq";
 import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
-import Sponsors2 from "@/components/features/sponsors/sponsors2";
+import SponsorsToFAQ from "@/components/features/SponsorsToFAQ";
 import Theatre from "@/components/features/theatre/page";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { useEffect, useState } from "react";
@@ -131,9 +130,12 @@ export default function Home() {
       <Landing />
       {/* <Stats /> */}
       <JoinUs />
-      <Theatre />
-      <Sponsors2 />
-      <FAQ />
+      <div className="snap-start">
+        <Theatre />
+      </div>
+      <div className="relative z-20 -mt-[100vh] snap-start">
+        <SponsorsToFAQ />
+      </div>
     </main>
   );
 }
