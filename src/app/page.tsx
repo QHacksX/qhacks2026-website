@@ -6,8 +6,45 @@ import NowPresenting from "@/components/features/NowPresenting";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 // import LandingToStats from "@/components/features/LandingToStats";
+import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+// Wrapper for Sticky Stacking with Fade Out Effect
+const StickySection = ({
+  children,
+  zIndex,
+  nextSectionRef, // Ref of the NEXT section that slides over this one
+  className = "",
+  offset = "top-0", // Custom sticky offset
+}: {
+  children: React.ReactNode;
+  zIndex: number;
+  nextSectionRef?: React.RefObject<HTMLDivElement | null>;
+  className?: string;
+  offset?: string;
+}) => {
+  // Track the progress of the NEXT section sliding into view
+  const { scrollYProgress } = useScroll({
+    target: nextSectionRef || undefined,
+    offset: ["start end", "start start"],
+  });
+
+  // Fade out the current section (opacity of black overlay goes 0 -> 1)
+  // Only apply if we have a next section ref
+  const zeroMV = useMotionValue(0);
+
+  const overlayOpacity = useTransform(nextSectionRef ? scrollYProgress : zeroMV, [0, 1], [0, 1]);
+  return (
+    <div className={`sticky min-h-screen w-full ${offset} ${className}`} style={{ zIndex }}>
+      {children}
+      {/* Dynamic Fade Out Overlay */}
+      {nextSectionRef && (
+        <motion.div className="pointer-events-none absolute inset-0 z-50 bg-black" style={{ opacity: overlayOpacity }} />
+      )}
+    </div>
+  );
+};
 
 // Lazy load heavy components that aren't immediately visible
 const JoinUs = dynamic(() => import("@/components/features/join-us/JoinUs"), {
@@ -37,6 +74,11 @@ const Credits = dynamic(() => import("@/components/features/team/page"), {
 
 export default function Home() {
   const [introComplete, setIntroComplete] = useState(false);
+
+  // Refs to track scroll progress of incoming sections
+  const theatreRef = useRef<HTMLDivElement>(null);
+  const faqRef = useRef<HTMLDivElement>(null);
+  const creditsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Scroll to top on page load/refresh
@@ -127,11 +169,38 @@ export default function Home() {
       /> */}
       <Landing />
       {/* <Stats /> */}
-      <JoinUs />
-      <Theatre />
-      <Sponsors2 />
-      <FAQ />
-      <Credits />
+
+      {/* Join Us: Sticky and fades as Theatre slides in */}
+      <StickySection zIndex={10} nextSectionRef={theatreRef} offset="top-[-50vh]">
+        <JoinUs />
+      </StickySection>
+
+      {/* Theatre: Slides in over Join Us */}
+      <div ref={theatreRef} className="relative z-10">
+        <Theatre />
+      </div>
+
+      <div className="relative z-20 -mt-[100vh]">
+        {/* Sponsors: Fades out as FAQ slides in */}
+        <StickySection zIndex={20} nextSectionRef={faqRef} className="shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+          <Sponsors2 />
+        </StickySection>
+
+        {/* FAQ: Fades out as Credits slides in */}
+        <div ref={faqRef} className="relative z-30">
+          <StickySection zIndex={30} nextSectionRef={creditsRef} className="bg-black shadow-[0_-50px_100px_rgba(0,0,0,0.8)]">
+            <FAQ />
+          </StickySection>
+        </div>
+
+        {/* Credits: Final slide, no fade out needed */}
+        <div
+          ref={creditsRef}
+          className="relative z-40 min-h-screen snap-start bg-black shadow-[0_-50px_100px_rgba(0,0,0,0.8)]"
+        >
+          <Credits />
+        </div>
+      </div>
     </main>
   );
 }

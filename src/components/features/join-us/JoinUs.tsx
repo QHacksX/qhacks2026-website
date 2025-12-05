@@ -55,7 +55,7 @@ const JoinUs = () => {
   return (
     <section
       id="joinus"
-      className="relative z-10 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden bg-black pt-12 pb-8 sm:pt-16 sm:pb-12"
+      className="relative z-10 flex min-h-screen w-full flex-col items-center justify-start overflow-hidden bg-black pt-12 pb-32 sm:pt-16 sm:pb-40"
     >
       {/* Noise texture */}
       <div
