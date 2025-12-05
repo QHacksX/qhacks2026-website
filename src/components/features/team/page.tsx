@@ -119,7 +119,7 @@ export default function TeamsCredits() {
   );
 
   return (
-    <main className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
+    <main id="team" className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
       <div className="credits-wrapper">
         <div className="credits-track">
           <div className="credits">

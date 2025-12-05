@@ -59,6 +59,7 @@ const Theatre = () => {
 
   return (
     <div
+      id="about"
       ref={containerRef}
       className="relative w-full bg-black"
       style={{

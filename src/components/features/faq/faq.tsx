@@ -139,7 +139,7 @@ export default function FAQ() {
   // Prevent hydration mismatch by rendering with desktop defaults initially
   if (!isMounted) {
     return (
-      <section className="relative flex min-h-screen flex-col items-center justify-center bg-black px-4 py-16">
+      <section id="faq" className="relative flex min-h-screen flex-col items-center justify-center bg-black px-4 py-16">
         {/* Noise Background */}
         <div
           className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"
@@ -180,7 +180,7 @@ export default function FAQ() {
   }
 
   return (
-    <section className="flex min-h-screen items-center justify-center bg-[url('/wood.svg')] px-4">
+    <section id="faq" className="flex min-h-screen items-center justify-center bg-[url('/wood.svg')] px-4">
       <div
         className="relative h-[800px] w-full max-w-[1200px] cursor-pointer overflow-hidden sm:h-[900px] md:h-[1000px] lg:h-[1100px] xl:h-[1200px]"
         onMouseEnter={() => setIsHovered(true)}
