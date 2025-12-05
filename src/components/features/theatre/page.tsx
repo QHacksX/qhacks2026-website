@@ -29,9 +29,9 @@ const Theatre = () => {
       return;
     }
 
-      // Lock scrolling inside the section until slides finish
+    // Lock scrolling inside the section until slides finish
     const lockHeight = height - viewportHeight;
-    
+
     // We want the animation to finish 1 screen height BEFORE the end
     // to allow for the "curtain" effect where the next section slides over
     const animationDistance = lockHeight - viewportHeight;
@@ -80,7 +80,7 @@ const Theatre = () => {
       className="relative w-full bg-black"
       style={{
         // Add extra 100vh for the curtain reveal buffer
-        height: `${(SLIDES.length * SECTION_MULTIPLIER * 100) + 100}vh`,
+        height: `${SLIDES.length * SECTION_MULTIPLIER * 100 + 100}vh`,
       }}
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -116,8 +116,8 @@ const Theatre = () => {
           })}
 
           {/* Black Overlay for fade-out transition */}
-          <div 
-            className="absolute inset-0 bg-black pointer-events-none z-10"
+          <div
+            className="pointer-events-none absolute inset-0 z-10 bg-black"
             style={{ opacity: fadeOpacity }}
             aria-hidden="true"
           />
