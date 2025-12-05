@@ -1,6 +1,5 @@
 "use client";
 
-// import Intro from "@/components/features/intro/intro";
 import StaticBackground from "@/components/animations/static";
 import NowPresenting from "@/components/features/NowPresenting";
 import FAQ from "@/components/features/faq/faq";
@@ -8,136 +7,206 @@ import JoinUs from "@/components/features/join-us/JoinUs";
 import Landing from "@/components/features/landing-page/Landing";
 import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 import Sponsors2 from "@/components/features/sponsors/sponsors2";
-import Theatre from "@/components/features/theatre/page";
-// import LandingToStats from "@/components/features/LandingToStats";
 import Credits from "@/components/features/team/page";
-import { useEffect, useState } from "react";
+import Theatre from "@/components/features/theatre/page";
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+  const [introComplete] = useState(false); // kept for future use
 
+  // Refs to each section
+  const sectionRefs = useRef<HTMLElement[]>([]);
+  const isTransitioningRef = useRef(false);
+
+  // 🔹 GSAP: simple fade-in for sections as they come into view
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
+      const sections = gsap.utils.toArray<HTMLElement>(".qh-section");
+
+      sections.forEach((section) => {
+        gsap.fromTo(
+          section,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.7,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none reverse",
+            },
+          },
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  // Helper: find which section is “current” (middle of the screen)
+  const getCurrentSectionIndex = () => {
+    const sections = sectionRefs.current;
+    const viewportMiddle = window.innerHeight / 2;
+
+    let activeIndex = 0;
+    sections.forEach((section, index) => {
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const inView = rect.top <= viewportMiddle && rect.bottom >= viewportMiddle;
+      if (inView) activeIndex = index;
+    });
+
+    return activeIndex;
+  };
+
+  // 🔹 Custom scroll logic: only auto-move when at TOP/BOTTOM of a section
   useEffect(() => {
-    // Scroll to top on page load/refresh
-    window.scrollTo(0, 0);
-    // Prevent layout shift when scrollbar appears after intro
-    document.documentElement.style.scrollbarGutter = "stable both-edges";
+    const handleWheel = (e: WheelEvent) => {
+      if (isTransitioningRef.current) return;
 
-    // Prevent all scrolling during intro
-    const preventScroll = (e: Event) => {
-      if (!introComplete) {
+      const deltaY = e.deltaY;
+      const sections = sectionRefs.current;
+      if (!sections.length) return;
+
+      const currentIndex = getCurrentSectionIndex();
+      const currentSection = sections[currentIndex];
+      if (!currentSection) return;
+
+      const rect = currentSection.getBoundingClientRect();
+      const atBottom = rect.bottom <= window.innerHeight + 2;
+      const atTop = rect.top >= -2;
+
+      // Scrolling DOWN at bottom → go to NEXT
+      if (deltaY > 0 && atBottom && currentIndex < sections.length - 1) {
         e.preventDefault();
+        const nextSection = sections[currentIndex + 1];
+        if (!nextSection) return;
+
+        isTransitioningRef.current = true;
+
+        // Smooth auto-scroll to next section
+        window.scrollTo({
+          top: window.scrollY + rect.bottom - window.innerHeight + nextSection.getBoundingClientRect().top - rect.top,
+          behavior: "smooth",
+        });
+
+        // Simple timeout to release lock after the scroll
+        setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 700);
+
+        return;
       }
-    };
-    const preventKeys = (e: KeyboardEvent) => {
-      if (!introComplete && ["ArrowUp", "ArrowDown", "Space", "PageUp", "PageDown", "Home", "End"].includes(e.key)) {
+
+      // Scrolling UP at top → go to PREVIOUS
+      if (deltaY < 0 && atTop && currentIndex > 0) {
         e.preventDefault();
+        const prevSection = sections[currentIndex - 1];
+        if (!prevSection) return;
+
+        isTransitioningRef.current = true;
+
+        window.scrollTo({
+          top: window.scrollY + prevSection.getBoundingClientRect().top,
+          behavior: "smooth",
+        });
+
+        setTimeout(() => {
+          isTransitioningRef.current = false;
+        }, 700);
+
+        return;
       }
+
+      // Otherwise: normal scroll inside section
     };
 
-    // Lock scroll during intro
-    if (!introComplete) {
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.height = "100%";
-      document.body.style.touchAction = "none";
+    // Need passive: false so we can e.preventDefault()
+    window.addEventListener("wheel", handleWheel, { passive: false });
 
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.height = "100%";
-      document.body.style.touchAction = "none";
-
-      // Prevent wheel, touch, and keyboard scrolling
-      window.addEventListener("wheel", preventScroll, { passive: false });
-      window.addEventListener("touchmove", preventScroll, { passive: false });
-      window.addEventListener("keydown", preventKeys);
-      window.addEventListener("wheel", preventScroll, { passive: false });
-      window.addEventListener("touchmove", preventScroll, { passive: false });
-      window.addEventListener("keydown", preventKeys);
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-    }
-
-    // Unlock scroll after intro animation completes (5.5 seconds total)
-    const timer = setTimeout(() => {
-      setIntroComplete(true);
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-    }, 5500);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("wheel", preventScroll);
-      window.removeEventListener("touchmove", preventScroll);
-      window.removeEventListener("keydown", preventKeys);
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-      document.documentElement.style.scrollbarGutter = "";
-      window.removeEventListener("wheel", preventScroll);
-      window.removeEventListener("touchmove", preventScroll);
-      window.removeEventListener("keydown", preventKeys);
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.height = "";
-      document.body.style.touchAction = "";
-      document.documentElement.style.scrollbarGutter = "";
-    };
-  }, [introComplete]);
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, []);
 
   return (
     <main className="relative w-full bg-black">
       {/* Noise texture overlay */}
-      <StaticBackground className="absolute top-0 left-0 z-[60] h-screen w-full opacity-40 mix-blend-overlay" />
-      {/* <Intro /> */}
+      <StaticBackground className="pointer-events-none absolute top-0 left-0 z-[60] h-screen w-full opacity-40 mix-blend-overlay" />
 
-      {/* Top Horizontal Navbar */}
+      {/* Top Navbar */}
       <NavbarMenu />
 
+      {/* Any hero / label that sits above everything */}
       <NowPresenting />
 
-      {/* Horizontal scroll transition from Landing -> Stats */}
-      {/* <LandingToStats 
-        enabled={introComplete}
-        landingComponent={
-          <section id="home">
-            <Landing />
-          </section>
-        }
-        statsComponent={
-          <section id="stats">
-            <Stats />
-          </section>
-        }
-      /> */}
-      <Landing />
-      {/* <Stats /> */}
-      <JoinUs />
-      <Theatre />
-      <Sponsors2 />
-      <FAQ />
-      <Credits />
+      {/* Normal vertical flow sections */}
+      <div className="relative w-full">
+        <section
+          id="home"
+          ref={(el) => {
+            if (el) sectionRefs.current[0] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <Landing />
+        </section>
+
+        <section
+          id="join-us"
+          ref={(el) => {
+            if (el) sectionRefs.current[1] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <JoinUs />
+        </section>
+
+        <section
+          id="theatre"
+          ref={(el) => {
+            if (el) sectionRefs.current[2] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <Theatre />
+        </section>
+
+        <section
+          id="sponsors"
+          ref={(el) => {
+            if (el) sectionRefs.current[3] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <Sponsors2 />
+        </section>
+
+        <section
+          id="faq"
+          ref={(el) => {
+            if (el) sectionRefs.current[4] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <FAQ />
+        </section>
+
+        <section
+          id="credits"
+          ref={(el) => {
+            if (el) sectionRefs.current[5] = el;
+          }}
+          className="qh-section min-h-screen w-full"
+        >
+          <Credits />
+        </section>
+      </div>
     </main>
   );
 }
