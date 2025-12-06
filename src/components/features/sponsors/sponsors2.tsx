@@ -89,7 +89,9 @@ const Sponsors = () => {
           <p className="relative z-10 mb-2 font-mono text-xs text-neutral-700">
             Download our{" "}
             <span className="bg-[#E3C676]/20 px-1 font-bold">
-              <Link href="https://cdn.qhacks.io/assets/7947bfeb-53f9-4af2-89ce-3266e861d1c0.pdf">sponsorship package</Link>
+              <Link href="https://cdn.qhacks.io/assets/7947bfeb-53f9-4af2-89ce-3266e861d1c0.pdf" target="_blank">
+                sponsorship package
+              </Link>
             </span>
             !
           </p>
