@@ -118,7 +118,7 @@ export default function Home() {
       document.body.style.touchAction = "";
     }
 
-    // Unlock scroll after intro animation completes (5.5 seconds total)
+    // Unlock scroll after intro animation completes (3.5 seconds total: 2.5s delay + 1s fade)
     const timer = setTimeout(() => {
       setIntroComplete(true);
       document.body.style.overflow = "";
@@ -126,7 +126,7 @@ export default function Home() {
       document.body.style.width = "";
       document.body.style.height = "";
       document.body.style.touchAction = "";
-    }, 5500);
+    }, 3500);
 
     return () => {
       clearTimeout(timer);

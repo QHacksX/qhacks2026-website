@@ -77,13 +77,12 @@ const NavbarMenu = () => {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (hasRevealed && !hasPlayedIntro) {
+    // Wait for the intro animation to complete before enabling fast transitions
+    const timer = setTimeout(() => {
       setHasPlayedIntro(true);
-    }
-  }, [hasRevealed, hasPlayedIntro]);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const target = document.getElementById("home");
@@ -124,8 +123,8 @@ const NavbarMenu = () => {
   };
 
   const navTransition = {
-    duration: hasPlayedIntro ? 0.25 : 0.6,
-    delay: hasPlayedIntro ? 0 : 0.8,
+    duration: hasPlayedIntro ? 0.25 : 1,
+    delay: hasPlayedIntro ? 0 : 2.5,
     ease: hasPlayedIntro ? ("easeOut" as const) : ("easeInOut" as const),
   };
 
