@@ -27,7 +27,7 @@ const oswald = Oswald({
 export const metadata: Metadata = {
   title: "QHacks 2026",
   description:
-    "Queen's University's annual hackathon is back for it's 11th iteration! Come pre-register for the event in February 2026 and join hundreds of applicants, meet tech companies, and have one of the best experiences ever!",
+    "Queen's University's annual hackathon is back for it's 11th iteration in February 2026! Apply now and join hundreds of applicants, meet tech companies, and have one of the best experiences ever!",
   keywords: ["QHacks", "QHacks 2026", "Queens Hackathon"],
   icons: "/favicon.png",
 };

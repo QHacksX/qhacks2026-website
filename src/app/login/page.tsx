@@ -11,6 +11,7 @@ import { useAuthStore } from "@/stores/auth";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
 import { Route } from "next";
 import { motion } from "framer-motion";
+import NoiseOverlay from "@/components/ui/noise-overlay";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -22,17 +23,6 @@ const LoginForm = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const login = useAuthStore((state) => state.login);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Noise overlay component
-  const NoiseOverlay = () => (
-    <div
-      className="pointer-events-none absolute inset-0 z-[1] opacity-[0.07] mix-blend-overlay"
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-        filter: "grayscale(100%)",
-      }}
-    />
-  );
 
   useEffect(() => {
     const redirectTo = searchParams.get("redirect_to");
@@ -151,22 +141,22 @@ const LoginForm = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#050505] text-white selection:bg-[#E3C676] selection:text-black">
-      <Link
-        href="/"
+      <button
+        onClick={() => router.push("/?skipIntro=true")}
         className="absolute top-6 left-6 z-50 text-white/70 transition-all hover:scale-110 hover:text-[#E3C676]"
       >
         <IoIosClose size={40} className="drop-shadow-lg sm:h-12 sm:w-12" />
-      </Link>
+      </button>
 
       {/* Background Elements */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a1a1a] via-[#020202] to-[#000000]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-[#1a1a1a] via-[#020202] to-[#000000]"></div>
         <AnimatedStars />
         <NoiseOverlay />
         {/* Vintage Vignette */}
-        <div className="absolute inset-0 z-[2] bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
+        <div className="absolute inset-0 z-2 bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
         {/* Film Scratch Overlay (Subtle) */}
-        <div className="absolute inset-0 z-[2] animate-pulse bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03]"></div>
+        <div className="absolute inset-0 z-2 animate-pulse bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-[0.03]"></div>
       </div>
 
       {/* REC Indicator - Top Right */}
@@ -196,7 +186,7 @@ const LoginForm = () => {
             {/* Inner Bezel */}
             <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-black shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
               {/* Screen Reflection/Gloss */}
-              <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent opacity-50"></div>
+              <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl bg-linear-to-tr from-transparent via-white/3 to-transparent opacity-50"></div>
 
               <div className="relative z-10 p-6 sm:p-10">
                 {/* Viewfinder Corners */}

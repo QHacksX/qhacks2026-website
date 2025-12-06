@@ -262,3 +262,8 @@ img {
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
+
+.home-page img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
