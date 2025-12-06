@@ -52,6 +52,8 @@ export default function FAQ() {
         style={{ backgroundImage: `url('/static/noise.png')` }}
         aria-hidden="true"
       />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A] via-[#101010] to-[#1A1A1A] opacity-90"></div>
+      <div className="pointer-events-none absolute inset-0 bg-[url('/static/noise.png')] opacity-40 mix-blend-overlay" />
 
       <div className="relative z-10 flex w-full max-w-7xl flex-col gap-8 lg:flex-row lg:gap-12">
         {/* FAQ Title - Shows on top for mobile, right side for desktop */}
