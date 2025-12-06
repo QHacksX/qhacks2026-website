@@ -4,7 +4,7 @@ type RoleRowProps = {
   role: string;
   name: string;
 };
-
+// Single row for a role and name
 const RoleRow = ({ role, name }: RoleRowProps) => (
   <div className="flex w-[330px] justify-between">
     <p className="font-credits text-[0.9rem] font-semibold tracking-[0.16em] text-white uppercase">{role}</p>
