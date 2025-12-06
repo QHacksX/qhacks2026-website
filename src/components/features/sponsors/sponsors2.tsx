@@ -5,13 +5,29 @@ import Image from "next/image";
 
 // Placeholder sponsors data
 const SPONSORS = [
-  { name: "Amazon", logo: "/sponsors/Amazon.svg" },
-  { name: "AMD", logo: "/sponsors/AMD.svg" },
-  { name: "AssemblyAI", logo: "/sponsors/AssemblyAI.svg" },
-  { name: "Axure", logo: "/sponsors/Axure.svg" },
-  { name: "Bayun", logo: "/sponsors/Bayun.svg" },
-  { name: "BMO", logo: "/sponsors/BMO.svg" },
-  { name: "Bounce", logo: "/sponsors/Bounce.svg" },
+  { name: "Manulife", logo: "/sponsors/manulife.png" },
+  { name: "School of Computing", logo: "/sponsors/Computing.svg" },
+  { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png" },
+  { name: "City of Kingston", logo: "/sponsors/Kingston.svg" },
+  { name: "CSE", logo: "/sponsors/CSE.svg" },
+  { name: "DDQIC", logo: "/sponsors/DDQIC.svg" },
+  { name: "COMPSA", logo: "/sponsors/Compsa.png" },
+  { name: "AMS", logo: "/sponsors/AMS.png" },
+];
+
+const PSPONSORS = [
+  { name: "Amazon", logo: "/past-sponsors/Amazon.svg" },
+  { name: "AMD", logo: "/past-sponsors/AMD.svg" },
+  { name: "AssemblyAI", logo: "/past-sponsors/AssemblyAI.svg" },
+  { name: "Axure", logo: "/past-sponsors/Axure.svg" },
+  { name: "Bayun", logo: "/past-sponsors/Bayun.svg" },
+  { name: "BMO", logo: "/past-sponsors/BMO.svg" },
+  { name: "Bounce", logo: "/past-sponsors/Bounce.svg" },
+  { name: "Github", logo: "/past-sponsors/github.svg" },
+  { name: "IBM", logo: "/past-sponsors/IBM.svg" },
+  { name: "OTPP", logo: "/past-sponsors/OTPP.svg" },
+  { name: "QtGroup", logo: "/past-sponsors/QtGroup.png" },
+  { name: "Scotiabank", logo: "/past-sponsors/Scotiabank.svg" },
 ];
 
 // Noise overlay component to be reused
@@ -200,7 +216,7 @@ const Sponsors2 = () => {
             animate={{ x: ["-50%", "0%"] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 45 }}
           >
-            {[...SPONSORS, ...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
+            {[...PSPONSORS, ...PSPONSORS, ...PSPONSORS].map((sponsor, idx) => (
               <div
                 key={`row2-${idx}`}
                 className="group relative flex h-[100px] w-[160px] flex-shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:w-[320px] md:p-8"
