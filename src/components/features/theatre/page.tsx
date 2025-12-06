@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
+import { useWindowSize } from "@/hooks/useWindowSize";
 
-const SLIDES = ["/growNetwork.svg", "/bring.svg", "/showcase.svg", "/event.svg"];
+const TEXT_SLIDES = ["/theatre/text-grow.svg", "/theatre/text-bring.svg", "/theatre/text-showcase.svg", "/theatre/text-event.svg"];
+
+const BACKGROUND_IMAGE = "/theatre/background.svg";
 
 const TRANSITION_DURATION = 400; // Faster transitions
 const SECTION_MULTIPLIER = 0.9;
@@ -13,8 +16,9 @@ const Theatre = () => {
   const [fadeOpacity, setFadeOpacity] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const { width, height } = useWindowSize();
 
-  const totalSlides = SLIDES.length;
+  const totalSlides = TEXT_SLIDES.length;
   const slideRange = totalSlides - 1;
 
   const handleScroll = useCallback(() => {
@@ -71,8 +75,24 @@ const Theatre = () => {
     };
   }, [handleScroll]);
 
-  // Which slide we’re on (0–1 range for crossfade)
-  const slidePosition = progress * slideRange;
+  // Determine active slide based on scroll progress (discrete steps)
+  const activeSlideIndex = Math.min(Math.floor(progress * totalSlides), totalSlides - 1);
+
+  // Calculate container dimensions to simulate object-cover while maintaining coordinate system
+  const imageRatio = 1440 / 1024;
+  let containerWidth = 0;
+  let containerHeight = 0;
+
+  if (width && height) {
+    const windowRatio = width / height;
+    if (windowRatio > imageRatio) {
+      containerWidth = width;
+      containerHeight = width / imageRatio;
+    } else {
+      containerHeight = height;
+      containerWidth = height * imageRatio;
+    }
+  }
 
   return (
     <div
@@ -81,48 +101,81 @@ const Theatre = () => {
       className="relative w-full bg-black"
       style={{
         // Add extra 100vh for the curtain reveal buffer
-        height: `${SLIDES.length * SECTION_MULTIPLIER * 100 + 100}vh`,
+        height: `${TEXT_SLIDES.length * SECTION_MULTIPLIER * 100 + 100}vh`,
       }}
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="relative h-full w-full">
-          {SLIDES.map((src, i) => {
-            const opacity = 1 - Math.min(1, Math.abs(slidePosition - i));
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden">
+        {/* Scaled Container that matches Background Aspect Ratio */}
+        <div
+          className="relative flex-none"
+          style={{
+            width: containerWidth || "100%",
+            height: containerHeight || "100%",
+            opacity: width ? 1 : 0, // Prevent layout shift flash
+            transition: "opacity 0.2s",
+          }}
+        >
+          {/* Static Background */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={BACKGROUND_IMAGE}
+              alt="Theatre Background"
+              fill
+              className="object-cover"
+              style={{ pointerEvents: "none" }}
+              priority
+              quality={85}
+              sizes="100vw"
+            />
+          </div>
 
-            return (
-              <div
-                key={src}
-                className="absolute inset-0"
-                style={{
-                  opacity,
-                  transition: `opacity ${TRANSITION_DURATION}ms ease-out`,
-                  willChange: "opacity",
-                }}
-              >
-                <Image
-                  src={src}
-                  alt={`Slide ${i}`}
-                  fill
-                  className="object-cover"
-                  style={{ pointerEvents: "none" }}
-                  priority={i === 0}
-                  loading={i === 0 ? "eager" : "lazy"}
-                  quality={85}
-                  sizes="100vw"
-                  placeholder="blur"
-                  blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IGZpbGw9IiMwYTBhMGEiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48L3N2Zz4="
-                />
-              </div>
-            );
-          })}
-
-          {/* Black Overlay for fade-out transition */}
+          {/* Text Slides Overlay */}
           <div
-            className="pointer-events-none absolute inset-0 z-10 bg-black"
-            style={{ opacity: fadeOpacity }}
-            aria-hidden="true"
-          />
+            className="absolute z-10 flex items-center justify-center"
+            style={{
+              left: "37%",
+              top: "34%",
+              width: "28.7%",
+              height: "22.8%",
+            }}
+          >
+            {TEXT_SLIDES.map((src, i) => {
+              const isActive = i === activeSlideIndex;
+              const opacity = isActive ? 1 : 0;
+
+              return (
+                <div
+                  key={src}
+                  className="absolute inset-0"
+                  style={{
+                    opacity,
+                    transition: `opacity ${TRANSITION_DURATION}ms ease-out`,
+                    willChange: "opacity",
+                  }}
+                >
+                  <Image
+                    src={src}
+                    alt={`Slide ${i}`}
+                    fill
+                    className="object-contain"
+                    style={{ pointerEvents: "none" }}
+                    priority={i === 0}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    quality={85}
+                    sizes="50vw"
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
+
+        {/* Black Overlay for fade-out transition */}
+        <div
+          className="pointer-events-none absolute inset-0 z-20 bg-black"
+          style={{ opacity: fadeOpacity }}
+          aria-hidden="true"
+        />
       </div>
     </div>
   );
