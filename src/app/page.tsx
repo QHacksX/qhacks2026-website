@@ -8,7 +8,8 @@ import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 // Wrapper for Sticky Stacking with Fade Out Effect
 const StickySection = ({
@@ -72,8 +73,10 @@ const Credits = dynamic(() => import("@/components/features/team/page"), {
   loading: () => <div className="min-h-screen bg-black" />,
 });
 
-export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const skipIntro = searchParams.get("skipIntro") === "true";
+  const [introComplete, setIntroComplete] = useState(skipIntro);
 
   // Refs to track scroll progress of incoming sections
   const theatreRef = useRef<HTMLDivElement>(null);
@@ -81,6 +84,11 @@ export default function Home() {
   const creditsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (skipIntro) {
+      setIntroComplete(true);
+      return;
+    }
+
     // Scroll to top on page load/refresh
     window.scrollTo(0, 0);
     // Prevent layout shift when scrollbar appears after intro
@@ -140,18 +148,18 @@ export default function Home() {
       document.body.style.touchAction = "";
       document.documentElement.style.scrollbarGutter = "";
     };
-  }, [introComplete]);
+  }, [introComplete, skipIntro]);
 
   return (
     <main className="relative w-full bg-black">
       {/* Noise texture overlay */}
-      <StaticBackground className="absolute top-0 left-0 z-[60] h-screen w-full opacity-40 mix-blend-overlay" />
+      <StaticBackground className="absolute top-0 left-0 z-60 h-screen w-full opacity-40 mix-blend-overlay" />
       {/* <Intro /> */}
 
       {/* Top Horizontal Navbar */}
       <NavbarMenu />
 
-      <NowPresenting />
+      <NowPresenting skip={skipIntro} />
 
       {/* Horizontal scroll transition from Landing -> Stats */}
       {/* <LandingToStats 
@@ -202,5 +210,13 @@ export default function Home() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <HomeContent />
+    </Suspense>
   );
 }

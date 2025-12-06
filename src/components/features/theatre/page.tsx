@@ -19,7 +19,6 @@ const Theatre = () => {
   const { width, height } = useWindowSize();
 
   const totalSlides = TEXT_SLIDES.length;
-  const slideRange = totalSlides - 1;
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;
