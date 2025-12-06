@@ -4,7 +4,12 @@ import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 
-const TEXT_SLIDES = ["/theatre/text-grow.svg", "/theatre/text-bring.svg", "/theatre/text-showcase.svg", "/theatre/text-event.svg"];
+const TEXT_SLIDES = [
+  "/theatre/text-grow.svg",
+  "/theatre/text-bring.svg",
+  "/theatre/text-showcase.svg",
+  "/theatre/text-event.svg",
+];
 
 const BACKGROUND_IMAGE = "/theatre/background.svg";
 

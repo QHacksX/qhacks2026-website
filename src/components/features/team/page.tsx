@@ -6,20 +6,37 @@ import StaticBackground from "@/components/animations/static";
 type RoleRowProps = {
   role: string;
   name: string;
+  linkedin?: string;
 };
+
+const CreditName = ({ name, linkedin }: { name: string; linkedin?: string }) => {
+  if (linkedin) {
+    return (
+      <a
+        href={`https://www.linkedin.com/in/${linkedin}/`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase transition-colors hover:text-[#E3C88B]"
+      >
+        {name}
+      </a>
+    );
+  }
+  return <p className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">{name}</p>;
+};
+
 // Single row for a role and name
-const RoleRow = ({ role, name }: RoleRowProps) => (
+const RoleRow = ({ role, name, linkedin }: RoleRowProps) => (
   <div className="flex w-[330px] justify-between">
     <p className="font-credits text-[0.9rem] font-semibold tracking-[0.16em] text-white uppercase">{role}</p>
-
-    <p className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">{name}</p>
+    <CreditName name={name} linkedin={linkedin} />
   </div>
 );
 
 const CreditsContent = () => (
   <>
     {/* TITLE */}
-    <h1 className="font-title mb-12 text-[3rem] font-bold tracking-[0.1em] text-[#E3C88B] uppercase">MEET THE EXECS</h1>
+    <h1 className="font-title mb-12 text-[3rem] font-bold tracking-widest text-[#E3C88B] uppercase">MEET THE EXECS</h1>
 
     {/* CO-CHAIRS */}
     <section className="flex flex-col items-center">
@@ -27,9 +44,9 @@ const CreditsContent = () => (
         CO-CHAIRS
       </h2>
 
-      <p className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">AMANDA CAO</p>
-      <p className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">MICHAEL KWON</p>
-      <p className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">WILL WU</p>
+      <CreditName name="AMANDA CAO" />
+      <CreditName name="MICHAEL KWON" linkedin="michaelkwon5" />
+      <CreditName name="WILL WU" />
     </section>
 
     {/* FINANCE */}
@@ -38,8 +55,8 @@ const CreditsContent = () => (
         FINANCE
       </h2>
 
-      <RoleRow role="DIRECTOR" name="ASHMAAN SOHAIL" />
-      <RoleRow role="OFFICER" name="ELA AYDINER" />
+      <RoleRow role="DIRECTOR" name="ASHMAAN SOHAIL" linkedin="ashmaan-sohail" />
+      <RoleRow role="OFFICER" name="ELA AYDINER" linkedin="ela-aydiner" />
     </section>
 
     {/* LOGISTICS */}
@@ -51,9 +68,9 @@ const CreditsContent = () => (
       <RoleRow role="DIRECTOR" name="ARYAMAN BHATIA" />
       <RoleRow role="DIRECTOR" name="VICTOR VONG" />
       <RoleRow role="OFFICER" name="ABDEL-RAHMAN MOBARAK" />
-      <RoleRow role="OFFICER" name="FRANCOIS OLIVER" />
+      <RoleRow role="OFFICER" name="FRANCOIS OLIVIER" linkedin="francois-olivier-280850341" />
       <RoleRow role="OFFICER" name="AHMED EL SAWWAH" />
-      <RoleRow role="OFFICER" name="JULIA TUN" />
+      <RoleRow role="OFFICER" name="JULIA TUN" linkedin="thuthutun" />
     </section>
 
     {/* MARKETING */}
@@ -74,8 +91,8 @@ const CreditsContent = () => (
         OPERATIONS
       </h2>
 
-      <RoleRow role="DIRECTOR" name="JEFFRY WU" />
-      <RoleRow role="OFFICER" name="RASTIN AGHIGHI" />
+      <RoleRow role="DIRECTOR" name="JEFFERY WU" />
+      <RoleRow role="OFFICER" name="RASTIN AGHIGHI" linkedin="rastinaghighi" />
       <RoleRow role="OFFICER" name="HARISH KANDAVELL" />
     </section>
 
@@ -87,10 +104,10 @@ const CreditsContent = () => (
 
       <RoleRow role="DIRECTOR" name="EASTAL LAW" />
       <RoleRow role="DIRECTOR" name="KELVIN NGUYEN" />
-      <RoleRow role="OFFICER" name="JASON CHEN" />
+      <RoleRow role="OFFICER" name="JASON CHEN" linkedin="jason-chen-dev" />
       <RoleRow role="OFFICER" name="JESHNA KANDURI" />
       <RoleRow role="OFFICER" name="HARSH KALYANI" />
-      <RoleRow role="OFFICER" name="JOSE KERKETTA" />
+      <RoleRow role="OFFICER" name="JOSE KERKETTA" linkedin="jose-kerketta" />
       <RoleRow role="OFFICER" name="MAIRA OPEL" />
     </section>
 
@@ -99,11 +116,11 @@ const CreditsContent = () => (
       <h2 className="font-title mb-[0.7rem] text-[1.8rem] font-semibold tracking-[0.18em] text-[#E3C88B] uppercase">TECH</h2>
 
       <RoleRow role="DIRECTOR" name="KOSI AMOBI-OLEKA" />
-      <RoleRow role="DIRECTOR" name="KUZAY BILGIN" />
-      <RoleRow role="OFFICER" name="TECHMENG AING" />
+      <RoleRow role="DIRECTOR" name="KUZEY BILGIN" />
+      <RoleRow role="OFFICER" name="TECHMENG AING" linkedin="tms06" />
       <RoleRow role="OFFICER" name="AAYUSH ARYAL" />
-      <RoleRow role="OFFICER" name="ISAAC FUNG" />
-      <RoleRow role="OFFICER" name="ALFONSO SINA" />
+      <RoleRow role="OFFICER" name="ISAAC FUNG" linkedin="isaacfungg" />
+      <RoleRow role="OFFICER" name="ALFONSO SINA" linkedin="alfonso-sina" />
     </section>
 
     {/* FIRST YEAR REPS */}
@@ -112,11 +129,10 @@ const CreditsContent = () => (
         FIRST YEAR REPS
       </h2>
 
-      {["MOUCTAR DLALLO", "SOMIAYA HASSAN", "LISA LI", "NISHI SHAH"].map((n) => (
-        <p key={n} className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">
-          {n}
-        </p>
-      ))}
+      <CreditName name="MOUCTAR DIALLO" />
+      <CreditName name="SOMAIYA HASSAN" />
+      <CreditName name="LISA LI" />
+      <CreditName name="NISHI SHAH" linkedin="nishiiishahhh" />
     </section>
   </>
 );
@@ -139,7 +155,7 @@ export default function TeamsCredits() {
           // Start the credits when in view, with a delay
           timeoutRef.current = setTimeout(() => {
             track.style.animationPlayState = "running";
-          }, 1000);
+          }, 500);
         } else {
           // Pause the credits when out of view
           if (timeoutRef.current) {
@@ -208,8 +224,8 @@ export default function TeamsCredits() {
         </div>
 
         {/* fade top & bottom so credits feel cinematic */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black to-transparent" />
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black to-transparent" />
       </section>
 
       <style jsx>{`
