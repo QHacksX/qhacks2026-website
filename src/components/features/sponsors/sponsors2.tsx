@@ -121,10 +121,9 @@ const Sponsors2 = () => {
 
           <h2
             className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl"
-            style={{ textShadow: "2px 2px 0px rgba(0,0,0,0.1)" }}
           >
             Honouring our <br />
-            <span className="mt-2 inline-block -skew-x-6 transform bg-black px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
+            <span className="mt-2 inline-block -skew-x-6 transform  px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
               Current Sponsors
             </span>
           </h2>
