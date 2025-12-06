@@ -5,35 +5,38 @@ export default function FAQ() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const faqItems = [
-    { 
-      id: 1, 
+    {
+      id: 1,
       image: "/faq1.png",
-      answer: "A hackathon is a 36-hour event where students come together to build a project from scratch. It's a great opportunity to learn new skills, meet new people, and win prizes!"
+      answer:
+        "A hackathon is a 36-hour event where students come together to build a project from scratch. It's a great opportunity to learn new skills, meet new people, and win prizes!",
     },
-    { 
-      id: 2, 
+    {
+      id: 2,
       image: "/faq2.png",
-      answer: "QHacks is fully in person located at Queens University in Kingston, Ontario."
+      answer: "QHacks is fully in person located at Queens University in Kingston, Ontario.",
     },
-    { 
-      id: 3, 
+    {
+      id: 3,
       image: "/faq3.png",
-      answer: "Teams can be formed with groups of 1-4."
+      answer: "Teams can be formed with groups of 1-4.",
     },
-    { 
-      id: 4, 
+    {
+      id: 4,
       image: "/faq4.png",
-      answer: "No problem! We will have team formation events before the hackathon. You can also find teammates on our Discord server, which will be released after applications have closed."
+      answer:
+        "No problem! We will have team formation events before the hackathon. You can also find teammates on our Discord server, which will be released after applications have closed.",
     },
-    { 
-      id: 5, 
+    {
+      id: 5,
       image: "/faq5.png",
-      answer: "QHacks is open to all undergraduate students from any university or college."
+      answer: "QHacks is open to all undergraduate students from any university or college.",
     },
-    { 
-      id: 6, 
+    {
+      id: 6,
       image: "/faq6.png",
-      answer: "This year hackathon theme will be announced closer towards the event. Follow us on social media to stay updated."
+      answer:
+        "This year hackathon theme will be announced closer towards the event. Follow us on social media to stay updated.",
     },
   ];
 
@@ -53,7 +56,7 @@ export default function FAQ() {
       <div className="relative z-10 flex w-full max-w-7xl flex-col gap-8 lg:flex-row lg:gap-12">
         {/* FAQ Title - Shows on top for mobile, right side for desktop */}
         <div className="flex flex-1 items-center justify-center lg:order-2">
-          <div className="relative -rotate-1 transform animate-float">
+          <div className="animate-float relative -rotate-1 transform">
             <div className="relative mx-auto max-w-2xl border-4 border-[#E3C676] bg-[#f5f5f0] p-4 px-8 shadow-2xl md:p-6 md:px-12">
               <div
                 className="pointer-events-none absolute inset-0 z-20 opacity-[1] mix-blend-overlay"
@@ -81,10 +84,7 @@ export default function FAQ() {
         {/* FAQ Accordion - Shows below title on mobile, left side on desktop */}
         <div className="flex-1 lg:order-1">
           {faqItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="-mb-2 overflow-hidden transition-all duration-500 ease-in-out"
-            >
+            <div key={item.id} className="-mb-2 overflow-hidden transition-all duration-500 ease-in-out">
               <button
                 onClick={() => toggleAccordion(index)}
                 className="group w-full cursor-pointer transition-all duration-300"
@@ -101,14 +101,14 @@ export default function FAQ() {
                   />
                 </div>
               </button>
-              
+
               {/* Answer Section */}
               <div
                 className={`-mt-2 overflow-hidden transition-all duration-500 ease-in-out ${
                   expandedIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="relative mx-auto w-[90%] animate-fadeIn border-4 border-[#E3C676] bg-[#f5f5f0] p-6 shadow-xl md:p-8">
+                <div className="animate-fadeIn relative mx-auto w-[90%] border-4 border-[#E3C676] bg-[#f5f5f0] p-6 shadow-xl md:p-8">
                   {/* Noise/Paper texture overlay */}
                   <div
                     className="pointer-events-none absolute inset-0 z-10 opacity-[0.6] mix-blend-overlay"
@@ -118,16 +118,14 @@ export default function FAQ() {
                     }}
                   />
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/paper.png')] opacity-20"></div>
-                  
+
                   {/* Decorative corner accents */}
-                  <div className="absolute -left-1 -top-1 h-3 w-3 border-l-2 border-t-2 border-black opacity-30"></div>
-                  <div className="absolute -right-1 -top-1 h-3 w-3 border-r-2 border-t-2 border-black opacity-30"></div>
+                  <div className="absolute -top-1 -left-1 h-3 w-3 border-t-2 border-l-2 border-black opacity-30"></div>
+                  <div className="absolute -top-1 -right-1 h-3 w-3 border-t-2 border-r-2 border-black opacity-30"></div>
                   <div className="absolute -bottom-1 -left-1 h-3 w-3 border-b-2 border-l-2 border-black opacity-30"></div>
-                  <div className="absolute -bottom-1 -right-1 h-3 w-3 border-b-2 border-r-2 border-black opacity-30"></div>
-                  
-                  <p className="relative z-20 font-mono text-base leading-relaxed text-black md:text-lg">
-                    {item.answer}
-                  </p>
+                  <div className="absolute -right-1 -bottom-1 h-3 w-3 border-r-2 border-b-2 border-black opacity-30"></div>
+
+                  <p className="relative z-20 font-mono text-base leading-relaxed text-black md:text-lg">{item.answer}</p>
                 </div>
               </div>
             </div>
