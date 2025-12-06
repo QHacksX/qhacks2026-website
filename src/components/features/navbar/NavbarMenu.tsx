@@ -143,8 +143,19 @@ const NavbarMenu = () => {
       <div className="pointer-events-none absolute top-0 right-0 left-0 h-8 bg-linear-to-b from-black/30 via-black/15 to-transparent" />
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="flex h-12 items-center justify-between sm:h-14 lg:h-20 xl:h-24">
-          <div className="flex items-center gap-4 lg:gap-8">
-            {/* Navigation Links - Hidden on mobile, visible on desktop */}
+          {/* MOBILE: menu button on LEFT */}
+          <div className="order-1 flex items-center gap-2 sm:gap-3 lg:hidden">
+            <button
+              className="rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open menu"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+          </div>
+
+          {/* DESKTOP nav links (unchanged) */}
+          <div className="order-2 flex items-center gap-4 lg:order-1 lg:gap-8">
             <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
               {navLinks.map((link) => (
                 <li key={link.href}>
@@ -159,17 +170,6 @@ const NavbarMenu = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div className="flex items-center gap-2 sm:gap-3 lg:gap-5 xl:gap-6">
-            {/* Hamburger for mobile */}
-            <button
-              className="rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white focus:ring-2 focus:ring-white/30 focus:outline-none lg:hidden"
-              onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
-            >
-              <Menu className="h-5 w-5" />
-            </button>
           </div>
         </div>
       </div>
