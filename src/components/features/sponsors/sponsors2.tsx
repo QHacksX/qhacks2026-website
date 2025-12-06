@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/dist/client/link";
 import Image from "next/image";
 
 // Placeholder sponsors data
@@ -39,7 +40,7 @@ const FilmSprockets = () => (
   </>
 );
 
-const Sponsors2 = () => {
+const Sponsors = () => {
   return (
     <section
       id="sponsors"
@@ -86,9 +87,11 @@ const Sponsors2 = () => {
             <span className="text-[#d4b255] drop-shadow-sm">Partnering?</span>
           </h3>
           <p className="relative z-10 mb-2 font-mono text-xs text-neutral-700">
-            Contact us at:
-            <br />
-            <span className="bg-[#E3C676]/20 px-1 font-bold">partnerships@qhacks.io</span>
+            Download our{" "}
+            <span className="bg-[#E3C676]/20 px-1 font-bold">
+              <Link href="https://cdn.qhacks.io/assets/7947bfeb-53f9-4af2-89ce-3266e861d1c0.pdf">sponsorship package</Link>
+            </span>
+            !
           </p>
         </div>
       </div>
@@ -249,4 +252,4 @@ const Sponsors2 = () => {
   );
 };
 
-export default Sponsors2;
+export default Sponsors;

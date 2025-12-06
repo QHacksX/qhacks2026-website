@@ -57,7 +57,7 @@ const Theatre = dynamic(() => import("@/components/features/theatre/page"), {
   loading: () => <div className="min-h-screen bg-black" />,
 });
 
-const Sponsors2 = dynamic(() => import("@/components/features/sponsors/sponsors2"), {
+const Sponsors = dynamic(() => import("@/components/features/sponsors/sponsors2"), {
   ssr: true,
   loading: () => <div className="min-h-screen bg-black" />,
 });
@@ -183,7 +183,7 @@ export default function Home() {
       <div className="relative z-20 -mt-[100vh]">
         {/* Sponsors: Fades out as FAQ slides in */}
         <StickySection zIndex={20} nextSectionRef={faqRef} className="shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-          <Sponsors2 />
+          <Sponsors />
         </StickySection>
 
         {/* FAQ: Fades out as Credits slides in */}
