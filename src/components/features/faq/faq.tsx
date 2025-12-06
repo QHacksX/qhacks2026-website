@@ -45,7 +45,10 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative flex min-h-screen items-center justify-center bg-black px-4 py-16">
+    <section
+      id="faq"
+      className="relative flex min-h-screen items-center justify-center bg-black bg-[url('/static/noise.png')] px-4 py-16"
+    >
       {/* Noise Background */}
       <div
         className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-50"

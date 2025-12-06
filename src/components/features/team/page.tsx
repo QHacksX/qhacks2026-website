@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
+import StaticBackground from "@/components/animations/static";
 
 type RoleRowProps = {
   role: string;
@@ -163,7 +164,12 @@ export default function TeamsCredits() {
   }, []);
 
   return (
-    <main id="team" ref={pageRef} className="relative flex h-screen w-full flex-col overflow-hidden bg-black lg:flex-row">
+    <main
+      id="team"
+      ref={pageRef}
+      className="relative flex h-screen w-full flex-col overflow-hidden bg-black bg-[url('/static/noise.png')] lg:flex-row"
+    >
+      <StaticBackground className="absolute inset-0 z-0 opacity-40 mix-blend-overlay" />
       {/* LEFT HALF – VIDEO */}
       <section className="relative flex h-1/3 w-full items-center justify-center lg:h-full lg:w-1/2">
         <video
