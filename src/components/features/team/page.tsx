@@ -41,19 +41,6 @@ const CreditsContent = () => (
       <RoleRow role="OFFICER" name="ELA AYDINER" />
     </section>
 
-    {/* FIRST YEAR REPS */}
-    <section className="flex flex-col items-center">
-      <h2 className="font-title mb-[0.7rem] text-[1.8rem] font-semibold tracking-[0.18em] text-[#E3C88B] uppercase">
-        FIRST YEAR REPS
-      </h2>
-
-      {["MOUCTAR DLALLO", "SOMIAYA HASSAN", "LISA LI", "NISHI SHAH"].map((n) => (
-        <p key={n} className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">
-          {n}
-        </p>
-      ))}
-    </section>
-
     {/* LOGISTICS */}
     <section className="flex flex-col items-center">
       <h2 className="font-title mb-[0.7rem] text-[1.8rem] font-semibold tracking-[0.18em] text-[#E3C88B] uppercase">
@@ -116,6 +103,19 @@ const CreditsContent = () => (
       <RoleRow role="OFFICER" name="AAYUSH ARYAL" />
       <RoleRow role="OFFICER" name="ISAAC FUNG" />
       <RoleRow role="OFFICER" name="ALFONSO SINA" />
+    </section>
+
+    {/* FIRST YEAR REPS */}
+    <section className="flex flex-col items-center">
+      <h2 className="font-title mb-[0.7rem] text-[1.8rem] font-semibold tracking-[0.18em] text-[#E3C88B] uppercase">
+        FIRST YEAR REPS
+      </h2>
+
+      {["MOUCTAR DLALLO", "SOMIAYA HASSAN", "LISA LI", "NISHI SHAH"].map((n) => (
+        <p key={n} className="font-credits text-[1rem] font-normal tracking-[0.12em] text-white uppercase">
+          {n}
+        </p>
+      ))}
     </section>
   </>
 );
