@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const SLIDES = ["/growNetwork.svg", "/bring.svg", "/showcase.svg"];
+const SLIDES = ["/growNetwork.svg", "/bring.svg", "/showcase.svg", "/event.svg"];
 
 const TRANSITION_DURATION = 400; // Faster transitions
 const SECTION_MULTIPLIER = 0.9;
