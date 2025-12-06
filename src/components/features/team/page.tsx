@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Volume2, VolumeX } from "lucide-react";
+
 type RoleRowProps = {
   role: string;
   name: string;
@@ -16,6 +18,9 @@ const RoleRow = ({ role, name }: RoleRowProps) => (
 export default function TeamsCredits() {
   const trackRef = useRef<HTMLDivElement>(null);
   const pageRef = useRef<HTMLElement | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     const page = pageRef.current;
     const track = trackRef.current;
@@ -25,9 +30,16 @@ export default function TeamsCredits() {
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting) {
-          // Start the credits once, smoothly
-          track.style.animationPlayState = "running";
-          observer.disconnect(); // don't pause again
+          // Start the credits when in view, with a delay
+          timeoutRef.current = setTimeout(() => {
+            track.style.animationPlayState = "running";
+          }, 1000);
+        } else {
+          // Pause the credits when out of view
+          if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+          }
+          track.style.animationPlayState = "paused";
         }
       },
       {
@@ -37,11 +49,21 @@ export default function TeamsCredits() {
 
     observer.observe(page);
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, []);
 
   const CreditsContent = () => (
     <>
+      {/* TITLE */}
+      <h1 className="font-title mb-12 pt-20 text-[3rem] font-bold tracking-[0.1em] text-[#E3C88B] uppercase">
+        MEET THE EXECS
+      </h1>
+
       {/* CO-CHAIRS */}
       <section className="flex flex-col items-center">
         <h2 className="font-title mb-[0.7rem] text-[1.8rem] font-semibold tracking-[0.18em] text-[#E3C88B] uppercase">
@@ -148,27 +170,32 @@ export default function TeamsCredits() {
     <main id="team" ref={pageRef} className="relative flex h-screen w-full flex-col overflow-hidden bg-black lg:flex-row">
       {/* LEFT HALF – VIDEO */}
       <section className="relative flex h-1/3 w-full items-center justify-center lg:h-full lg:w-1/2">
-        {/* replace src with your actual video path */}
         <video
           src="https://cdn.qhacks.io/assets/0f1ec19b-8d41-4eea-b053-27d046857fff.mp4"
           className="h-full w-full object-cover"
           autoPlay
           loop
-          muted
+          muted={isMuted}
           playsInline
         />
 
         {/* optional subtle overlay for readability */}
         <div className="pointer-events-none absolute inset-0 bg-black/30" />
+
+        {/* Mute/Unmute Button */}
+        <button
+          onClick={() => setIsMuted(!isMuted)}
+          className="absolute right-4 bottom-4 z-10 rounded-full bg-black/50 p-2 text-white backdrop-blur-sm transition-colors hover:bg-black/70"
+          aria-label={isMuted ? "Unmute video" : "Mute video"}
+        >
+          {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
+        </button>
       </section>
 
       {/* RIGHT HALF – CREDITS */}
       <section className="relative flex h-2/3 w-full items-center justify-center lg:h-full lg:w-1/2">
         <div className="credits-wrapper">
           <div className="credits-track" ref={trackRef}>
-            <div className="credits">
-              <CreditsContent />
-            </div>
             <div className="credits">
               <CreditsContent />
             </div>
