@@ -1,10 +1,10 @@
 "use client";
-
+import { useEffect, useRef } from "react";
 type RoleRowProps = {
   role: string;
   name: string;
 };
-
+// Single row for a role and name
 const RoleRow = ({ role, name }: RoleRowProps) => (
   <div className="flex w-[330px] justify-between">
     <p className="font-credits text-[0.9rem] font-semibold tracking-[0.16em] text-white uppercase">{role}</p>
@@ -14,6 +14,32 @@ const RoleRow = ({ role, name }: RoleRowProps) => (
 );
 
 export default function TeamsCredits() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const pageRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    const page = pageRef.current;
+    const track = trackRef.current;
+    if (!page || !track) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting) {
+          // Start the credits once, smoothly
+          track.style.animationPlayState = "running";
+          observer.disconnect(); // don't pause again
+        }
+      },
+      {
+        threshold: 0.3, // 30% of the page visible
+      },
+    );
+
+    observer.observe(page);
+
+    return () => observer.disconnect();
+  }, []);
+
   const CreditsContent = () => (
     <>
       {/* CO-CHAIRS */}
@@ -119,31 +145,57 @@ export default function TeamsCredits() {
   );
 
   return (
-    <main id="team" className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-black">
-      <div className="credits-wrapper">
-        <div className="credits-track">
-          <div className="credits">
-            <CreditsContent />
-          </div>
-          <div className="credits">
-            <CreditsContent />
+    <main id="team" ref={pageRef} className="relative flex h-screen w-full flex-col overflow-hidden bg-black lg:flex-row">
+      {/* LEFT HALF – VIDEO */}
+      <section className="relative flex h-1/3 w-full items-center justify-center lg:h-full lg:w-1/2">
+        {/* replace src with your actual video path */}
+        <video
+          src="https://cdn.qhacks.io/assets/0f1ec19b-8d41-4eea-b053-27d046857fff.mp4"
+          className="h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+
+        {/* optional subtle overlay for readability */}
+        <div className="pointer-events-none absolute inset-0 bg-black/30" />
+      </section>
+
+      {/* RIGHT HALF – CREDITS */}
+      <section className="relative flex h-2/3 w-full items-center justify-center lg:h-full lg:w-1/2">
+        <div className="credits-wrapper">
+          <div className="credits-track" ref={trackRef}>
+            <div className="credits">
+              <CreditsContent />
+            </div>
+            <div className="credits">
+              <CreditsContent />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* keep your animation CSS */}
+        {/* fade top & bottom so credits feel cinematic */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black to-transparent" />
+      </section>
+
       <style jsx>{`
         .credits-wrapper {
           position: relative;
           width: 100%;
-          height: 100vh;
+          height: 100%;
           overflow: hidden;
         }
+
         .credits-track {
           position: absolute;
           width: 100%;
           animation: scrollCredits 45s linear infinite;
+          animation-play-state: paused;
+          will-change: transform;
         }
+
         .credits {
           display: flex;
           flex-direction: column;
@@ -151,6 +203,7 @@ export default function TeamsCredits() {
           text-align: center;
           padding-bottom: 4rem;
         }
+
         @keyframes scrollCredits {
           0% {
             transform: translateY(0);
