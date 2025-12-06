@@ -151,7 +151,7 @@ function HomeContent() {
   }, [introComplete, skipIntro]);
 
   return (
-    <main className="relative w-full bg-black">
+    <main className="home-page relative w-full bg-black">
       {/* Noise texture overlay */}
       <StaticBackground className="absolute top-0 left-0 z-60 h-screen w-full opacity-40 mix-blend-overlay" />
       {/* <Intro /> */}
