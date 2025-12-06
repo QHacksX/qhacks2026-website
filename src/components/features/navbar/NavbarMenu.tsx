@@ -1,11 +1,10 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Instagram, Linkedin, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { FaTiktok } from "react-icons/fa";
 
 const NavbarMenu = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -22,12 +21,6 @@ const NavbarMenu = () => {
     { name: "Sponsors", href: "#sponsors" },
     { name: "FAQ", href: "#faq" },
     { name: "Meet the Team", href: "#team" },
-  ];
-
-  const socialLinks = [
-    { icon: Instagram, href: "https://instagram.com/qhacksx", label: "Instagram" },
-    { icon: Linkedin, href: "https://linkedin.com/company/qhacks", label: "LinkedIn" },
-    { icon: FaTiktok, href: "https://tiktok.com/@qhacksx", label: "TikTok" },
   ];
 
   useEffect(() => {
@@ -142,19 +135,17 @@ const NavbarMenu = () => {
       <div className="pointer-events-none absolute top-0 right-0 left-0 h-8 bg-linear-to-b from-black/30 via-black/15 to-transparent" />
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-10">
         <div className="flex h-12 items-center justify-between sm:h-14 lg:h-20 xl:h-24">
-          {/* MOBILE: menu button on LEFT */}
-          <div className="order-1 flex items-center gap-2 sm:gap-3 lg:hidden">
+          <div className="flex items-center gap-4 lg:gap-8">
+            {/* Hamburger for mobile */}
             <button
-              className="rounded-full border border-white/10 bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white"
+              className="absolute top-6 left-8 p-2 text-white transition hover:text-[#E3C88B] focus:outline-none lg:hidden"
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
             >
-              <Menu className="h-5 w-5" />
+              <Menu className="h-8 w-8" />
             </button>
-          </div>
 
-          {/* DESKTOP nav links (unchanged) */}
-          <div className="order-2 flex items-center gap-4 lg:order-1 lg:gap-8">
+            {/* Navigation Links - Hidden on mobile, visible on desktop */}
             <ul className="hidden items-center gap-6 lg:flex xl:gap-8">
               {navLinks.map((link) => (
                 <li key={link.href}>
@@ -189,67 +180,35 @@ const NavbarMenu = () => {
                 />
                 <motion.div
                   className="fixed inset-0 z-[130] flex h-screen w-screen flex-col overflow-hidden bg-black"
-                  initial={{ x: "100%" }}
+                  initial={{ x: "-100%" }}
                   animate={{ x: 0 }}
-                  exit={{ x: "100%" }}
+                  exit={{ x: "-100%" }}
                   transition={{ type: "spring", stiffness: 260, damping: 28 }}
                 >
                   <div className="flex h-full w-full flex-col">
-                    <div className="flex items-center justify-between border-b border-white/10 bg-black px-8 py-5">
-                      <div className="flex items-center gap-3">
-                        <Image
-                          src="/static/logo.png"
-                          alt="QHacks Logo"
-                          width={34}
-                          height={34}
-                          className="h-9 w-9"
-                          quality={90}
-                        />
-                        <span className="text-lg font-semibold tracking-tight text-white/90">QHacks</span>
-                      </div>
+                    <div className="flex items-center justify-between px-8 py-6">
                       <button
-                        className="rounded-full bg-white/5 p-2 text-white/80 transition hover:bg-white/10 hover:text-white focus:ring-2 focus:ring-white/30 focus:outline-none"
+                        className="rounded-full p-2 text-white transition hover:text-[#E3C88B] focus:outline-none"
                         onClick={() => setMobileOpen(false)}
                         aria-label="Close menu"
                       >
-                        <X className="h-5 w-5" />
+                        <X className="h-8 w-8" />
                       </button>
                     </div>
 
-                    <div className="flex flex-1 flex-col justify-center space-y-3 px-8 py-8">
+                    <div className="flex flex-1 flex-col items-center justify-center space-y-8">
                       {navLinks.map((link) => (
                         <motion.a
                           key={link.href}
                           href={link.href}
                           onClick={(e) => handleNavClick(e, link.href)}
-                          className="block rounded-xl border border-white/10 bg-white/5 px-5 py-4 text-base font-semibold text-white/90 transition hover:border-white/20 hover:bg-white/8"
-                          whileHover={{ x: 4 }}
-                          whileTap={{ scale: 0.98 }}
+                          className="font-(family-name:--font-oswald) text-4xl font-bold tracking-widest text-white uppercase transition-colors hover:text-[#E3C88B]"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
                         >
                           {link.name}
                         </motion.a>
                       ))}
-                    </div>
-
-                    <div className="border-t border-white/10 bg-black px-8 pt-5 pb-8">
-                      <p className="mb-4 text-sm text-white/60">Follow us</p>
-                      <div className="flex flex-wrap items-center gap-3">
-                        {socialLinks.map((social) => {
-                          const Icon = social.icon;
-                          return (
-                            <a
-                              key={social.label}
-                              href={social.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={social.label}
-                              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 transition hover:bg-white/15 hover:text-white"
-                            >
-                              <Icon className="h-5 w-5" />
-                            </a>
-                          );
-                        })}
-                      </div>
                     </div>
                   </div>
                 </motion.div>
