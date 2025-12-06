@@ -149,7 +149,14 @@ export default function TeamsCredits() {
       {/* LEFT HALF – VIDEO */}
       <section className="relative flex h-1/3 w-full items-center justify-center lg:h-full lg:w-1/2">
         {/* replace src with your actual video path */}
-        <video src="/videos/qhacksfinale.mp4" className="h-full w-full object-cover" autoPlay loop muted playsInline />
+        <video
+          src="https://cdn.qhacks.io/assets/0f1ec19b-8d41-4eea-b053-27d046857fff.mp4"
+          className="h-full w-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
 
         {/* optional subtle overlay for readability */}
         <div className="pointer-events-none absolute inset-0 bg-black/30" />
