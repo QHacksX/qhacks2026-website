@@ -9,7 +9,7 @@ const SPONSORS = [
   { name: "Manulife", logo: "/sponsors/Manulife.png" },
   { name: "School of Computing", logo: "/sponsors/Computing.svg" },
   { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png" },
-  { name: "City of Kingston", logo: "/sponsors/Kingston.svg" },
+  { name: "City of Kingston", logo: "/sponsors/Kingston.png" },
   { name: "CSE", logo: "/sponsors/CSE.svg" },
   { name: "DDQIC", logo: "/sponsors/DDQIC.svg" },
   { name: "COMPSA", logo: "/sponsors/Compsa.png" },
