@@ -4,13 +4,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const NowPresenting = () => {
-  const [show, setShow] = useState(true);
+const NowPresenting = ({ skip = false }: { skip?: boolean }) => {
+  const [show, setShow] = useState(!skip);
 
   useEffect(() => {
+    if (skip) return;
     const timer = setTimeout(() => setShow(false), 3600);
     return () => clearTimeout(timer);
-  }, []);
+  }, [skip]);
 
   if (!show) return null;
 

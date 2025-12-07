@@ -8,7 +8,8 @@ import NavbarMenu from "@/components/features/navbar/NavbarMenu";
 // import LandingToStats from "@/components/features/LandingToStats";
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 // Wrapper for Sticky Stacking with Fade Out Effect
 const StickySection = ({
@@ -57,7 +58,7 @@ const Theatre = dynamic(() => import("@/components/features/theatre/page"), {
   loading: () => <div className="min-h-screen bg-black" />,
 });
 
-const Sponsors2 = dynamic(() => import("@/components/features/sponsors/sponsors2"), {
+const Sponsors = dynamic(() => import("@/components/features/sponsors/sponsors2"), {
   ssr: true,
   loading: () => <div className="min-h-screen bg-black" />,
 });
@@ -72,8 +73,10 @@ const Credits = dynamic(() => import("@/components/features/team/page"), {
   loading: () => <div className="min-h-screen bg-black" />,
 });
 
-export default function Home() {
-  const [introComplete, setIntroComplete] = useState(false);
+function HomeContent() {
+  const searchParams = useSearchParams();
+  const skipIntro = searchParams.get("skipIntro") === "true";
+  const [introComplete, setIntroComplete] = useState(skipIntro);
 
   // Refs to track scroll progress of incoming sections
   const theatreRef = useRef<HTMLDivElement>(null);
@@ -81,6 +84,11 @@ export default function Home() {
   const creditsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (skipIntro) {
+      setIntroComplete(true);
+      return;
+    }
+
     // Scroll to top on page load/refresh
     window.scrollTo(0, 0);
     // Prevent layout shift when scrollbar appears after intro
@@ -118,7 +126,7 @@ export default function Home() {
       document.body.style.touchAction = "";
     }
 
-    // Unlock scroll after intro animation completes (5.5 seconds total)
+    // Unlock scroll after intro animation completes (3.5 seconds total: 2.5s delay + 1s fade)
     const timer = setTimeout(() => {
       setIntroComplete(true);
       document.body.style.overflow = "";
@@ -126,7 +134,7 @@ export default function Home() {
       document.body.style.width = "";
       document.body.style.height = "";
       document.body.style.touchAction = "";
-    }, 5500);
+    }, 3500);
 
     return () => {
       clearTimeout(timer);
@@ -140,18 +148,18 @@ export default function Home() {
       document.body.style.touchAction = "";
       document.documentElement.style.scrollbarGutter = "";
     };
-  }, [introComplete]);
+  }, [introComplete, skipIntro]);
 
   return (
-    <main className="relative w-full bg-black">
+    <main className="home-page relative w-full bg-black">
       {/* Noise texture overlay */}
-      <StaticBackground className="fixed top-0 left-0 z-[60] h-screen w-full opacity-10 mix-blend-overlay" />
+      <StaticBackground className="fixed top-0 left-0 z-60 h-screen w-full opacity-10 mix-blend-overlay" />
       {/* <Intro /> */}
 
       {/* Top Horizontal Navbar */}
       <NavbarMenu />
 
-      <NowPresenting />
+      <NowPresenting skip={skipIntro} />
 
       {/* Horizontal scroll transition from Landing -> Stats */}
       {/* <LandingToStats 
@@ -183,7 +191,7 @@ export default function Home() {
       <div className="relative z-20 -mt-[100vh]">
         {/* Sponsors: Fades out as FAQ slides in */}
         <StickySection zIndex={20} nextSectionRef={faqRef} className="shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
-          <Sponsors2 />
+          <Sponsors />
         </StickySection>
 
         {/* FAQ: Fades out as Credits slides in */}
@@ -202,5 +210,13 @@ export default function Home() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <HomeContent />
+    </Suspense>
   );
 }
