@@ -962,6 +962,12 @@ const ApplicationPage = () => {
                                 <input
                                   value={teammateInput}
                                   onChange={(e) => setTeammateInput(e.target.value)}
+                                  onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                      e.preventDefault();
+                                      handleTeammateAdd();
+                                    }
+                                  }}
                                   placeholder="Enter teammate name"
                                   className="flex-1 rounded-lg border border-white/10 bg-black/40 p-3 text-white transition-all outline-none focus:border-[#E3C676] focus:bg-black/60"
                                   disabled={(formData.potentialTeammates?.length || 0) >= 3}
