@@ -119,11 +119,9 @@ const Sponsors2 = () => {
           <div className="mask-image-tape absolute -top-3 left-6 h-6 w-20 -rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:-top-4 md:left-12 md:h-8 md:w-32"></div>
           <div className="mask-image-tape absolute right-6 -bottom-3 h-6 w-20 rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:right-12 md:-bottom-4 md:h-8 md:w-32"></div>
 
-          <h2
-            className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl"
-          >
+          <h2 className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl">
             Honouring our <br />
-            <span className="mt-2 inline-block -skew-x-6 transform  px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
+            <span className="mt-2 inline-block -skew-x-6 transform px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
               Current Sponsors
             </span>
           </h2>
