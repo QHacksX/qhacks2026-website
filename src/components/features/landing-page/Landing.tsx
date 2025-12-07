@@ -114,7 +114,7 @@ const Landing = () => {
                   aria-label={social.label}
                   className="text-white/70 transition-colors duration-200 hover:text-white active:scale-95"
                 >
-                  <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5 lg:h-5 lg:w-5 xl:h-6 xl:w-6" />
+                  <Icon className="h-5 w-5 sm:h-5 sm:w-5 lg:h-5 lg:w-6.5 xl:h-7 xl:w-7" />
                 </a>
               );
             })}
