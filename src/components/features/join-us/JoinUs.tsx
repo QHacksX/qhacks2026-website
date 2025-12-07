@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Gallery4, type Gallery4Item } from "@/components/ui/gallery4";
 
@@ -18,7 +18,7 @@ const joinItems: Gallery4Item[] = [
     title: "Projects you're proud of",
     description: "Build bold ideas with teammates who love shipping fast and clean.",
     href: "#joinus",
-    image: "/join-projects.webp",
+    image: "/join-hackers.webp",
   },
   {
     id: "schools",
@@ -67,7 +67,7 @@ const JoinUs = () => {
       <div className="relative z-20 flex w-full max-w-6xl flex-col items-center gap-6 px-4 sm:gap-10 sm:px-6">
         <div className="flex w-full justify-center">
           <Image
-            src="/static/join.svg"
+            src="/static/join-us.webp"
             alt="Join QHacks"
             width={1200}
             height={600}

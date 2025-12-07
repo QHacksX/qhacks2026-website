@@ -153,7 +153,7 @@ function HomeContent() {
   return (
     <main className="home-page relative w-full bg-black">
       {/* Noise texture overlay */}
-      <StaticBackground className="absolute top-0 left-0 z-60 h-screen w-full opacity-40 mix-blend-overlay" />
+      <StaticBackground className="fixed top-0 left-0 z-60 h-screen w-full opacity-10 mix-blend-overlay" />
       {/* <Intro /> */}
 
       {/* Top Horizontal Navbar */}

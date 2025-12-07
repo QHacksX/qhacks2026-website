@@ -10,10 +10,10 @@ export default function StaticBackground({ className }: StaticBackgroundProps) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return; // ✅ TS now knows canvas is not null
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    if (!ctx) return; // ✅ TS now knows ctx is not null
+    if (!ctx) return;
 
     const resize = () => {
       // Reduce canvas size for better performance

@@ -6,13 +6,29 @@ import Image from "next/image";
 
 // Placeholder sponsors data
 const SPONSORS = [
-  { name: "Amazon", logo: "/sponsors/Amazon.svg" },
-  { name: "AMD", logo: "/sponsors/AMD.svg" },
-  { name: "AssemblyAI", logo: "/sponsors/AssemblyAI.svg" },
-  { name: "Axure", logo: "/sponsors/Axure.svg" },
-  { name: "Bayun", logo: "/sponsors/Bayun.svg" },
-  { name: "BMO", logo: "/sponsors/BMO.svg" },
-  { name: "Bounce", logo: "/sponsors/Bounce.svg" },
+  { name: "Manulife", logo: "/sponsors/Manulife.png" },
+  { name: "School of Computing", logo: "/sponsors/Computing.svg" },
+  { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png" },
+  { name: "City of Kingston", logo: "/sponsors/Kingston.svg" },
+  { name: "CSE", logo: "/sponsors/CSE.svg" },
+  { name: "DDQIC", logo: "/sponsors/DDQIC.svg" },
+  { name: "COMPSA", logo: "/sponsors/Compsa.png" },
+  { name: "AMS", logo: "/sponsors/AMS.png" },
+];
+
+const PSPONSORS = [
+  { name: "Amazon", logo: "/past-sponsors/Amazon.svg" },
+  { name: "AMD", logo: "/past-sponsors/AMD.svg" },
+  { name: "AssemblyAI", logo: "/past-sponsors/AssemblyAI.svg" },
+  { name: "Axure", logo: "/past-sponsors/Axure.svg" },
+  { name: "Bayun", logo: "/past-sponsors/Bayun.svg" },
+  { name: "BMO", logo: "/past-sponsors/BMO.svg" },
+  { name: "Bounce", logo: "/past-sponsors/Bounce.svg" },
+  { name: "Github", logo: "/past-sponsors/github.svg" },
+  { name: "IBM", logo: "/past-sponsors/IBM.svg" },
+  { name: "OTPP", logo: "/past-sponsors/OTPP.svg" },
+  { name: "QtGroup", logo: "/past-sponsors/QtGroup.png" },
+  { name: "Scotiabank", logo: "/past-sponsors/Scotiabank.svg" },
 ];
 
 // Noise overlay component to be reused
@@ -108,12 +124,9 @@ const Sponsors = () => {
           <div className="mask-image-tape absolute -top-3 left-6 h-6 w-20 -rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:-top-4 md:left-12 md:h-8 md:w-32"></div>
           <div className="mask-image-tape absolute right-6 -bottom-3 h-6 w-20 rotate-1 bg-[#E3C676] opacity-90 shadow-lg md:right-12 md:-bottom-4 md:h-8 md:w-32"></div>
 
-          <h2
-            className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl"
-            style={{ textShadow: "2px 2px 0px rgba(0,0,0,0.1)" }}
-          >
+          <h2 className="relative z-10 text-center font-mono text-3xl font-black tracking-tighter text-black uppercase md:text-6xl">
             Honouring our <br />
-            <span className="mt-2 inline-block -skew-x-6 transform bg-black px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
+            <span className="mt-2 inline-block -skew-x-6 transform px-4 py-1 text-[#E3C676] shadow-[4px_4px_0px_rgba(227,198,118,0.5)]">
               Current Sponsors
             </span>
           </h2>
@@ -205,7 +218,7 @@ const Sponsors = () => {
             animate={{ x: ["-50%", "0%"] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 45 }}
           >
-            {[...SPONSORS, ...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
+            {[...PSPONSORS, ...PSPONSORS, ...PSPONSORS].map((sponsor, idx) => (
               <div
                 key={`row2-${idx}`}
                 className="group relative flex h-[100px] w-[160px] flex-shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:w-[320px] md:p-8"
