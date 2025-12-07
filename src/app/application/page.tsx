@@ -2,6 +2,7 @@
 
 // import AnimatedStars from "@/components/AnimatedStars";
 import DropDownInput, { OptionType } from "@/components/dropdown";
+import NoiseOverlay from "@/components/ui/noise-overlay";
 import { dropdownOptions, DropdownTypes } from "@/data/dropdown-options/option";
 import {
   Application,
@@ -19,7 +20,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import NoiseOverlay from "@/components/ui/noise-overlay";
 import { CgSpinner } from "react-icons/cg";
 import { FaCircle } from "react-icons/fa";
 import { IoIosCheckmarkCircle, IoIosClose, IoIosWarning } from "react-icons/io";
@@ -555,7 +555,7 @@ const ApplicationPage = () => {
                         {/* Personal Information */}
                         {currentStep === 0 && (
                           <section className="space-y-6">
-                            <h2 className="border-b border-[#E3C676]/30 pb-2 text-xl font-bold tracking-wide text-[#E3C676]">
+                            <h2 className="border-b border-[#E3C676]/30 px-2 pb-2 text-xl font-bold tracking-wide text-[#E3C676] md:px-0">
                               Personal Information
                             </h2>
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
