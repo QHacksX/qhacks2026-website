@@ -67,7 +67,7 @@ const JoinUs = () => {
       <div className="relative z-20 flex w-full max-w-6xl flex-col items-center gap-6 px-4 sm:gap-10 sm:px-6">
         <div className="flex w-full justify-center">
           <Image
-            src="/static/join.svg"
+            src="/static/join-us.webp"
             alt="Join QHacks"
             width={1200}
             height={600}
