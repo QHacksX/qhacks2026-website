@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   title: "QHacks 2026",
   description:
     "Queen's University's annual hackathon is back for it's 11th iteration in February 2026! Apply now and join hundreds of applicants, meet tech companies, and have one of the best experiences ever!",
-  keywords: ["QHacks", "QHacks 2026", "Queens Hackathon"],
+  keywords: ["QHacks", "QHacks 2026", "Queens Hackathon", "Queen's Hackathon", "Queen's University"],
   icons: "/favicon.png",
 };
 

@@ -14,7 +14,7 @@ export default function FAQ() {
     {
       id: 2,
       image: "/faq2.png",
-      answer: "QHacks is fully in person located at Queens University in Kingston, Ontario.",
+      answer: "QHacks is fully in-person located at Queen's University in Kingston, Ontario.",
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ export default function FAQ() {
       id: 6,
       image: "/faq6.png",
       answer:
-        "This year hackathon theme will be announced closer towards the event. Follow us on social media to stay updated.",
+        "This year's hackathon theme will be announced closer to the event. Follow us on social media to stay updated.",
     },
   ];
 
