@@ -1150,7 +1150,7 @@ const ApplicationPage = () => {
                         <button
                           type="button"
                           onClick={handleSubmit}
-                          disabled={isLoading || !isStepValid()}
+                          disabled
                           className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
                         >
                           {isLoading ? "Submitting..." : "Submit Application"}
