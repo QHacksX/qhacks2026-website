@@ -10,7 +10,7 @@ const Landing = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore((state) => state.logout);
   const [mounted, setMounted] = useState(false);
-  const applicationsOpen = true;
+  const applicationsOpen = false;
 
   const socialLinks = [
     { icon: FaInstagram, href: "https://instagram.com/qhacksx", label: "Instagram" },
