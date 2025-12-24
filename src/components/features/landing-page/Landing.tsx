@@ -10,7 +10,7 @@ const Landing = () => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const logout = useAuthStore((state) => state.logout);
   const [mounted, setMounted] = useState(false);
-  const applicationsOpen = false;
+  // const applicationsOpen = true;
 
   const socialLinks = [
     { icon: FaInstagram, href: "https://instagram.com/qhacksx", label: "Instagram" },
@@ -78,17 +78,12 @@ const Landing = () => {
           </div>
 
           <div className="pointer-events-auto flex flex-col items-center gap-3">
-            {applicationsOpen ? (
-              <Link
-                href={mounted && isAuthenticated ? "/application" : "/register"}
-                className="rounded-full border border-[#F4D389] bg-transparent px-9 py-2.5 text-base font-semibold tracking-wide text-[#f4d389] shadow-[0_10px_40px_rgba(244,211,137,0.2)] transition hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]"
-              >
-                {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
-              </Link>
-            ) : (
-              <span className="text-lg font-semibold tracking-wide text-[#f4d389]/60 select-none">Applications Closed</span>
-            )}
-
+            <Link
+              href={mounted && isAuthenticated ? "/application" : "/register"}
+              className="rounded-full border border-[#F4D389] bg-transparent px-9 py-2.5 text-base font-semibold tracking-wide text-[#f4d389] shadow-[0_10px_40px_rgba(244,211,137,0.2)] transition hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]"
+            >
+              {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
+            </Link>
             {mounted && isAuthenticated ? (
               <div className="space-y-2 text-center">
                 <button
