@@ -14,6 +14,7 @@ const SPONSORS = [
   { name: "DDQIC", logo: "/sponsors/DDQIC.svg" },
   { name: "COMPSA", logo: "/sponsors/Compsa.png" },
   { name: "AMS", logo: "/sponsors/AMS.png" },
+  { name: "Awake Chocolate", logo: "/sponsors/AwakeChocolate.png" },
 ];
 
 const PSPONSORS = [
