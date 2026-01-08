@@ -23,6 +23,7 @@ const SPONSORS = [
   { name: "COMPSA", logo: "/sponsors/COMPSA.png", url: "https://compsa.ca/" },
   { name: "DDQIC", logo: "/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
   { name: "DOSE", logo: "/sponsors/DOSE.webp", url: "https://dosejuice.com/" },
+  { name: "MadeGood", logo: "/sponsors/MadeGood.webp", url: "https://www.madegoodfoods.ca/" },
   { name: "Manulife", logo: "/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
   { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
   { name: "Queen's School of Computing", logo: "/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
