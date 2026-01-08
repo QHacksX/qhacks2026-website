@@ -4,19 +4,31 @@ import { motion } from "framer-motion";
 import Link from "next/dist/client/link";
 import Image from "next/image";
 
-// Placeholder sponsors data
+const UTM_PARAMS = new URLSearchParams({
+  utm_source: "qhacks.io",
+  utm_medium: "homepage",
+  utm_campaign: "qhacks_2026",
+});
+
+const getSponsorUrl = (baseUrl: string) => {
+  return `${baseUrl}?${UTM_PARAMS.toString()}`;
+};
+
 const SPONSORS = [
-  { name: "Manulife", logo: "/sponsors/Manulife.png" },
-  { name: "School of Computing", logo: "/sponsors/Computing.svg" },
-  { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png" },
-  { name: "City of Kingston", logo: "/sponsors/Kingston.png" },
-  { name: "CSE", logo: "/sponsors/CSE.svg" },
-  { name: "DDQIC", logo: "/sponsors/DDQIC.svg" },
-  { name: "COMPSA", logo: "/sponsors/Compsa.png" },
-  { name: "AMS", logo: "/sponsors/AMS.png" },
+  { name: "AMS", logo: "/sponsors/AMS.png", url: "https://www.myams.org/" },
+  { name: "AWAKE", logo: "/sponsors/AWAKE.jpg", url: "https://awakechocolate.com/" },
+  { name: "Backboard IO", logo: "/sponsors/BackboardIO.png", url: "https://backboard.io/" },
+  { name: "City of Kingston", logo: "/sponsors/Kingston.png", url: "https://www.cityofkingston.ca/" },
+  { name: "Communications Security Establishment Canada", logo: "/sponsors/CSE.svg", url: "https://www.cse-cst.gc.ca/en" },
+  { name: "COMPSA", logo: "/sponsors/COMPSA.png", url: "https://compsa.ca/" },
+  { name: "DDQIC", logo: "/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
+  { name: "DOSE", logo: "/sponsors/DOSE.webp", url: "https://dosejuice.com/" },
+  { name: "Manulife", logo: "/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
+  { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
+  { name: "Queen's School of Computing", logo: "/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
 ];
 
-const PSPONSORS = [
+const PAST_SPONSORS = [
   { name: "Amazon", logo: "/past-sponsors/Amazon.svg" },
   { name: "AMD", logo: "/past-sponsors/AMD.svg" },
   { name: "AssemblyAI", logo: "/past-sponsors/AssemblyAI.svg" },
@@ -31,7 +43,6 @@ const PSPONSORS = [
   { name: "Scotiabank", logo: "/past-sponsors/Scotiabank.svg" },
 ];
 
-// Noise overlay component to be reused
 const NoiseOverlay = ({ className = "", opacity = "opacity-[1]" }) => (
   <div
     className={`pointer-events-none absolute inset-0 z-20 ${opacity} mix-blend-overlay ${className}`}
@@ -64,14 +75,12 @@ const Sponsors = () => {
     >
       {/* Cinematic Background with Heavy Noise */}
       <div className="pointer-events-none absolute inset-0 z-0">
-        {/* Carousel Background Image */}
         <Image
           src="/sponsors-assets/carousel-background.jpg"
           alt="Carousel Background"
           fill
           sizes="100vw"
           className="object-cover"
-          quality={60}
           loading="lazy"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
@@ -86,9 +95,6 @@ const Sponsors = () => {
         <NoiseOverlay className="z-0" />
       </div>
 
-      {/* Paper Decorations - Absolute Positioned */}
-
-      {/* "Interested in Partnering?" - Top Right */}
       <div className="absolute top-10 right-[5%] z-20 hidden rotate-3 transform transition-transform duration-500 hover:scale-105 md:block">
         <div className="relative h-[150px] w-[300px] rotate-1 border-2 border-[#E3C676]/20 bg-[#f0f0e0] p-6 shadow-xl">
           <NoiseOverlay />
@@ -114,7 +120,6 @@ const Sponsors = () => {
         </div>
       </div>
 
-      {/* "Honouring our Current Sponsors" - Center/Top */}
       <div className="relative z-20 mb-12 -rotate-1 transform">
         <div className="relative mx-auto max-w-2xl border-4 border-[#E3C676] bg-[#f5f5f0] p-4 px-8 shadow-2xl md:p-6 md:px-12">
           <NoiseOverlay />
@@ -143,50 +148,68 @@ const Sponsors = () => {
             animate={{ x: ["0%", "-50%"] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 40 }}
           >
-            {[...SPONSORS, ...SPONSORS, ...SPONSORS].map((sponsor, idx) => (
-              <div
-                key={`row1-${idx}`}
-                className="group relative flex h-[100px] w-[160px] flex-shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:w-[320px] md:p-8"
-              >
-                <NoiseOverlay className="z-30 transition-opacity duration-300 group-hover:opacity-0" />
-                {/* Golden Hover Overlay Card */}
-                <div className="pointer-events-none absolute inset-0 z-10 bg-[#E3C676]/10 opacity-0 transition-all duration-500 group-hover:opacity-100">
-                  {/* Golden Border */}
-                  <div className="absolute inset-2 scale-95 border border-[#E3C676] transition-transform duration-500 group-hover:scale-100 md:inset-4"></div>
-                  {/* Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E3C676]/20 to-transparent"></div>
-                </div>
+            {[...SPONSORS, ...SPONSORS].map((sponsor, idx) => {
+              const widthClass = sponsor.wide ? "w-[320px] md:w-[640px]" : "w-[160px] md:w-[320px]";
 
-                {/* Frame Number */}
-                <span className="absolute top-1 right-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:top-2 md:right-2 md:text-[10px]">
-                  #{idx + 124}
-                </span>
-                <span className="absolute bottom-1 left-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:bottom-2 md:left-2 md:text-[10px]">
-                  KODAK 400
-                </span>
+              const content = (
+                <>
+                  <NoiseOverlay className="z-30 transition-opacity duration-300 group-hover:opacity-0" />
+                  {/* Golden Hover Overlay Card */}
+                  <div className="pointer-events-none absolute inset-0 z-10 bg-[#E3C676]/10 opacity-0 transition-all duration-500 group-hover:opacity-100">
+                    {/* Golden Border */}
+                    <div className="absolute inset-2 scale-95 border border-[#E3C676] transition-transform duration-500 group-hover:scale-100 md:inset-4"></div>
+                    {/* Glow */}
+                    <div className="absolute inset-0 bg-linear-to-tr from-[#E3C676]/20 to-transparent"></div>
+                  </div>
 
-                {/* Content */}
-                <div className="z-20 flex h-full w-full items-center justify-center p-0">
-                  {sponsor.logo ? (
-                    <div className="relative h-full w-full transform transition-transform duration-500 group-hover:scale-110">
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        fill
-                        sizes="(max-width: 768px) 160px, 320px"
-                        quality={75}
-                        loading="lazy"
-                        className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
-                      />
-                    </div>
-                  ) : (
-                    <span className="font-mono text-sm font-bold tracking-widest text-white uppercase transition-all duration-500 group-hover:scale-110 group-hover:text-[#E3C676] md:text-2xl">
-                      {sponsor.name}
-                    </span>
-                  )}
+                  {/* Frame Number */}
+                  <span className="absolute top-1 right-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:top-2 md:right-2 md:text-[10px]">
+                    #{idx + 124}
+                  </span>
+                  <span className="absolute bottom-1 left-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:bottom-2 md:left-2 md:text-[10px]">
+                    KODAK 400
+                  </span>
+
+                  {/* Content */}
+                  <div className="z-20 flex h-full w-full items-center justify-center p-0">
+                    {sponsor.logo ? (
+                      <div className="relative h-full w-full transform transition-transform duration-500 group-hover:scale-110">
+                        <Image
+                          src={sponsor.logo}
+                          alt={sponsor.name}
+                          fill
+                          sizes={sponsor.wide ? "(max-width: 768px) 320px, 640px" : "(max-width: 768px) 160px, 320px"}
+                          loading="lazy"
+                          className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                        />
+                      </div>
+                    ) : (
+                      <span className="font-mono text-sm font-bold tracking-widest text-white uppercase transition-all duration-500 group-hover:scale-110 group-hover:text-[#E3C676] md:text-2xl">
+                        {sponsor.name}
+                      </span>
+                    )}
+                  </div>
+                </>
+              );
+
+              return sponsor.url ? (
+                <Link
+                  key={`row1-${idx}`}
+                  href={getSponsorUrl(sponsor.url)}
+                  target="_blank"
+                  className={`group relative flex h-[100px] shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:p-8 ${widthClass}`}
+                >
+                  {content}
+                </Link>
+              ) : (
+                <div
+                  key={`row1-${idx}`}
+                  className={`group relative flex h-[100px] shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:p-8 ${widthClass}`}
+                >
+                  {content}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </div>
@@ -209,7 +232,7 @@ const Sponsors = () => {
       </div>
 
       {/* Film Strip Carousel 2 */}
-      <div className="relative z-0 my-4 w-full scale-[1.02] rotate-[3deg] transform-gpu py-4">
+      <div className="relative z-0 my-4 w-full scale-[1.02] rotate-3 transform-gpu py-4">
         <div className="relative z-10 flex overflow-hidden border-y-4 border-black bg-black/90 shadow-[0_10px_30px_rgba(0,0,0,0.5)] md:border-y-8">
           <FilmSprockets />
 
@@ -218,48 +241,57 @@ const Sponsors = () => {
             animate={{ x: ["-50%", "0%"] }}
             transition={{ repeat: Infinity, ease: "linear", duration: 45 }}
           >
-            {[...PSPONSORS, ...PSPONSORS, ...PSPONSORS].map((sponsor, idx) => (
-              <div
-                key={`row2-${idx}`}
-                className="group relative flex h-[100px] w-[160px] flex-shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:w-[320px] md:p-8"
-              >
-                <NoiseOverlay className="z-30 transition-opacity duration-300 group-hover:opacity-0" />
-                {/* Golden Hover Overlay Card */}
-                <div className="pointer-events-none absolute inset-0 z-10 bg-[#E3C676]/10 opacity-0 transition-all duration-500 group-hover:opacity-100">
-                  {/* Golden Border */}
-                  <div className="absolute inset-2 scale-95 border border-[#E3C676] transition-transform duration-500 group-hover:scale-100 md:inset-4"></div>
-                  {/* Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-[#E3C676]/20 to-transparent"></div>
-                </div>
+            {[...PAST_SPONSORS, ...PAST_SPONSORS].map((sponsor, idx) => {
+              const widthClass = "w-[160px] md:w-[320px]"; // Base width for now as PAST_SPONSORS are not wide
 
-                <span className="absolute top-1 right-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:top-2 md:right-2 md:text-[10px]">
-                  #{idx + 842}
-                </span>
-                <span className="absolute bottom-1 left-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:bottom-2 md:left-2 md:text-[10px]">
-                  PORTRA 800
-                </span>
+              const content = (
+                <>
+                  <NoiseOverlay className="z-30 transition-opacity duration-300 group-hover:opacity-0" />
+                  {/* Golden Hover Overlay Card */}
+                  <div className="pointer-events-none absolute inset-0 z-10 bg-[#E3C676]/10 opacity-0 transition-all duration-500 group-hover:opacity-100">
+                    {/* Golden Border */}
+                    <div className="absolute inset-2 scale-95 border border-[#E3C676] transition-transform duration-500 group-hover:scale-100 md:inset-4"></div>
+                    {/* Glow */}
+                    <div className="absolute inset-0 bg-linear-to-tr from-[#E3C676]/20 to-transparent"></div>
+                  </div>
 
-                <div className="z-20 flex h-full w-full items-center justify-center p-0">
-                  {sponsor.logo ? (
-                    <div className="relative h-full w-full transform transition-transform duration-500 group-hover:scale-110">
-                      <Image
-                        src={sponsor.logo}
-                        alt={sponsor.name}
-                        fill
-                        sizes="(max-width: 768px) 160px, 320px"
-                        quality={75}
-                        loading="lazy"
-                        className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
-                      />
-                    </div>
-                  ) : (
-                    <span className="font-mono text-sm font-bold tracking-widest text-white uppercase transition-all duration-500 group-hover:scale-110 group-hover:text-[#E3C676] md:text-2xl">
-                      {sponsor.name}
-                    </span>
-                  )}
+                  <span className="absolute top-1 right-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:top-2 md:right-2 md:text-[10px]">
+                    #{idx + 842}
+                  </span>
+                  <span className="absolute bottom-1 left-1 font-mono text-[8px] text-neutral-600 transition-colors duration-300 group-hover:text-[#E3C676] md:bottom-2 md:left-2 md:text-[10px]">
+                    PORTRA 800
+                  </span>
+
+                  <div className="z-20 flex h-full w-full items-center justify-center p-0">
+                    {sponsor.logo ? (
+                      <div className="relative h-full w-full transform transition-transform duration-500 group-hover:scale-110">
+                        <Image
+                          src={sponsor.logo}
+                          alt={sponsor.name}
+                          fill
+                          sizes="(max-width: 768px) 160px, 320px"
+                          loading="lazy"
+                          className="object-contain opacity-70 grayscale transition-all duration-500 group-hover:opacity-100 group-hover:grayscale-0"
+                        />
+                      </div>
+                    ) : (
+                      <span className="font-mono text-sm font-bold tracking-widest text-white uppercase transition-all duration-500 group-hover:scale-110 group-hover:text-[#E3C676] md:text-2xl">
+                        {sponsor.name}
+                      </span>
+                    )}
+                  </div>
+                </>
+              );
+
+              return (
+                <div
+                  key={`row2-${idx}`}
+                  className={`group relative flex h-[100px] shrink-0 items-center justify-center overflow-hidden border-r-4 border-black bg-[#111] p-4 md:h-[200px] md:p-8 ${widthClass}`}
+                >
+                  {content}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </div>
