@@ -52,3 +52,5 @@ export function snakeToCamelCase<T>(obj: T): T {
     {} as Record<string, unknown>,
   ) as unknown as T;
 }
+
+export const isPastDeadline = new Date() > new Date("2025-12-23T23:59:59Z");

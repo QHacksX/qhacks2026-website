@@ -6,9 +6,10 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { IoIosClose, IoIosWarning } from "react-icons/io";
 import { FaGithub, FaGoogle, FaCircle } from "react-icons/fa";
-import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
+import { authApi, HTTPError, CaptchaCancelledError } from "@/lib/api";
 import { handleGithubLogin, handleGoogleLogin } from "@/lib/auth-helpers";
+import { isPastDeadline } from "@/lib/utils";
 import { Route } from "next";
 import { motion } from "framer-motion";
 import NoiseOverlay from "@/components/ui/noise-overlay";
@@ -172,154 +173,178 @@ const RegisterForm = () => {
                 <div className="pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#E3C676]/60"></div>
                 <div className="pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-[#E3C676]/60"></div>
 
-                <form onSubmit={handleForm} className="space-y-6" noValidate>
-                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                    <div className="w-full">
-                      <label
-                        htmlFor="givenName"
-                        className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
-                      >
-                        First Name
-                      </label>
-                      <input
-                        onChange={(e) => setGivenName(e.target.value)}
-                        id="givenName"
-                        type="text"
-                        className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
-                          errors.givenName ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
-                        }`}
-                        autoComplete="given-name"
-                        required
-                        value={givenName}
-                        maxLength={100}
-                        placeholder="First Name"
-                      />
-                      {errors.givenName && <p className="mt-1 font-mono text-xs text-red-500">{errors.givenName}</p>}
+                {isPastDeadline && searchParams.get("non_hacker") !== "true" ? (
+                  <div className="space-y-6 py-12 text-center">
+                    <div className="flex justify-center">
+                      <IoIosWarning className="text-7xl text-red-500 drop-shadow-md" />
                     </div>
-                    <div className="w-full">
-                      <label
-                        htmlFor="surname"
-                        className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                    <div className="space-y-2">
+                      <h2 className="text-xl font-bold tracking-widest text-white uppercase italic">Access Denied</h2>
+                      <p className="mx-auto max-w-xs font-mono text-sm leading-relaxed tracking-widest text-[#E3C676]/60 uppercase">
+                        Registration and applications are now closed for the 2026 season.
+                      </p>
+                    </div>
+                    <div className="pt-4">
+                      <Link
+                        href="/"
+                        className="inline-block rounded-xl border border-white/10 bg-white/5 px-8 py-3 font-mono text-[10px] font-bold tracking-widest text-[#E3C676] uppercase transition-all hover:bg-white/10"
                       >
-                        Last Name
-                      </label>
-                      <input
-                        onChange={(e) => setSurname(e.target.value)}
-                        id="surname"
-                        type="text"
-                        className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
-                          errors.surname ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
-                        }`}
-                        autoComplete="family-name"
-                        required
-                        value={surname}
-                        maxLength={100}
-                        placeholder="Last Name"
-                      />
-                      {errors.surname && <p className="mt-1 font-mono text-xs text-red-500">{errors.surname}</p>}
+                        Return Home
+                      </Link>
                     </div>
                   </div>
+                ) : (
+                  <>
+                    <form onSubmit={handleForm} className="space-y-6" noValidate>
+                      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                        <div className="w-full">
+                          <label
+                            htmlFor="givenName"
+                            className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                          >
+                            First Name
+                          </label>
+                          <input
+                            onChange={(e) => setGivenName(e.target.value)}
+                            id="givenName"
+                            type="text"
+                            className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                              errors.givenName ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                            }`}
+                            autoComplete="given-name"
+                            required
+                            value={givenName}
+                            maxLength={100}
+                            placeholder="First Name"
+                          />
+                          {errors.givenName && <p className="mt-1 font-mono text-xs text-red-500">{errors.givenName}</p>}
+                        </div>
+                        <div className="w-full">
+                          <label
+                            htmlFor="surname"
+                            className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                          >
+                            Last Name
+                          </label>
+                          <input
+                            onChange={(e) => setSurname(e.target.value)}
+                            id="surname"
+                            type="text"
+                            className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                              errors.surname ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                            }`}
+                            autoComplete="family-name"
+                            required
+                            value={surname}
+                            maxLength={100}
+                            placeholder="Last Name"
+                          />
+                          {errors.surname && <p className="mt-1 font-mono text-xs text-red-500">{errors.surname}</p>}
+                        </div>
+                      </div>
 
-                  <div className="w-full">
-                    <label
-                      htmlFor="email"
-                      className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
-                    >
-                      Email
-                    </label>
-                    <input
-                      onChange={(e) => setEmail(e.target.value)}
-                      id="email"
-                      type="email"
-                      className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
-                        errors.email ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
-                      }`}
-                      autoComplete="email"
-                      required
-                      value={email}
-                      placeholder="Enter your email"
-                    />
-                    {errors.email && <p className="mt-1 font-mono text-xs text-red-500">{errors.email}</p>}
-                  </div>
+                      <div className="w-full">
+                        <label
+                          htmlFor="email"
+                          className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                        >
+                          Email
+                        </label>
+                        <input
+                          onChange={(e) => setEmail(e.target.value)}
+                          id="email"
+                          type="email"
+                          className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                            errors.email ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                          }`}
+                          autoComplete="email"
+                          required
+                          value={email}
+                          placeholder="Enter your email"
+                        />
+                        {errors.email && <p className="mt-1 font-mono text-xs text-red-500">{errors.email}</p>}
+                      </div>
 
-                  <div className="w-full">
-                    <label
-                      htmlFor="password"
-                      className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
-                    >
-                      Password
-                    </label>
-                    <input
-                      onChange={(e) => setPassword(e.target.value)}
-                      id="password"
-                      type="password"
-                      className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
-                        errors.password ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
-                      }`}
-                      autoComplete="new-password"
-                      required
-                      value={password}
-                      maxLength={128}
-                      placeholder="Create a password"
-                    />
-                    {errors.password && <p className="mt-1 font-mono text-xs text-red-500">{errors.password}</p>}
-                  </div>
+                      <div className="w-full">
+                        <label
+                          htmlFor="password"
+                          className="mb-2 block font-mono text-xs tracking-widest text-[#E3C676]/80 uppercase"
+                        >
+                          Password
+                        </label>
+                        <input
+                          onChange={(e) => setPassword(e.target.value)}
+                          id="password"
+                          type="password"
+                          className={`w-full rounded-lg border bg-black/40 p-3 text-white transition-all outline-none focus:bg-black/60 ${
+                            errors.password ? "border-red-500" : "border-white/10 focus:border-[#E3C676]"
+                          }`}
+                          autoComplete="new-password"
+                          required
+                          value={password}
+                          maxLength={128}
+                          placeholder="Create a password"
+                        />
+                        {errors.password && <p className="mt-1 font-mono text-xs text-red-500">{errors.password}</p>}
+                      </div>
 
-                  {generalError && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="flex items-center gap-3 rounded-lg border border-red-500/50 bg-red-500/10 p-4 backdrop-blur-sm"
-                    >
-                      <IoIosWarning className="shrink-0 text-xl text-red-500" />
-                      <p className="font-mono text-sm font-bold tracking-wide text-red-500 uppercase">{generalError}</p>
-                    </motion.div>
-                  )}
+                      {generalError && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="flex items-center gap-3 rounded-lg border border-red-500/50 bg-red-500/10 p-4 backdrop-blur-sm"
+                        >
+                          <IoIosWarning className="shrink-0 text-xl text-red-500" />
+                          <p className="font-mono text-sm font-bold tracking-wide text-red-500 uppercase">{generalError}</p>
+                        </motion.div>
+                      )}
 
-                  <div>
-                    <button
-                      type="submit"
-                      disabled={isLoading}
-                      className="w-full rounded-xl bg-[#E3C676] px-8 py-3 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
-                    >
-                      {isLoading ? "Creating Account..." : "Register"}
-                    </button>
-                  </div>
+                      <div>
+                        <button
+                          type="submit"
+                          disabled={isLoading}
+                          className="w-full rounded-xl bg-[#E3C676] px-8 py-3 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
+                        >
+                          {isLoading ? "Creating Account..." : "Register"}
+                        </button>
+                      </div>
 
-                  <div className="relative flex items-center py-2">
-                    <div className="grow border-t border-white/10"></div>
-                    <span className="mx-4 shrink text-xs tracking-widest text-white/40 uppercase">Or continue with</span>
-                    <div className="grow border-t border-white/10"></div>
-                  </div>
+                      <div className="relative flex items-center py-2">
+                        <div className="grow border-t border-white/10"></div>
+                        <span className="mx-4 shrink text-xs tracking-widest text-white/40 uppercase">Or continue with</span>
+                        <div className="grow border-t border-white/10"></div>
+                      </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <button
-                      type="button"
-                      onClick={handleGithubLogin}
-                      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
-                    >
-                      <FaGithub size={20} />
-                      GitHub
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleGoogleLogin}
-                      className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
-                    >
-                      <FaGoogle size={20} />
-                      Google
-                    </button>
-                  </div>
-                </form>
+                      <div className="grid grid-cols-2 gap-4">
+                        <button
+                          type="button"
+                          onClick={handleGithubLogin}
+                          className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
+                        >
+                          <FaGithub size={20} />
+                          GitHub
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleGoogleLogin}
+                          className="flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-black/40 px-4 py-3 font-medium text-white transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
+                        >
+                          <FaGoogle size={20} />
+                          Google
+                        </button>
+                      </div>
+                    </form>
 
-                <div className="mt-8 text-center">
-                  <p className="text-sm text-white/60">
-                    Already have an account?{" "}
-                    <Link href="/login" className="font-bold text-[#E3C676] transition-colors hover:text-[#d4b86a]">
-                      Login
-                    </Link>
-                  </p>
-                </div>
+                    <div className="mt-8 text-center">
+                      <p className="text-sm text-white/60">
+                        Already have an account?{" "}
+                        <Link href="/login" className="font-bold text-[#E3C676] transition-colors hover:text-[#d4b86a]">
+                          Login
+                        </Link>
+                      </p>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>

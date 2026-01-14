@@ -10,7 +10,6 @@ import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa";
 const Landing = () => {
   const { isAuthenticated, logout, user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
-  // const applicationsOpen = true;
 
   const socialLinks = [
     { icon: FaInstagram, href: "https://instagram.com/qhacksx", label: "Instagram" },

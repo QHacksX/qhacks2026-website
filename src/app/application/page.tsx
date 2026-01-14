@@ -15,6 +15,7 @@ import {
   LevelOfStudy,
   UserFlags,
 } from "@/lib/api";
+import { isPastDeadline } from "@/lib/utils";
 import { useAuthStore } from "@/stores/auth";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
@@ -673,6 +674,25 @@ const ApplicationPage = () => {
                   )}
                 </div>
               </div>
+            </div>
+          </motion.div>
+        ) : isPastDeadline ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="space-y-6 rounded-2xl border border-white/10 bg-black/40 p-12 text-center shadow-2xl backdrop-blur-md"
+          >
+            <h2 className="text-3xl font-bold tracking-tight text-white uppercase sm:text-4xl">Applications Closed</h2>
+            <p className="mx-auto max-w-md font-mono text-sm tracking-widest text-white/60 uppercase">
+              The deadline to apply for QHacks 2026 has passed. We hope to see you next year!
+            </p>
+            <div className="pt-4">
+              <Link
+                href="/"
+                className="inline-block rounded-xl border border-white/10 bg-white/5 px-8 py-3 font-mono text-xs font-bold tracking-widest text-white uppercase transition-all hover:bg-white/10"
+              >
+                Return Home
+              </Link>
             </div>
           </motion.div>
         ) : (
