@@ -1,5 +1,6 @@
 "use client";
 
+import { hasFlag, UserFlags } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,8 +8,7 @@ import { useEffect, useState } from "react";
 import { FaInstagram, FaLinkedin, FaTiktok } from "react-icons/fa";
 
 const Landing = () => {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const logout = useAuthStore((state) => state.logout);
+  const { isAuthenticated, logout, user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   // const applicationsOpen = true;
 
@@ -82,7 +82,11 @@ const Landing = () => {
               href={mounted && isAuthenticated ? "/application" : "/register"}
               className="rounded-full border border-[#F4D389] bg-transparent px-9 py-2.5 text-base font-semibold tracking-wide text-[#f4d389] shadow-[0_10px_40px_rgba(244,211,137,0.2)] transition hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]"
             >
-              {mounted && isAuthenticated ? "Apply Now" : "Register Here"}
+              {mounted && isAuthenticated
+                ? hasFlag(user, UserFlags.Applied)
+                  ? "View Application"
+                  : "Apply Now"
+                : "Register Here"}
             </Link>
             {mounted && isAuthenticated ? (
               <div className="space-y-2 text-center">

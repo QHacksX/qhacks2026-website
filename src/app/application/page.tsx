@@ -253,10 +253,10 @@ const ApplicationPage = () => {
   useEffect(() => {
     if (!_hasHydrated) return;
 
-    // if (!isAuthenticated || !user) {
-    //   router.replace("/login?redirect_to=/application");
-    //   return;
-    // }
+    if (!isAuthenticated || !user) {
+      router.replace("/login?redirect_to=/application");
+      return;
+    }
 
     const loadData = async () => {
       try {
@@ -390,6 +390,18 @@ const ApplicationPage = () => {
 
   const [direction, setDirection] = useState(0);
 
+  const isMissedRSVP = useMemo(() => {
+    return (
+      existingApplication?.status === ApplicationStatus.Accepted &&
+      !existingApplication.canRsvp &&
+      !hasFlag(user, UserFlags.Hacker)
+    );
+  }, [existingApplication, user]);
+
+  const hasRSVPd = useMemo(() => {
+    return existingApplication?.status === ApplicationStatus.Accepted && user && hasFlag(user, UserFlags.Hacker);
+  }, [existingApplication, user]);
+
   const paginate = (newDirection: number) => {
     setDirection(newDirection);
     setCurrentStep((prev) => prev + newDirection);
@@ -435,7 +447,7 @@ const ApplicationPage = () => {
           className="mb-8 text-center font-mono text-3xl font-bold tracking-tight text-[#E3C676] sm:text-4xl lg:text-5xl"
           style={{ textShadow: "0 0 20px rgba(227, 198, 118, 0.3)" }}
         >
-          {existingApplication || isSubmitted ? "Application Status" : "Apply Now"}
+          {existingApplication || isSubmitted ? "My Application" : "Apply Now"}
         </motion.h1>
 
         {isPageLoading ? (
@@ -467,50 +479,201 @@ const ApplicationPage = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="space-y-8 rounded-2xl border border-[#E3C676]/20 bg-black/40 p-8 shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-md"
+            className="relative rounded-3xl bg-[#080808] p-4 shadow-[0_0_100px_rgba(0,0,0,0.8),0_0_30px_rgba(227,198,118,0.05)] ring-1 ring-white/5"
           >
-            {isSubmitted && (
-              <div className="space-y-2 rounded-xl border border-[#E3C676]/30 bg-[#E3C676]/10 p-6 text-center shadow-[0_0_20px_rgba(227,198,118,0.1)]">
-                <div className="mb-4 flex justify-center">
-                  <IoIosCheckmarkCircle className="text-5xl text-[#E3C676] drop-shadow-md" />
-                </div>
-                <h2 className="text-2xl font-bold tracking-wide text-[#E3C676]">Thank You for Applying!</h2>
-                <p className="text-white/80">Your application has been received. We will review it shortly.</p>
-              </div>
-            )}
+            <div className="relative overflow-hidden rounded-2xl border border-white/5 bg-black shadow-[inset_0_0_40px_rgba(0,0,0,1)]">
+              <div className="pointer-events-none absolute inset-0 z-20 rounded-2xl bg-linear-to-tr from-transparent via-white/3 to-transparent opacity-50"></div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-              <div className="rounded-xl border border-white/10 bg-black/40 p-6 transition-all hover:border-[#E3C676]/50 hover:bg-black/60">
-                <p className="mb-2 font-mono text-xs tracking-widest text-[#E3C676]/70 uppercase">Application Status</p>
-                <p className="text-2xl font-bold text-white capitalize drop-shadow-md">
-                  {ApplicationStatus[existingApplication.status]}
-                </p>
-              </div>
-              <div className="rounded-xl border border-white/10 bg-black/40 p-6 transition-all hover:border-[#E3C676]/50 hover:bg-black/60">
-                <p className="mb-2 font-mono text-xs tracking-widest text-[#E3C676]/70 uppercase">Submitted On</p>
-                <p className="text-2xl font-bold text-white drop-shadow-md">
-                  {new Date(existingApplication.createdAt).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </p>
+              <div className="relative space-y-8 p-6 sm:p-10">
+                {/* Viewfinder Corners */}
+                <div
+                  className={`pointer-events-none absolute top-6 left-6 h-8 w-8 border-t-2 border-l-2 ${
+                    isMissedRSVP || existingApplication.status === ApplicationStatus.Denied
+                      ? "border-red-500/60"
+                      : existingApplication.status === ApplicationStatus.Accepted
+                        ? "border-[#E3C676]/60"
+                        : existingApplication.status === ApplicationStatus.Waitlisted
+                          ? "border-white/60"
+                          : "border-white/20"
+                  }`}
+                ></div>
+                <div
+                  className={`pointer-events-none absolute top-6 right-6 h-8 w-8 border-t-2 border-r-2 ${
+                    isMissedRSVP || existingApplication.status === ApplicationStatus.Denied
+                      ? "border-red-500/60"
+                      : existingApplication.status === ApplicationStatus.Accepted
+                        ? "border-[#E3C676]/60"
+                        : existingApplication.status === ApplicationStatus.Waitlisted
+                          ? "border-white/60"
+                          : "border-white/20"
+                  }`}
+                ></div>
+                <div
+                  className={`pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 ${
+                    isMissedRSVP || existingApplication.status === ApplicationStatus.Denied
+                      ? "border-red-500/60"
+                      : existingApplication.status === ApplicationStatus.Accepted
+                        ? "border-[#E3C676]/60"
+                        : existingApplication.status === ApplicationStatus.Waitlisted
+                          ? "border-white/60"
+                          : "border-white/20"
+                  }`}
+                ></div>
+                <div
+                  className={`pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 ${
+                    isMissedRSVP || existingApplication.status === ApplicationStatus.Denied
+                      ? "border-red-500/60"
+                      : existingApplication.status === ApplicationStatus.Accepted
+                        ? "border-[#E3C676]/60"
+                        : existingApplication.status === ApplicationStatus.Waitlisted
+                          ? "border-white/60"
+                          : "border-white/20"
+                  }`}
+                ></div>
+
+                <div className="space-y-4 text-center">
+                  {isMissedRSVP ? (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    >
+                      <IoIosWarning className="mx-auto text-8xl text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+                    </motion.div>
+                  ) : existingApplication.status === ApplicationStatus.Accepted ? (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    >
+                      <IoIosCheckmarkCircle className="mx-auto text-8xl text-[#E3C676] drop-shadow-[0_0_15px_rgba(227,198,118,0.5)]" />
+                    </motion.div>
+                  ) : existingApplication.status === ApplicationStatus.Denied ? (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    >
+                      <IoIosClose className="mx-auto text-8xl text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
+                    </motion.div>
+                  ) : existingApplication.status === ApplicationStatus.Waitlisted ? (
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    >
+                      <IoIosWarning className="mx-auto text-8xl text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+                    </motion.div>
+                  ) : (
+                    <motion.div animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 2, repeat: Infinity }}>
+                      <CgSpinner className="mx-auto animate-spin text-7xl text-white/40" />
+                    </motion.div>
+                  )}
+
+                  <div className="space-y-4">
+                    <h2
+                      className={`text-3xl font-bold tracking-tight sm:text-4xl ${
+                        isMissedRSVP || existingApplication.status === ApplicationStatus.Denied
+                          ? "text-red-500"
+                          : existingApplication.status === ApplicationStatus.Accepted
+                            ? "text-[#E3C676]"
+                            : "text-white"
+                      }`}
+                    >
+                      {isMissedRSVP
+                        ? "DEADLINE MISSED"
+                        : existingApplication.status === ApplicationStatus.Accepted
+                          ? "ACCEPTED"
+                          : existingApplication.status === ApplicationStatus.Denied
+                            ? "DENIED"
+                            : existingApplication.status === ApplicationStatus.Waitlisted
+                              ? "WAITLISTED"
+                              : "PENDING"}
+                    </h2>
+                    <p className="mx-auto max-w-lg font-mono text-sm leading-relaxed tracking-wide text-white/70 uppercase">
+                      {isMissedRSVP
+                        ? "Unfortunately, you missed the deadline to RSVP for QHacks 2026. Your spot has been released to another applicant."
+                        : existingApplication.status === ApplicationStatus.Pending
+                          ? "Your application is currently being reviewed by our team. We'll get back to you soon!"
+                          : existingApplication.status === ApplicationStatus.Accepted
+                            ? `Congratulations! You've been accepted to QHacks 2026. ${!hasRSVPd ? "Please RSVP to secure your spot." : "We can't wait to see you there!"}`
+                            : existingApplication.status === ApplicationStatus.Denied
+                              ? "Unfortunately, we are unable to offer you a spot at QHacks this year. We received many high-quality applications and had to make some tough decisions."
+                              : "You've been placed on our waitlist. We'll notify you if a spot becomes available!"}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-4 pt-4 sm:flex-row sm:justify-center">
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(existingApplication.id);
+                        toast.success("Application ID copied to clipboard!");
+                      }}
+                      className="group rounded-xl border border-white/10 bg-black/40 px-6 py-4 transition-all hover:border-[#E3C676]/50 hover:bg-black/60"
+                    >
+                      <p className="mb-1 font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase group-hover:text-[#E3C676]/70">
+                        Application ID
+                      </p>
+                      <p className="font-mono text-xs font-bold tracking-widest text-[#E3C676] uppercase">COPY</p>
+                    </button>
+                    <div className="rounded-xl border border-white/10 bg-black/40 px-6 py-4 transition-all hover:border-white/20">
+                      <p className="mb-1 font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase">Submitted On</p>
+                      <p className="font-mono text-xs font-bold text-white/80">
+                        {new Date(existingApplication.createdAt).toLocaleDateString(undefined, {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+
+                  {existingApplication.canRsvp && !hasFlag(user, UserFlags.Hacker) && (
+                    <motion.div
+                      initial={{ y: 20, opacity: 0 }}
+                      animate={{ y: 0, opacity: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="pt-6"
+                    >
+                      <button
+                        onClick={async () => {
+                          try {
+                            setIsLoading(true);
+                            await applicationApi.rsvp();
+                            toast.success("RSVP successful! See you at QHacks!");
+                            const updatedApp = await applicationApi.getMe();
+                            setExistingApplication(updatedApp);
+                          } catch (error) {
+                            console.error(error);
+                            toast.error(error instanceof HTTPError ? error.message : "RSVP failed");
+                          } finally {
+                            setIsLoading(false);
+                          }
+                        }}
+                        disabled={isLoading}
+                        className="w-full rounded-xl bg-[#E3C676] px-12 py-4 font-bold tracking-widest text-black uppercase shadow-[0_0_20px_rgba(227,198,118,0.3)] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(227,198,118,0.5)] disabled:opacity-50 sm:w-auto"
+                      >
+                        {isLoading ? "PROCESSSING..." : "RSVP NOW"}
+                      </button>
+                    </motion.div>
+                  )}
+
+                  {hasFlag(user, UserFlags.Hacker) && (
+                    <div className="flex justify-center pt-6">
+                      <button
+                        onClick={() => router.push("/sso/handoff?target=dashboard")}
+                        className="group flex items-center gap-2 font-mono text-xs font-bold tracking-[0.2em] text-[#E3C676] uppercase transition-all hover:text-[#d4b86a]"
+                      >
+                        <span className="border-b-2 border-transparent transition-all group-hover:border-[#d4b86a]">
+                          ENTER DASHBOARD
+                        </span>
+                        <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-
-            {existingApplication.status === ApplicationStatus.Accepted && (
-              <div className="flex justify-center pt-4">
-                <Link
-                  href="https://dashboard.qhacks.io"
-                  className="group flex items-center gap-2 font-mono font-bold text-[#E3C676] transition-all hover:text-[#d4b86a]"
-                >
-                  <span className="border-b-2 border-transparent transition-all group-hover:border-[#d4b86a]">
-                    Go to Dashboard
-                  </span>
-                  <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
-                </Link>
-              </div>
-            )}
           </motion.div>
         ) : (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}>
@@ -1156,7 +1319,6 @@ const ApplicationPage = () => {
                         <button
                           type="button"
                           onClick={handleSubmit}
-                          disabled
                           className="flex-1 rounded-xl bg-[#E3C676] py-4 font-bold tracking-widest text-black uppercase shadow-[0_0_10px_rgba(227,198,118,0.3)] transition-all hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(227,198,118,0.5)] disabled:opacity-50 disabled:shadow-none disabled:hover:scale-100"
                         >
                           {isLoading ? "Submitting..." : "Submit Application"}

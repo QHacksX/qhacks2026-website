@@ -137,7 +137,7 @@ export enum UserFlags {
   Admin = 1 << 1,
   Staff = 1 << 2,
   Applied = 1 << 3,
-  Accepted = 1 << 4,
+  Hacker = 1 << 4,
 }
 
 export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {
@@ -191,6 +191,7 @@ export enum ApplicationStatus {
   Pending = 0,
   Accepted = 1,
   Denied = 2,
+  Waitlisted = 3,
 }
 
 export enum LevelOfStudy {
@@ -237,6 +238,7 @@ export interface Application extends ApplicationCreatePayload {
   status: ApplicationStatus;
   resumeUrl: string;
   createdAt: string;
+  canRsvp: boolean;
   user?: User;
 }
 
@@ -309,4 +311,5 @@ export const applicationApi = {
       body: formData,
     });
   },
+  rsvp: () => fetchApi<void>("/applications/@me/rsvp", { method: "POST" }),
 };
