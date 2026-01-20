@@ -138,6 +138,8 @@ export enum UserFlags {
   Staff = 1 << 2,
   Applied = 1 << 3,
   Hacker = 1 << 4,
+  CheckedIn = 1 << 5,
+  BypassDeadline = 1 << 6,
 }
 
 export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {

@@ -676,7 +676,7 @@ const ApplicationPage = () => {
               </div>
             </div>
           </motion.div>
-        ) : isPastDeadline ? (
+        ) : isPastDeadline && !hasFlag(user, UserFlags.BypassDeadline) ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
