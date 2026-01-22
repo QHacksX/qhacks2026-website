@@ -7,34 +7,34 @@ export default function FAQ() {
   const faqItems = [
     {
       id: 1,
-      image: "/faq1.png",
+      image: "/static/faq/faq1.png",
       answer:
         "A hackathon is a 36-hour event where students come together to build a project from scratch. It's a great opportunity to learn new skills, meet new people, and win prizes!",
     },
     {
       id: 2,
-      image: "/faq2.png",
+      image: "/static/faq/faq2.png",
       answer: "QHacks is fully in-person located at Queen's University in Kingston, Ontario.",
     },
     {
       id: 3,
-      image: "/faq3.png",
+      image: "/static/faq/faq3.png",
       answer: "Teams can be formed with groups of 1-4.",
     },
     {
       id: 4,
-      image: "/faq4.png",
+      image: "/static/faq/faq4.png",
       answer:
         "No problem! We will have team formation events before the hackathon. You can also find teammates on our Discord server, which will be released after applications have closed.",
     },
     {
       id: 5,
-      image: "/faq5.png",
+      image: "/static/faq/faq5.png",
       answer: "QHacks is open to all undergraduate students from any university or college.",
     },
     {
       id: 6,
-      image: "/faq6.png",
+      image: "/static/faq/faq6.png",
       answer:
         "This year's hackathon theme will be announced closer to the event. Follow us on social media to stay updated.",
     },
@@ -63,7 +63,7 @@ export default function FAQ() {
         <div className="flex flex-1 items-center justify-center lg:order-2">
           <div className="animate-float relative -rotate-1 transform">
             <Image
-              src="/faq.svg" // <-- your TV FAQ image in /public
+              src="/static/faq/faq.svg"
               alt="FAQ TV Screen"
               width={400}
               height={400}

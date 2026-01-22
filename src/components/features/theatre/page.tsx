@@ -5,15 +5,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { useWindowSize } from "@/hooks/useWindowSize";
 
 const TEXT_SLIDES = [
-  "/theatre/text-grow.svg",
-  "/theatre/text-bring.svg",
-  "/theatre/text-showcase.svg",
-  "/theatre/text-event.svg",
+  "/static/theatre/text-grow.svg",
+  "/static/theatre/text-bring.svg",
+  "/static/theatre/text-showcase.svg",
+  "/static/theatre/text-event.svg",
 ];
 
-const BACKGROUND_IMAGE = "/theatre/background.svg";
-
-const TRANSITION_DURATION = 400; // Faster transitions
+const BACKGROUND_IMAGE = "/static/theatre/background.svg";
+const TRANSITION_DURATION = 400;
 const SECTION_MULTIPLIER = 0.9;
 
 const Theatre = () => {

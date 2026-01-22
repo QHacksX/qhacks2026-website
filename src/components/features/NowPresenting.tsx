@@ -37,7 +37,7 @@ const NowPresenting = ({ skip = false }: { skip?: boolean }) => {
         {/* Billboard positioned on the right side - fills height properly */}
         <div className="absolute top-0 right-0 bottom-0 flex h-full w-auto items-center justify-end">
           <Image
-            src="/board.webp"
+            src="/static/board.webp"
             alt="now presenting board"
             width={800}
             height={1000}

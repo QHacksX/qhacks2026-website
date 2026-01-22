@@ -15,35 +15,39 @@ const getSponsorUrl = (baseUrl: string) => {
 };
 
 const SPONSORS = [
-  { name: "AMS", logo: "/sponsors/AMS.png", url: "https://www.myams.org/" },
-  { name: "AWAKE", logo: "/sponsors/AWAKE.jpg", url: "https://awakechocolate.com/" },
-  { name: "Backboard IO", logo: "/sponsors/BackboardIO.png", url: "https://backboard.io/" },
-  { name: "City of Kingston", logo: "/sponsors/Kingston.png", url: "https://www.cityofkingston.ca/" },
-  { name: "Communications Security Establishment Canada", logo: "/sponsors/CSE.svg", url: "https://www.cse-cst.gc.ca/en" },
-  { name: "COMPSA", logo: "/sponsors/COMPSA.png", url: "https://compsa.ca/" },
-  { name: "DDQIC", logo: "/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
-  { name: "DOSE", logo: "/sponsors/DOSE.webp", url: "https://dosejuice.com/" },
-  { name: "ENGRL", logo: "/sponsors/ENGRL.webp", url: "https://engrl.co/" },
-  { name: "MadeGood", logo: "/sponsors/MadeGood.webp", url: "https://www.madegoodfoods.ca/" },
-  { name: "Manulife", logo: "/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
-  { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
-  { name: "Poparide", logo: "/sponsors/Poparide.webp", url: "https://www.poparide.com/" },
-  { name: "Queen's School of Computing", logo: "/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
+  { name: "AMS", logo: "/static/sponsors/AMS.png", url: "https://www.myams.org/" },
+  { name: "AWAKE", logo: "/static/sponsors/AWAKE.jpg", url: "https://awakechocolate.com/" },
+  { name: "Backboard IO", logo: "/static/sponsors/BackboardIO.png", url: "https://backboard.io/" },
+  { name: "City of Kingston", logo: "/static/sponsors/Kingston.png", url: "https://www.cityofkingston.ca/" },
+  {
+    name: "Communications Security Establishment Canada",
+    logo: "/static/sponsors/CSE.svg",
+    url: "https://www.cse-cst.gc.ca/en",
+  },
+  { name: "COMPSA", logo: "/static/sponsors/COMPSA.png", url: "https://compsa.ca/" },
+  { name: "DDQIC", logo: "/static/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
+  { name: "DOSE", logo: "/static/sponsors/DOSE.webp", url: "https://dosejuice.com/" },
+  { name: "ENGRL", logo: "/static/sponsors/ENGRL.webp", url: "https://engrl.co/" },
+  { name: "MadeGood", logo: "/static/sponsors/MadeGood.webp", url: "https://www.madegoodfoods.ca/" },
+  { name: "Manulife", logo: "/static/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
+  { name: "National Bank of Canada", logo: "/static/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
+  { name: "Poparide", logo: "/static/sponsors/Poparide.webp", url: "https://www.poparide.com/" },
+  { name: "Queen's School of Computing", logo: "/static/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
 ];
 
 const PAST_SPONSORS = [
-  { name: "Amazon", logo: "/past-sponsors/Amazon.svg" },
-  { name: "AMD", logo: "/past-sponsors/AMD.svg" },
-  { name: "AssemblyAI", logo: "/past-sponsors/AssemblyAI.svg" },
-  { name: "Axure", logo: "/past-sponsors/Axure.svg" },
-  { name: "Bayun", logo: "/past-sponsors/Bayun.svg" },
-  { name: "BMO", logo: "/past-sponsors/BMO.svg" },
-  { name: "Bounce", logo: "/past-sponsors/Bounce.svg" },
-  { name: "Github", logo: "/past-sponsors/github.svg" },
-  { name: "IBM", logo: "/past-sponsors/IBM.svg" },
-  { name: "OTPP", logo: "/past-sponsors/OTPP.svg" },
-  { name: "QtGroup", logo: "/past-sponsors/QtGroup.png" },
-  { name: "Scotiabank", logo: "/past-sponsors/Scotiabank.svg" },
+  { name: "Amazon", logo: "/static/past-sponsors/Amazon.svg" },
+  { name: "AMD", logo: "/static/past-sponsors/AMD.svg" },
+  { name: "AssemblyAI", logo: "/static/past-sponsors/AssemblyAI.svg" },
+  { name: "Axure", logo: "/static/past-sponsors/Axure.svg" },
+  { name: "Bayun", logo: "/static/past-sponsors/Bayun.svg" },
+  { name: "BMO", logo: "/static/past-sponsors/BMO.svg" },
+  { name: "Bounce", logo: "/static/past-sponsors/Bounce.svg" },
+  { name: "Github", logo: "/static/past-sponsors/github.svg" },
+  { name: "IBM", logo: "/static/past-sponsors/IBM.svg" },
+  { name: "OTPP", logo: "/static/past-sponsors/OTPP.svg" },
+  { name: "QtGroup", logo: "/static/past-sponsors/QtGroup.png" },
+  { name: "Scotiabank", logo: "/static/past-sponsors/Scotiabank.svg" },
 ];
 
 const NoiseOverlay = ({ className = "", opacity = "opacity-[1]" }) => (
@@ -79,7 +83,7 @@ const Sponsors = () => {
       {/* Cinematic Background with Heavy Noise */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <Image
-          src="/sponsors-assets/carousel-background.jpg"
+          src="/static/sponsors-assets/carousel-background.jpg"
           alt="Carousel Background"
           fill
           sizes="100vw"
