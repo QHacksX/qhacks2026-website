@@ -27,6 +27,7 @@ const SPONSORS = [
   { name: "MadeGood", logo: "/sponsors/MadeGood.webp", url: "https://www.madegoodfoods.ca/" },
   { name: "Manulife", logo: "/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
   { name: "National Bank of Canada", logo: "/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
+  { name: "Poparide", logo: "/sponsors/Poparide.webp", url: "https://www.poparide.com/" },
   { name: "Queen's School of Computing", logo: "/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
 ];
 
