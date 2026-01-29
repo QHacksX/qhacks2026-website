@@ -19,19 +19,16 @@ const SPONSORS = [
   { name: "AWAKE", logo: "/static/sponsors/AWAKE.jpg", url: "https://awakechocolate.com/" },
   { name: "Backboard IO", logo: "/static/sponsors/BackboardIO.png", url: "https://backboard.io/" },
   { name: "City of Kingston", logo: "/static/sponsors/Kingston.png", url: "https://www.cityofkingston.ca/" },
-  {
-    name: "Communications Security Establishment Canada",
-    logo: "/static/sponsors/CSE.svg",
-    url: "https://www.cse-cst.gc.ca/en",
-  },
+  { name: "CSE Canada", logo: "/static/sponsors/CSE.svg", url: "https://www.cse-cst.gc.ca/en" },
   { name: "COMPSA", logo: "/static/sponsors/COMPSA.png", url: "https://compsa.ca/" },
-  { name: "DDQIC", logo: "/static/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
   { name: "DOSE", logo: "/static/sponsors/DOSE.webp", url: "https://dosejuice.com/" },
   { name: "ENGRL", logo: "/static/sponsors/ENGRL.webp", url: "https://engrl.co/" },
+  { name: "Gradium", logo: "/static/sponsors/Gradium.webp", url: "https://gradium.ai/" },
   { name: "MadeGood", logo: "/static/sponsors/MadeGood.webp", url: "https://www.madegoodfoods.ca/" },
   { name: "Manulife", logo: "/static/sponsors/Manulife.jpg", url: "https://www.manulife.com/", wide: true },
-  { name: "National Bank of Canada", logo: "/static/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
+  { name: "NBC", logo: "/static/sponsors/NationalBank.png", url: "https://www.nbc.ca/" },
   { name: "Poparide", logo: "/static/sponsors/Poparide.webp", url: "https://www.poparide.com/" },
+  { name: "Queen's Innovation Centre", logo: "/static/sponsors/DDQIC.svg", url: "https://www.queensu.ca/innovationcentre/" },
   { name: "Queen's School of Computing", logo: "/static/sponsors/Computing.png", url: "https://www.cs.queensu.ca/" },
 ];
 
