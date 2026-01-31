@@ -597,7 +597,7 @@ const ApplicationPage = () => {
                         : existingApplication.status === ApplicationStatus.Pending
                           ? "Your application is currently being reviewed by our team. We'll get back to you soon!"
                           : existingApplication.status === ApplicationStatus.Accepted
-                            ? `Congratulations! You've been accepted to QHacks 2026. ${!hasRSVPd ? "Please RSVP to secure your spot." : "We can't wait to see you there!"}`
+                            ? `Congratulations! You've been accepted to QHacks 2026. ${!hasRSVPd ? "Please RSVP to secure your spot." : "You are currently marked as RSVP'd. We can't wait to see you there!"}`
                             : existingApplication.status === ApplicationStatus.Denied
                               ? "Unfortunately, we are unable to offer you a spot at QHacks this year. We received many high-quality applications and had to make some tough decisions."
                               : "You've been placed on our waitlist. We'll notify you if a spot becomes available!"}
