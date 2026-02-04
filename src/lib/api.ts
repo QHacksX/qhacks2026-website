@@ -244,6 +244,14 @@ export interface Application extends ApplicationCreatePayload {
   user?: User;
 }
 
+export interface SSOHandoffRequest {
+  nonce: string;
+}
+
+export interface SSOHandoffResponse {
+  handoffToken: string;
+}
+
 export const authApi = {
   login: (data: LoginRequest) =>
     fetchApi<TokenResponse>("/auth/login", {
@@ -284,6 +292,12 @@ export const authApi = {
     }),
   googleCallback: (data: OAuth2CodeExchangeRequest) =>
     fetchApi<TokenResponse>("/auth/callback/google", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  // SSO handoff to dashboard
+  ssoHandoff: (data: SSOHandoffRequest) =>
+    fetchApi<SSOHandoffResponse>("/auth/sso/handoff", {
       method: "POST",
       body: JSON.stringify(data),
     }),

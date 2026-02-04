@@ -1,25 +1,61 @@
-import AnimatedStars from "@/components/ui/3d-models/Star";
-import Link from "next/link";
-import { IoIosCloseCircle } from "react-icons/io";
+"use client";
+
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { IoIosSearch } from "react-icons/io";
+import NoiseOverlay from "@/components/ui/noise-overlay";
 
 export default function NotFound() {
-  return (
-    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#020202] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-[#020202] to-[#2B2929]">
-        <AnimatedStars />
-      </div>
+  const router = useRouter();
 
-      <div className="relative z-10 w-full max-w-md space-y-6 rounded-2xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-sm">
-        <IoIosCloseCircle className="mx-auto text-6xl text-white" />
-        <h1 className="text-2xl font-semibold text-white">Page Not Found</h1>
-        <p className="text-white/70">We couldn't find the page you're looking for. Come build it with us!</p>
-        <Link
-          href="/"
-          className="inline-block rounded-xl bg-white/10 px-6 py-3 font-bold text-white transition-colors hover:bg-white/20"
-        >
-          Return Home
-        </Link>
-      </div>
+  return (
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#050505] p-4 text-white selection:bg-[#E3C676] selection:text-black">
+      <NoiseOverlay />
+      <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_center,rgba(227,198,118,0.15)_0%,transparent_70%)] opacity-20"></div>
+
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        className="relative z-10 w-full max-w-lg space-y-8 rounded-3xl border border-white/5 bg-[#080808] p-8 text-center shadow-[0_0_100px_rgba(0,0,0,0.8),0_0_30px_rgba(227,198,118,0.05)]"
+      >
+        {/* Viewfinder Corners */}
+        <div className="pointer-events-none absolute top-6 left-6 h-8 w-8 border-t-2 border-l-2 border-[#E3C676]/40"></div>
+        <div className="pointer-events-none absolute top-6 right-6 h-8 w-8 border-t-2 border-r-2 border-[#E3C676]/40"></div>
+        <div className="pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#E3C676]/40"></div>
+        <div className="pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-[#E3C676]/40"></div>
+
+        <div className="flex justify-center">
+          <motion.div animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
+            <IoIosSearch className="text-8xl text-[#E3C676] drop-shadow-[0_0_20px_rgba(227,198,118,0.4)]" />
+          </motion.div>
+        </div>
+
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold tracking-tighter text-[#E3C676] uppercase italic">Not Found</h1>
+          <div className="space-y-2">
+            <p className="mx-auto max-w-sm font-mono text-sm leading-relaxed tracking-widest text-white/70 uppercase">
+              We couldn't find the page you're looking for. Come build it with us!
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-4">
+          <button
+            onClick={() => router.push("/")}
+            className="group mx-auto flex items-center justify-center gap-2 font-mono text-xs font-bold tracking-[0.3em] text-white/40 uppercase transition-all hover:text-[#E3C676]"
+          >
+            <span className="transition-transform group-hover:-translate-x-1">&larr;</span>
+            <span className="border-b border-transparent group-hover:border-[#E3C676]">Return Home</span>
+          </button>
+        </div>
+      </motion.div>
+
+      {/* Decorative scanning line */}
+      <motion.div
+        animate={{ top: ["0%", "100%", "0%"] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+        className="pointer-events-none absolute left-0 z-20 h-px w-full bg-linear-to-r from-transparent via-[#E3C676]/10 to-transparent"
+      />
     </div>
   );
 }
