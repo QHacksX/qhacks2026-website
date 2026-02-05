@@ -140,6 +140,12 @@ export enum UserFlags {
   Hacker = 1 << 4,
   CheckedIn = 1 << 5,
   BypassDeadline = 1 << 6,
+  LeaderboardDisqualified = 1 << 7,
+  ThirdPartyDataConsent = 1 << 8,
+  Legacy = 1 << 9,
+  Anonymized = 1 << 10,
+  Sponsor = 1 << 11,
+  BypassAsnCheck = 1 << 12,
 }
 
 export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {
