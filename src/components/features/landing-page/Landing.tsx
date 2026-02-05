@@ -78,13 +78,21 @@ const Landing = () => {
 
           <div className="pointer-events-auto flex flex-col items-center gap-3">
             <Link
-              href={mounted && isAuthenticated ? "/application" : "/register"}
+              href={
+                mounted && isAuthenticated
+                  ? hasFlag(user, UserFlags.Admin) || hasFlag(user, UserFlags.Staff) || hasFlag(user, UserFlags.Sponsor)
+                    ? "/sso/handoff?target=dashboard"
+                    : "/application"
+                  : "/register"
+              }
               className="rounded-full border border-[#F4D389] bg-transparent px-9 py-2.5 text-base font-semibold tracking-wide text-[#f4d389] shadow-[0_10px_40px_rgba(244,211,137,0.2)] transition hover:bg-[rgba(244,211,137,0.08)] hover:text-[#f9e7b6]"
             >
               {mounted && isAuthenticated
-                ? hasFlag(user, UserFlags.Applied)
-                  ? "View Application"
-                  : "Apply Now"
+                ? hasFlag(user, UserFlags.Admin) || hasFlag(user, UserFlags.Staff) || hasFlag(user, UserFlags.Sponsor)
+                  ? "Enter Dashboard"
+                  : hasFlag(user, UserFlags.Applied)
+                    ? "View Application"
+                    : "Apply Now"
                 : "Register Here"}
             </Link>
             {mounted && isAuthenticated ? (

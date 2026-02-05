@@ -7,7 +7,8 @@ import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/stores/auth";
 import { toast } from "sonner";
 import AnimatedStars from "@/components/ui/3d-models/Star";
-import { FaGoogle, FaCircle } from "react-icons/fa";
+import { FaCircle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 import { CgSpinner } from "react-icons/cg";
 import { motion } from "framer-motion";
 import NoiseOverlay from "@/components/ui/noise-overlay";
@@ -93,7 +94,7 @@ const GoogleCallbackContent = () => {
                 <div className="pointer-events-none absolute bottom-6 left-6 h-8 w-8 border-b-2 border-l-2 border-[#E3C676]/60"></div>
                 <div className="pointer-events-none absolute right-6 bottom-6 h-8 w-8 border-r-2 border-b-2 border-[#E3C676]/60"></div>
 
-                <FaGoogle className="text-6xl text-white" />
+                <FcGoogle className="text-6xl text-white" />
                 <div className="flex items-center gap-3 text-xl font-semibold text-white">
                   <CgSpinner className="animate-spin text-[#E3C676]" />
                   Authenticating with Google...

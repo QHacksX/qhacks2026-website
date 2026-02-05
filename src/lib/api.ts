@@ -140,6 +140,12 @@ export enum UserFlags {
   Hacker = 1 << 4,
   CheckedIn = 1 << 5,
   BypassDeadline = 1 << 6,
+  LeaderboardDisqualified = 1 << 7,
+  ThirdPartyDataConsent = 1 << 8,
+  Legacy = 1 << 9,
+  Anonymized = 1 << 10,
+  Sponsor = 1 << 11,
+  BypassAsnCheck = 1 << 12,
 }
 
 export function hasFlag(user: User | null | undefined, flag: UserFlags): boolean {
@@ -244,6 +250,14 @@ export interface Application extends ApplicationCreatePayload {
   user?: User;
 }
 
+export interface SSOHandoffRequest {
+  nonce: string;
+}
+
+export interface SSOHandoffResponse {
+  handoffToken: string;
+}
+
 export const authApi = {
   login: (data: LoginRequest) =>
     fetchApi<TokenResponse>("/auth/login", {
@@ -284,6 +298,12 @@ export const authApi = {
     }),
   googleCallback: (data: OAuth2CodeExchangeRequest) =>
     fetchApi<TokenResponse>("/auth/callback/google", {
+      method: "POST",
+      body: JSON.stringify(data),
+    }),
+  // SSO handoff to dashboard
+  ssoHandoff: (data: SSOHandoffRequest) =>
+    fetchApi<SSOHandoffResponse>("/auth/sso/handoff", {
       method: "POST",
       body: JSON.stringify(data),
     }),
